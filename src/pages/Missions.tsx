@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useUserStore } from '../store/useUserStore'
 import { useMissionStore, isMissionCompleted, TOTAL_MISSIONS } from '../store/useMissionStore'
+import { useProStore } from '../store/useProStore'
+import PaywallSheet from '../components/PaywallSheet'
 import { useChallengeStore, getChallengeHour } from '../store/useChallengeStore'
 import { getLevelFromXP } from '../data/levels'
 import { getScienceCard, SCIENCE_CARDS } from '../data/scienceCards'
@@ -15,6 +17,8 @@ import UnlockRevealModal from '../components/UnlockRevealModal'
 import { getUnlocksForLevel } from '../data/unlocks'
 import { toastMissionComplete, toastLevelUp } from '../utils/toasts'
 import { LEVELS } from '../data/levels'
+import { TWO_MINUTE_VERSIONS } from '../data/twoMinuteVersions'
+import { HABIT_STACKS } from '../data/habitStacks'
 import styles from './Missions.module.css'
 
 // ── Daily context messages ────────────────────────────────────────────────────
@@ -82,7 +86,8 @@ interface XPFlyItem { id: number; amount: number; x: number; y: number }
 type FlowStep =
   | { step: 'idle' }
   | { step: 'evidence'; mission: Mission }
-  | { step: 'science';  card: ScienceCard; xpEarned: number; prevLevel: number }
+  | { step: 'science';  card: ScienceCard; xpEarned: number; prevLevel: number; completedMissionId: string }
+  | { step: 'stack';    missionId: string; stackText: string; prevLevel: number }
   | { step: 'levelup';  newLevel: Level }
   | { step: 'unlocks';  newLevel: Level }
 
@@ -109,6 +114,7 @@ function MissionCard({
   done,
   isSurprise,
   onComplete,
+  onCompleteTwoMin,
   onViewScience,
 }: {
   mission: Mission
@@ -116,8 +122,12 @@ function MissionCard({
   done: boolean
   isSurprise?: boolean
   onComplete: (mission: Mission, e: React.MouseEvent) => void
+  onCompleteTwoMin: (mission: Mission, xp: number, e: React.MouseEvent) => void
   onViewScience: (id: string) => void
 }) {
+  const [showTwoMin, setShowTwoMin] = useState(false)
+  const twoMin = TWO_MINUTE_VERSIONS.find((v) => v.missionId === mission.id)
+
   return (
     <div
       className={`${styles.card} ${done ? styles.cardDone : ''} ${isSurprise ? styles.cardSurprise : ''}`}
@@ -154,6 +164,61 @@ function MissionCard({
           Why this works
         </button>
       </div>
+
+      {/* Two-minute version */}
+      {twoMin && !done && (
+        <div className={styles.twoMinWrap}>
+          <button
+            className={styles.twoMinToggle}
+            onClick={() => setShowTwoMin((s) => !s)}
+            aria-expanded={showTwoMin}
+          >
+            {showTwoMin ? '▲' : '▼'} Too much? Try the 2-minute version
+          </button>
+          {showTwoMin && (
+            <div className={styles.twoMinContent}>
+              <p className={styles.twoMinDesc}>{twoMin.description}</p>
+              <button
+                className={styles.twoMinBtn}
+                onClick={(e) => onCompleteTwoMin(mission, twoMin.xpReward, e)}
+              >
+                Done (2-min) · +{twoMin.xpReward} XP
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── Habit Stack modal ─────────────────────────────────────────────────────────
+
+function HabitStackModal({
+  stackText,
+  onAccept,
+  onDismiss,
+}: {
+  stackText: string
+  onAccept: () => void
+  onDismiss: () => void
+}) {
+  return (
+    <div className={styles.stackOverlay} onClick={onDismiss}>
+      <div className={styles.stackSheet} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.stackHandle} />
+        <p className={styles.stackEyebrow}>Stack this habit</p>
+        <p className={styles.stackText}>"{stackText}"</p>
+        <p className={styles.stackHint}>
+          Attaching this to an existing routine makes it automatic faster.
+        </p>
+        <button className={styles.stackAcceptBtn} onClick={onAccept}>
+          I'll try it
+        </button>
+        <button className={styles.stackDismissBtn} onClick={onDismiss}>
+          Maybe later
+        </button>
+      </div>
     </div>
   )
 }
@@ -164,15 +229,48 @@ function BonusCard({
   mission,
   unlocked,
   done,
+  isPro,
   onComplete,
   onViewScience,
+  onPaywall,
 }: {
   mission: Mission | null
   unlocked: boolean
   done: boolean
+  isPro: boolean
   onComplete: (mission: Mission, e: React.MouseEvent) => void
   onViewScience: (id: string) => void
+  onPaywall: () => void
 }) {
+  if (!isPro) {
+    return (
+      <div className={`${styles.bonusWrap}`}>
+        <div className={styles.bonusHeader}>
+          <span className={styles.bonusLabel}>⚡ Bonus practice</span>
+          <span className={styles.bonusLockLabel}>Pro feature</span>
+        </div>
+        <div className={`${styles.bonusContent} ${styles.bonusBlurred}`}>
+          {mission ? (
+            <MissionCard
+              mission={mission}
+              index={3}
+              done={false}
+              onComplete={() => {}}
+              onCompleteTwoMin={() => {}}
+              onViewScience={() => {}}
+            />
+          ) : (
+            <div className={styles.bonusPlaceholder}>bonus practice</div>
+          )}
+        </div>
+        <div className={styles.bonusLockOverlay} onClick={onPaywall} role="button">
+          <span className={styles.lockIcon}>✨</span>
+          <span className={styles.lockText}>Upgrade to Pro to unlock a bonus practice every day</span>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className={`${styles.bonusWrap} ${unlocked ? styles.bonusActive : ''}`}>
       <div className={styles.bonusHeader}>
@@ -187,6 +285,7 @@ function BonusCard({
             index={3}
             done={done}
             onComplete={onComplete}
+            onCompleteTwoMin={() => {}}
             onViewScience={onViewScience}
           />
         ) : (
@@ -214,7 +313,12 @@ export default function Missions() {
     totalMissionsCompleted,
     completeStreakDay,
     earnMilestone,
+    acceptedHabitStacks,
+    addAcceptedHabitStack,
   } = useUserStore()
+
+  const { isPro } = useProStore()
+  const [showBonusPaywall, setShowBonusPaywall] = useState(false)
 
   const {
     missions,
@@ -226,6 +330,7 @@ export default function Missions() {
     surpriseMissionId,
     surpriseRevealed,
     revealSurprise,
+    returnDayNote,
   } = useMissionStore()
 
   // Surprise mission data lookup
@@ -274,20 +379,21 @@ export default function Missions() {
 
   // ── Completion logic ─────────────────────────────────────────────────────
   const processCompletion = useCallback(
-    (mission: Mission, evidence: string | undefined, e?: React.MouseEvent) => {
+    (mission: Mission, evidence: string | undefined, e?: React.MouseEvent, overrideXP?: number) => {
       const prevLevel = level
+      const xpEarned = overrideXP ?? mission.xpReward
 
       completeMission(mission.id, evidence)
-      addXP(mission.xpReward)
+      addXP(xpEarned)
       updateStats({ totalMissionsCompleted: totalMissionsCompleted + 1 })
       completeStreakDay()
 
       // Toast for mission completion
       const newDoneCount = doneCount + 1
-      const nextLvl      = LEVELS.find((l) => l.minXP > xp + mission.xpReward)
-      toastMissionComplete(mission.xpReward, newDoneCount, nextLvl?.name ?? 'max level')
+      const nextLvl      = LEVELS.find((l) => l.minXP > xp + xpEarned)
+      toastMissionComplete(xpEarned, newDoneCount, nextLvl?.name ?? 'max level')
 
-      if (e) triggerXPFly(mission.xpReward, e)
+      if (e) triggerXPFly(xpEarned, e)
 
       setFlow({ step: 'idle' })
 
@@ -302,13 +408,20 @@ export default function Missions() {
             if (alternate) cardToShow = alternate
           }
           setLastCardId(cardToShow.id)
-          setFlow({ step: 'science', card: cardToShow, xpEarned: mission.xpReward, prevLevel })
+          setFlow({ step: 'science', card: cardToShow, xpEarned, prevLevel, completedMissionId: mission.id })
         }
       }, 750)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [level, totalMissionsCompleted]
   )
+
+  function handleCompleteTwoMin(mission: Mission, xp: number, e: React.MouseEvent) {
+    if (mission.requiresEvidence) {
+      // For two-min, skip evidence even if mission normally requires it
+    }
+    processCompletion(mission, undefined, e, xp)
+  }
 
   function handleCompleteClick(mission: Mission, e: React.MouseEvent) {
     if (mission.requiresEvidence) {
@@ -325,9 +438,20 @@ export default function Missions() {
 
   function handleScienceDismiss() {
     if (flow.step !== 'science') return
-    const { prevLevel } = flow
-    setFlow({ step: 'idle' })
+    const { prevLevel, completedMissionId } = flow
 
+    // 40% chance to show habit stack suggestion if not already accepted
+    const stack = HABIT_STACKS.find((s) => s.missionId === completedMissionId)
+    if (stack && !acceptedHabitStacks.includes(completedMissionId) && Math.random() < 0.4) {
+      setFlow({ step: 'stack', missionId: completedMissionId, stackText: stack.stackTemplate, prevLevel })
+      return
+    }
+
+    proceedAfterStack(prevLevel)
+  }
+
+  function proceedAfterStack(prevLevel: number) {
+    setFlow({ step: 'idle' })
     // Check for level-up (zustand state already updated by now)
     const newLevel = getLevelFromXP(xp)
     if (newLevel.level > prevLevel) {
@@ -341,7 +465,7 @@ export default function Missions() {
     const card = getScienceCard(scienceCardId)
     if (card) {
       setLastCardId(card.id)
-      setFlow({ step: 'science', card, xpEarned: 0, prevLevel: level })
+      setFlow({ step: 'science', card, xpEarned: 0, prevLevel: level, completedMissionId: '' })
     }
   }
 
@@ -352,6 +476,13 @@ export default function Missions() {
 
   return (
     <div className={styles.page}>
+
+      {/* ── Return-day banner ──────────────────────────────────────────── */}
+      {returnDayNote && (
+        <div className={styles.returnDayBanner}>
+          We picked some easy ones to start you back. Tomorrow's will be more your speed.
+        </div>
+      )}
 
       {/* ── Challenge banner ───────────────────────────────────────────── */}
       {activeChallenge && (
@@ -416,6 +547,7 @@ export default function Missions() {
               index={i}
               done={isMissionCompleted(completed, m.id)}
               onComplete={handleCompleteClick}
+              onCompleteTwoMin={handleCompleteTwoMin}
               onViewScience={handleViewScience}
             />
           ))
@@ -435,6 +567,7 @@ export default function Missions() {
               done={isMissionCompleted(completed, surpriseMission.id)}
               isSurprise
               onComplete={handleCompleteClick}
+              onCompleteTwoMin={handleCompleteTwoMin}
               onViewScience={handleViewScience}
             />
           ) : (
@@ -448,8 +581,10 @@ export default function Missions() {
         mission={bonusMission}
         unlocked={bonusUnlocked}
         done={bonusDone}
+        isPro={isPro}
         onComplete={handleCompleteClick}
         onViewScience={handleViewScience}
+        onPaywall={() => setShowBonusPaywall(true)}
       />
 
       {/* ── Tomorrow teaser (shown once all 3 core missions done) ──────── */}
@@ -519,6 +654,25 @@ export default function Missions() {
             toastLevelUp(flow.newLevel.level)
             setFlow({ step: 'idle' })
           }}
+        />
+      )}
+
+      {flow.step === 'stack' && (
+        <HabitStackModal
+          stackText={flow.stackText}
+          onAccept={() => {
+            addAcceptedHabitStack(flow.missionId)
+            proceedAfterStack(flow.prevLevel)
+          }}
+          onDismiss={() => proceedAfterStack(flow.prevLevel)}
+        />
+      )}
+
+      {showBonusPaywall && (
+        <PaywallSheet
+          title="Bonus Practice"
+          body="Nice work finishing all 3. Upgrade to Pro to unlock a bonus practice every day."
+          onClose={() => setShowBonusPaywall(false)}
         />
       )}
 

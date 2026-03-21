@@ -1155,6 +1155,158 @@ export const SCIENCE_CARDS: ScienceCard[] = [
       'The underlying finding from Mehrabian\'s research is directionally solid: human communication evolved as a full-body, full-voice, real-time experience. Tone alone carries information about emotional state, sincerity, urgency, and relational safety that words on a screen cannot replicate. When you receive a text your brain tries to fill in all the missing emotional context. The problem is that when you are already anxious or uncertain about a relationship, your brain tends to fill those gaps with negative assumptions. The message feels colder, more distant, or more pointed than it was intended. This is why text conversations generate misunderstandings that a 30-second phone call would resolve immediately.',
     source: '',
   },
+
+  // ── Dopamine Science ─────────────────────────────────────────────────────────
+
+  {
+    id: 'dopamine-balance',
+    category: 'Brain',
+    title: 'The Balance Beam in Your Brain',
+    keyStat: 'Every pleasure has an equal and opposite pain response in your brain.',
+    body:
+      'Your brain maintains a balance between pleasure and pain. Every dopamine hit tips it toward pleasure, but the brain immediately compensates by pushing it back toward pain. This is opponent process theory.',
+    source: 'Solomon, R. L., & Corbit, J. D. (1974). Psychological Review, 81(2), 119–145.',
+  },
+
+  {
+    id: 'dopamine-tolerance',
+    category: 'Brain',
+    title: 'Why You Need More and More',
+    keyStat: 'Tolerance builds in as little as a few weeks of daily overstimulation.',
+    body:
+      'With repeated stimulation, the pain side of the balance gets heavier. You need more of the stimulus just to feel neutral, and that is tolerance. It is why the 100th scroll of the night feels empty.',
+    source: 'Koob, G. F., & Le Moal, M. (2008). Neuropsychopharmacology, 33(1), 170–180.',
+  },
+
+  {
+    id: 'dopamine-anticipation',
+    category: 'Brain',
+    title: 'The Dopamine Lie',
+    keyStat: 'Dopamine spikes during anticipation, not during the actual reward.',
+    body:
+      'Dopamine is not about pleasure. It is about anticipation, and the hit you get is from expecting a reward, not from receiving one. That is why scrolling always promises more than it delivers: the seeking feels good, but the finding rarely does.',
+    source: 'Schultz, W. (1998). Journal of Neurophysiology, 80(1), 1–27.',
+  },
+
+  {
+    id: 'dopamine-baseline',
+    category: 'Brain',
+    title: 'Your Baseline Dropped',
+    keyStat: 'Chronic overstimulation can lower dopamine baseline sensitivity by up to 20%.',
+    body:
+      'When you overstimulate your dopamine system repeatedly, your brain lowers its baseline sensitivity to keep things in balance. Normal life starts feeling flat, boring, or empty, and that is not depression. It is a biological adjustment to excess stimulation.',
+    source: 'Blum, K., et al. (2012). Journal of Psychoactive Drugs, 44(1), 1–15.',
+  },
+
+  {
+    id: 'dopamine-reset',
+    category: 'Recovery',
+    title: 'The 30-Day Reset',
+    keyStat: 'Significant receptor upregulation occurs within 2-4 weeks of reduced stimulation.',
+    body:
+      'When you reduce high-stimulation behaviors, your dopamine receptors begin to upregulate, becoming more sensitive again. Most people notice real changes within 2 to 4 weeks: food tastes better, conversations feel richer, and boredom becomes more tolerable. The system is healing.',
+    source: 'Volkow, N. D., et al. (2001). Journal of Neuroscience, 21(23), 9414–9418.',
+  },
+
+  {
+    id: 'pain-price',
+    category: 'Brain',
+    title: 'Pain Is the Price of Pleasure',
+    keyStat: 'The strength of the pain response equals the strength of the pleasure response.',
+    body:
+      'Every pleasure produces an equal and opposite pain response as your brain tries to restore balance. The more intense the pleasure, the stronger the compensation. This is why the come-down after a long scroll session often feels worse than if you had never opened the app at all.',
+    source: 'Lembke, A. (2021). Dopamine Nation. Dutton / Stanford Medicine.',
+  },
+
+  {
+    id: 'exercise-dopamine',
+    category: 'Body',
+    title: 'Why Exercise Feels So Good',
+    keyStat: 'A single 20-minute exercise session can elevate mood for up to 12 hours.',
+    body:
+      'Exercise intentionally presses on the pain side of your brain\'s balance beam. The discomfort triggers your brain to compensate by releasing dopamine, serotonin, and endorphins. Unlike the dopamine from scrolling, exercise-induced neurochemicals last for hours and do not create tolerance.',
+    source: 'Craft, L. L., & Perna, F. M. (2004). The Primary Care Companion to the Journal of Clinical Psychiatry, 6(3), 104–111.',
+  },
+
+  {
+    id: 'boredom-medicine',
+    category: 'Recovery',
+    title: 'Boredom Is Medicine',
+    keyStat: 'Mind-wandering during boredom activates the default mode network, linked to creative insight.',
+    body:
+      'Voluntary understimulation, just sitting with nothing to do, allows your dopamine receptors to resensitize. Boredom feels unpleasant because your brain is trained to expect constant input, but that discomfort is the signal that the recalibration is working. Boredom is where creativity and insight actually live.',
+    source: 'Smallwood, J., & Schooler, J. W. (2015). Psychological Bulletin, 141(3), 700–721.',
+  },
+
+  {
+    id: 'self-binding',
+    category: 'Behavior',
+    title: 'The Self-Binding Contract',
+    keyStat: 'Pre-commitment strategies reduce relapse rates by up to 30% in behavior change research.',
+    body:
+      'Voluntarily restricting your future choices is one of the most effective strategies for behavior change. It works because it removes the decision entirely. Instead of relying on willpower in the moment, you make the hard choice once, in advance, when you are thinking clearly.',
+    source: 'Ariely, D., & Wertenbroch, K. (2002). Psychological Science, 13(3), 219–224.',
+  },
+
+  {
+    id: 'tolerance-not-weakness',
+    category: 'Brain',
+    title: 'Tolerance Is Not Weakness',
+    keyStat: 'Neurological tolerance is a universal brain process, not a sign of addiction severity.',
+    body:
+      'Your brain adapting to stimulation is a biological process, not a character flaw. The same mechanism that makes you tolerant to scrolling makes athletes tolerant to cold and meditators tolerant to noise. Understanding this removes the shame and makes the path forward clearer.',
+    source: 'Nestler, E. J. (2001). Nature Neuroscience, 4(7), 695–698.',
+  },
+
+  {
+    id: 'withdrawal-temporary',
+    category: 'Recovery',
+    title: 'Withdrawal Is Temporary',
+    keyStat: 'Acute withdrawal from digital overstimulation typically peaks within 48-72 hours.',
+    body:
+      'The first 1 to 3 days after reducing a high-stimulation behavior are often the hardest. Your brain is actively compensating for the missing stimulation by increasing the pain-side weight. This discomfort is not a sign you are doing something wrong. It is a sign the recalibration has begun.',
+    source: 'Lembke, A. (2021). Dopamine Nation. Dutton / Stanford Medicine.',
+  },
+
+  {
+    id: 'effort-paradox',
+    category: 'Habits',
+    title: 'The Effort Paradox',
+    keyStat: 'Voluntary effort exposure increases baseline reward sensitivity within days.',
+    body:
+      'Doing hard things makes easy things feel better. When you voluntarily choose effort, your brain\'s pain-side compensation produces a stronger sense of satisfaction from ordinary activities. The opposite is also true: the more you avoid effort, the harder everything else feels.',
+    source: 'Inzlicht, M., Shenhav, A., & Olivola, C. Y. (2018). Trends in Cognitive Sciences, 22(4), 282–292.',
+  },
+
+  {
+    id: 'junk-dopamine',
+    category: 'Brain',
+    title: 'Your Brain on Junk Dopamine',
+    keyStat: 'Engineered stimuli produce 2-10x more dopamine than natural rewards.',
+    body:
+      'Not all dopamine sources are equal. Natural dopamine from exercise, genuine connection, and accomplishment leaves your baseline intact or improves it. Engineered dopamine from scrolling, gaming, and processed food is calibrated to maximize consumption, which means it gradually raises the amount you need just to feel okay.',
+    source: 'Fader, J. (2017). Game Over. Hazelden Publishing. Based on Volkow, N. D., et al. (2012). Neuron, 69(4), 680–694.',
+  },
+
+  {
+    id: 'cold-exposure',
+    category: 'Body',
+    title: 'Cold Exposure and Your Brain',
+    keyStat: 'Cold exposure increases norepinephrine by 200-300% for up to 3 hours.',
+    body:
+      'Brief cold exposure, even just 30 seconds of a cold shower finish, triggers a sustained release of norepinephrine in your brain that can last 2 to 3 hours. Unlike the short spike from scrolling, this neurochemical release does not create tolerance. Your brain never gets used to cold the way it gets used to screens.',
+    source: 'Søberg, S., et al. (2022). Cell Reports Medicine, 3(10), 100741.',
+  },
+
+  {
+    id: 'recovery-not-deprivation',
+    category: 'Recovery',
+    title: 'Recovery Is Not Deprivation',
+    keyStat: 'Most people report increased life satisfaction within 2 weeks of reduced digital stimulation.',
+    body:
+      'The common fear about reducing phone use is that you will miss out, feel restricted, or be worse off. The opposite is true: you are not giving something up, you are restoring your brain\'s ability to feel good from ordinary things. Recovery does not make life smaller. It makes the ordinary parts of life feel real again.',
+    source: 'Twenge, J. M., & Campbell, W. K. (2019). Psychological Science, 30(5), 682–696.',
+  },
 ]
 
 export function getScienceCard(id: string): ScienceCard | undefined {

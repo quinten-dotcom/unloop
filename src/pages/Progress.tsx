@@ -69,6 +69,63 @@ function reclaimedHours(missions: number, pauses: number): string {
   return hours < 1 ? `${Math.round(hours * 60)}m` : `${hours.toFixed(1)}h`
 }
 
+// ── Dopamine Reset Timeline ───────────────────────────────────────────────────
+
+const DOPAMINE_TIMELINE = [
+  { days: '1-3',   label: 'Noticing the change', body: "Your brain is registering the shift. Cravings may actually feel stronger for a day or two. That's normal. It means the recalibration has started." },
+  { days: '4-7',   label: 'Acute phase ending', body: "The strongest part of the adjustment is passing. Your brain's pleasure-pain balance is starting to recalibrate toward center." },
+  { days: '7-14',  label: 'Receptors waking up', body: "Dopamine receptors are beginning to upregulate. You might notice that simple things feel slightly more enjoyable than they did a week ago." },
+  { days: '14-21', label: 'Significant shift', body: "Real neurological recalibration is happening. Many people report that food tastes better, conversations feel richer, and sitting still feels more possible." },
+  { days: '21-30', label: 'Baseline resetting', body: "Your brain's starting point for 'feeling okay' is substantially reset. Things that felt boring two weeks ago are starting to feel genuinely satisfying." },
+  { days: '30+',   label: 'Healthy equilibrium', body: "Your pleasure-pain balance is approaching equilibrium. The ordinary parts of life feel real again. Keep your practices to maintain it here." },
+]
+
+function getTimelinePosition(streak: number): number {
+  if (streak >= 30) return 5
+  if (streak >= 21) return 4
+  if (streak >= 14) return 3
+  if (streak >= 7)  return 2
+  if (streak >= 4)  return 1
+  return 0
+}
+
+function DopamineTimeline({ streak }: { streak: number }) {
+  const position = getTimelinePosition(streak)
+  return (
+    <div className={styles.dopamineCard}>
+      <span className={styles.dopamineTitle}>Your Recalibration Progress</span>
+      <p className={styles.dopamineSub}>
+        Based on Anna Lembke's research on the pleasure-pain balance and dopamine recovery.
+      </p>
+      <div className={styles.dopamineList}>
+        {DOPAMINE_TIMELINE.map((item, i) => {
+          const isCurrent = i === position
+          const isPast = i < position
+          return (
+            <div
+              key={i}
+              className={`${styles.dopamineItem} ${isCurrent ? styles.dopamineCurrent : ''} ${isPast ? styles.dopaminePast : ''}`}
+            >
+              <div className={styles.dopamineDotWrap}>
+                <div className={styles.dopamineDot} />
+                {i < DOPAMINE_TIMELINE.length - 1 && <div className={styles.dopamineLine} />}
+              </div>
+              <div className={styles.dopamineContent}>
+                <div className={styles.dopamineMeta}>
+                  <span className={styles.dopamineDays}>Day {item.days}</span>
+                  <span className={styles.dopamineLabel}>{item.label}</span>
+                  {isCurrent && <span className={styles.dopamineHere}>you're here</span>}
+                </div>
+                {isCurrent && <p className={styles.dopamineBody}>{item.body}</p>}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 // ── What's Changing section ───────────────────────────────────────────────────
 
 function getChangingMessage(streak: number): string {
@@ -300,6 +357,12 @@ function LevelTimeline({
                     : `${xpNeeded} XP`
                 }
               </span>
+              {isCurrent && (
+                <span className={styles.nodeIdentity}>{lvl.identityStatement}</span>
+              )}
+              {!reached && !isCurrent && (
+                <span className={`${styles.nodeIdentity} ${styles.nodeIdentityBlurred}`}>{lvl.identityStatement}</span>
+              )}
             </div>
           )
         })}
@@ -527,6 +590,9 @@ export default function Progress() {
 
       {/* ── Score ─────────────────────────────────────────────────────── */}
       <HumanScoreCard score={humanScore} />
+
+      {/* ── Dopamine Timeline ─────────────────────────────────────────── */}
+      <DopamineTimeline streak={humanStreak} />
 
       {/* ── Milestones ────────────────────────────────────────────────── */}
       <MilestonesSection

@@ -8,6 +8,12 @@ export interface HumanHour {
   end: string    // "HH:MM" 24-hour
 }
 
+export interface EnvironmentDesign {
+  chargingSpot: string
+  workZone: string
+  phoneFreeRooms: string[]
+}
+
 export type UserGoal =
   | 'better-focus'
   | 'better-sleep'
@@ -66,6 +72,21 @@ export interface UserState {
   // Earned milestones
   earnedMilestones: Array<{ id: string; earnedAt: string }>
 
+  // Atomic Habits / identity features
+  savedIntentions: string[]           // user's 3 custom intention texts (one per moment: morning/afternoon/evening)
+  selectedDecisiveMomentIds: string[] // IDs from DECISIVE_MOMENTS the user selected
+  personalIdentityStatement: string   // e.g. "I am someone who focuses deeply on what matters."
+  acceptedHabitStacks: string[]       // mission IDs where user accepted the habit stack suggestion
+  activeBundleIds: string[]           // IDs from TEMPTATION_BUNDLES the user activated
+  environmentDesign: EnvironmentDesign
+
+  // Re-engagement tracking
+  lastOpenDate: string | null
+  installDate: string
+  whyLeftReason: string | null
+  reengageNotificationsSent: string[]
+  firstWeekMilestonesSent: string[]
+
   // Actions
   addXP: (amount: number) => void
   completeStreakDay: () => void
@@ -90,6 +111,18 @@ export interface UserState {
     | 'notificationsEnabled'
     | 'pauseApps'
   >>) => void
+  setLastOpenDate: (date: string) => void
+  setInstallDate: (date: string) => void
+  setWhyLeftReason: (reason: string | null) => void
+  markReengageNotification: (key: string) => void
+  markFirstWeekMilestone: (key: string) => void
+
+  setSavedIntentions: (intentions: string[]) => void
+  setSelectedDecisiveMomentIds: (ids: string[]) => void
+  setPersonalIdentityStatement: (statement: string) => void
+  addAcceptedHabitStack: (missionId: string) => void
+  setActiveBundleIds: (ids: string[]) => void
+  setEnvironmentDesign: (design: EnvironmentDesign) => void
 }
 
 function todayISO(): string {
@@ -138,6 +171,19 @@ export const useUserStore = create<UserState>()(
       notifyEveningReflection: true,
       notifyStreakReminder: true,
       earnedMilestones: [],
+
+      lastOpenDate: null,
+      installDate: '',
+      whyLeftReason: null,
+      reengageNotificationsSent: [],
+      firstWeekMilestonesSent: [],
+
+      savedIntentions: [],
+      selectedDecisiveMomentIds: [],
+      personalIdentityStatement: '',
+      acceptedHabitStacks: [],
+      activeBundleIds: [],
+      environmentDesign: { chargingSpot: '', workZone: '', phoneFreeRooms: [] },
 
       // ── Actions ────────────────────────────────────────────────────────────
 
@@ -222,6 +268,39 @@ export const useUserStore = create<UserState>()(
       },
 
       updateStats: (stats) => set((state) => ({ ...state, ...stats })),
+
+      setLastOpenDate: (date) => set({ lastOpenDate: date }),
+
+      setInstallDate: (date) =>
+        set((state) => state.installDate === '' ? { installDate: date } : {}),
+
+      setWhyLeftReason: (reason) => set({ whyLeftReason: reason }),
+
+      markReengageNotification: (key) =>
+        set((state) => ({
+          reengageNotificationsSent: state.reengageNotificationsSent.includes(key)
+            ? state.reengageNotificationsSent
+            : [...state.reengageNotificationsSent, key],
+        })),
+
+      markFirstWeekMilestone: (key) =>
+        set((state) => ({
+          firstWeekMilestonesSent: state.firstWeekMilestonesSent.includes(key)
+            ? state.firstWeekMilestonesSent
+            : [...state.firstWeekMilestonesSent, key],
+        })),
+
+      setSavedIntentions: (intentions) => set({ savedIntentions: intentions }),
+      setSelectedDecisiveMomentIds: (ids) => set({ selectedDecisiveMomentIds: ids }),
+      setPersonalIdentityStatement: (statement) => set({ personalIdentityStatement: statement }),
+      addAcceptedHabitStack: (missionId) =>
+        set((state) => ({
+          acceptedHabitStacks: state.acceptedHabitStacks.includes(missionId)
+            ? state.acceptedHabitStacks
+            : [...state.acceptedHabitStacks, missionId],
+        })),
+      setActiveBundleIds: (ids) => set({ activeBundleIds: ids }),
+      setEnvironmentDesign: (design) => set({ environmentDesign: design }),
     }),
     {
       name: 'unloop-user',

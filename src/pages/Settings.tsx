@@ -2,7 +2,10 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUserStore } from '../store/useUserStore'
 import { useMissionStore } from '../store/useMissionStore'
+import { useProStore } from '../store/useProStore'
+import PaywallSheet from '../components/PaywallSheet'
 import type { UserGoal } from '../store/useUserStore'
+import { TEMPTATION_BUNDLES } from '../data/temptationBundles'
 import styles from './Settings.module.css'
 
 // ── Shared UI atoms ───────────────────────────────────────────────────────────
@@ -170,11 +173,121 @@ function ResetConfirm({ onCancel }: { onCancel: () => void }) {
   )
 }
 
+// ── Section: Environment Design ───────────────────────────────────────────────
+
+function EnvironmentDesignSection() {
+  const { environmentDesign, setEnvironmentDesign } = useUserStore()
+
+  const ROOMS = ['Bedroom', 'Kitchen', 'Living room', 'Bathroom', 'Office', 'Dining room']
+
+  return (
+    <section className={styles.section}>
+      <SectionHeader label="Set Up Your Space" icon="🏠" />
+      <p className={styles.sectionNote}>
+        Physical distance from your phone is one of the most effective habit changes you can make. These are your commitments.
+      </p>
+
+      <div className={styles.row} style={{ flexDirection: 'column', gap: 8, alignItems: 'stretch' }}>
+        <span className={styles.rowLabel}>Where does your phone charge at night?</span>
+        <input
+          type="text"
+          className={styles.textInput}
+          placeholder="e.g. Kitchen counter, hallway shelf..."
+          value={environmentDesign?.chargingSpot ?? ''}
+          onChange={(e) => setEnvironmentDesign({ ...environmentDesign, chargingSpot: e.target.value })}
+        />
+      </div>
+
+      <div className={styles.divider} />
+
+      <div className={styles.row} style={{ flexDirection: 'column', gap: 8, alignItems: 'stretch' }}>
+        <span className={styles.rowLabel}>Where does your phone go when you're working?</span>
+        <input
+          type="text"
+          className={styles.textInput}
+          placeholder="e.g. In my bag, different room, desk drawer..."
+          value={environmentDesign?.workZone ?? ''}
+          onChange={(e) => setEnvironmentDesign({ ...environmentDesign, workZone: e.target.value })}
+        />
+      </div>
+
+      <div className={styles.divider} />
+
+      <div className={styles.row} style={{ flexDirection: 'column', gap: 8, alignItems: 'stretch' }}>
+        <span className={styles.rowLabel}>Which rooms are phone-free?</span>
+        <div className={styles.checkList}>
+          {ROOMS.map((room) => {
+            const checked = (environmentDesign?.phoneFreeRooms ?? []).includes(room)
+            return (
+              <button
+                key={room}
+                className={`${styles.checkRow} ${checked ? styles.checkRowOn : ''}`}
+                onClick={() => {
+                  const current = environmentDesign?.phoneFreeRooms ?? []
+                  const next = checked ? current.filter((r) => r !== room) : [...current, room]
+                  setEnvironmentDesign({ ...environmentDesign, phoneFreeRooms: next })
+                }}
+                role="checkbox"
+                aria-checked={checked}
+              >
+                <span className={`${styles.checkbox} ${checked ? styles.checkboxOn : ''}`}>{checked && '✓'}</span>
+                <span className={styles.checkLabel}>{room}</span>
+              </button>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ── Section: Temptation Bundle ────────────────────────────────────────────────
+
+function TemptationBundleSection() {
+  const { activeBundleIds, setActiveBundleIds } = useUserStore()
+
+  function toggleBundle(id: string) {
+    const next = activeBundleIds.includes(id)
+      ? activeBundleIds.filter((b) => b !== id)
+      : [...activeBundleIds, id]
+    setActiveBundleIds(next)
+  }
+
+  return (
+    <section className={styles.section}>
+      <SectionHeader label="Bundle Your Habits" icon="🎁" />
+      <p className={styles.sectionNote}>
+        Pair something you love with a healthy behavior. When you complete the practice, you unlock the reward. This is called temptation bundling.
+      </p>
+
+      {TEMPTATION_BUNDLES.map((bundle) => {
+        const active = activeBundleIds.includes(bundle.id)
+        return (
+          <div key={bundle.id} className={styles.bundleRow}>
+            <div className={styles.bundleText}>
+              <span className={styles.bundleEmoji}>{bundle.emoji}</span>
+              <span className={styles.bundleFullText}>{bundle.fullText}</span>
+            </div>
+            <Toggle on={active} onChange={() => toggleBundle(bundle.id)} />
+          </div>
+        )
+      })}
+    </section>
+  )
+}
+
 // ── Section: Human Hours ──────────────────────────────────────────────────────
 
-function HumanHoursSection() {
+function HumanHoursSection({ isPro, onPaywall }: { isPro: boolean; onPaywall: () => void }) {
   const { humanHours, addHumanHour, removeHumanHour } = useUserStore()
   const [showModal, setShowModal] = useState(false)
+
+  const atFreeLimit = !isPro && humanHours.length >= 1
+
+  function handleAddClick() {
+    if (atFreeLimit) { onPaywall(); return }
+    setShowModal(true)
+  }
 
   return (
     <section className={styles.section}>
@@ -201,9 +314,15 @@ function HumanHoursSection() {
         </div>
       )}
 
-      <button className={styles.addBtn} onClick={() => setShowModal(true)}>
-        + Add time block
-      </button>
+      {atFreeLimit ? (
+        <button className={styles.addBtn} onClick={handleAddClick}>
+          + Add time block <span className={styles.proTag}>Pro</span>
+        </button>
+      ) : (
+        <button className={styles.addBtn} onClick={handleAddClick}>
+          + Add time block
+        </button>
+      )}
 
       {showModal && (
         <TimeBlockModal
@@ -573,19 +692,77 @@ function DevSection() {
   )
 }
 
+// ── Section: Pro ──────────────────────────────────────────────────────────────
+
+function ProSection({ isPro, onUpgrade }: { isPro: boolean; onUpgrade: () => void }) {
+  if (isPro) {
+    return (
+      <section className={styles.section}>
+        <SectionHeader label="Subscription" icon="✨" />
+        <div className={styles.proBadgeRow}>
+          <span className={styles.proBadge}>Pro</span>
+          <span className={styles.proActiveLabel}>You're on Pro — thanks for supporting Unloop.</span>
+        </div>
+      </section>
+    )
+  }
+
+  return (
+    <section className={styles.proSection}>
+      <div className={styles.proSectionBadge}>✨ Pro</div>
+      <p className={styles.proSectionTitle}>Upgrade for the full experience</p>
+      <ul className={styles.proFeatureList}>
+        <li>Bonus practice every day</li>
+        <li>10-second pause with intention logging</li>
+        <li>Full science library (100+ cards)</li>
+        <li>All challenges unlocked</li>
+        <li>Unlimited Human Hour blocks</li>
+        <li>Full progress history &amp; insights</li>
+      </ul>
+      <button className={styles.proUpgradeBtn} onClick={onUpgrade}>
+        Upgrade to Pro — $6/mo
+      </button>
+      <p className={styles.proAltPrice}>or $45/year (save 37%)</p>
+    </section>
+  )
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function Settings() {
+  const { isPro } = useProStore()
+  const [showProPaywall, setShowProPaywall] = useState(false)
+  const [showHumanPaywall, setShowHumanPaywall] = useState(false)
+
   return (
     <div className={styles.page}>
       <h1 className={styles.pageTitle}>Settings</h1>
 
+      <ProSection isPro={isPro} onUpgrade={() => setShowProPaywall(true)} />
+      <EnvironmentDesignSection />
+      <TemptationBundleSection />
       <DevSection />
-      <HumanHoursSection />
+      <HumanHoursSection isPro={isPro} onPaywall={() => setShowHumanPaywall(true)} />
       <PauseListSection />
       <NotificationsSection />
       <AccountSection />
       <AboutSection />
+
+      {showProPaywall && (
+        <PaywallSheet
+          title="Upgrade to Pro"
+          body="Get the full Unloop experience: bonus practices, 10-second pause, all science cards, every challenge, and unlimited Human Hour blocks."
+          onClose={() => setShowProPaywall(false)}
+        />
+      )}
+
+      {showHumanPaywall && (
+        <PaywallSheet
+          title="Unlimited Human Hour Blocks"
+          body="Free plan includes 1 phone-free block. Upgrade to Pro to schedule as many as you want."
+          onClose={() => setShowHumanPaywall(false)}
+        />
+      )}
     </div>
   )
 }

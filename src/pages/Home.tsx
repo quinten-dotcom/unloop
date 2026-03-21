@@ -6,7 +6,7 @@ import { getLevelFromXP, levelProgress, LEVELS } from '../data/levels'
 import LoopSpiral from '../components/LoopSpiral'
 import TutorialOverlay from '../components/TutorialOverlay'
 import PauseScreen from '../components/PauseScreen'
-import { toastFirstOpenOfDay, toastIdleNudge, toastStreakMilestone } from '../utils/toasts'
+import { toastFirstOpenOfDay, toastIdleNudge, toastStreakMilestone, toastFirstWeekMilestone } from '../utils/toasts'
 import styles from './Home.module.css'
 
 // ── Explanation modals ────────────────────────────────────────────────────────
@@ -92,11 +92,52 @@ function HumanModeToggle({
 
 // ── Main component ───────────────────────────────────────────────────────────
 
+// ── Balance Beam ──────────────────────────────────────────────────────────────
+
+function BalanceBeam({ tilt, onInfo }: { tilt: number; onInfo: () => void }) {
+  return (
+    <div className={styles.beamWrap}>
+      <div
+        className={styles.beamArm}
+        style={{ transform: `rotate(${tilt}deg)`, transition: 'transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)' }}
+      >
+        {/* Left side - Effort */}
+        <div className={styles.beamLeft}>
+          <span className={styles.beamLabel}>Effort</span>
+          <span className={styles.beamPan}>⚡</span>
+        </div>
+        {/* Beam bar */}
+        <div className={styles.beamBar} />
+        {/* Right side - Pleasure */}
+        <div className={styles.beamRight}>
+          <span className={styles.beamPan}>🎯</span>
+          <span className={styles.beamLabel}>Pleasure</span>
+        </div>
+      </div>
+      {/* Fulcrum */}
+      <div className={styles.beamFulcrum} />
+      {/* Status text */}
+      <p className={styles.beamStatus}>
+        {tilt > 10
+          ? "Your balance is tipped. That's why normal life can feel understimulating."
+          : tilt > 0
+          ? "Your balance is shifting. Keep going."
+          : "Your balance is resetting. Everyday life is getting more rewarding."}
+      </p>
+      {/* Info button */}
+      <button className={styles.beamInfo} aria-label="Learn about the balance" onClick={onInfo}>?</button>
+    </div>
+  )
+}
+
+// ── Main component ───────────────────────────────────────────────────────────
+
 export default function Home() {
   const navigate = useNavigate()
   const [pauseOpen, setPauseOpen] = useState(false)
   const [hmModalOpen, setHmModalOpen] = useState(false)
   const [hsModalOpen, setHsModalOpen] = useState(false)
+  const [showBalanceInfo, setShowBalanceInfo] = useState(false)
 
   const {
     xp,
@@ -110,6 +151,11 @@ export default function Home() {
     setHumanMode,
     goal,
     triggers,
+    installDate,
+    firstWeekMilestonesSent,
+    markFirstWeekMilestone,
+    personalIdentityStatement,
+    savedIntentions,
   } = useUserStore()
 
   const { missions, completed, generateDailyMissions } = useMissionStore()
@@ -131,6 +177,7 @@ export default function Home() {
     )
     toastStreakMilestone(humanStreak)
     toastIdleNudge(humanStreak)
+    toastFirstWeekMilestone(installDate, firstWeekMilestonesSent, markFirstWeekMilestone)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -147,6 +194,14 @@ export default function Home() {
   // Human score
   const humanScore = computeHumanScore(humanStreak, totalMissionsCompleted, level)
   const color      = scoreColor(humanScore)
+
+  // Identity statement
+  const identityText = personalIdentityStatement.trim() !== ''
+    ? personalIdentityStatement
+    : LEVELS.find(l => l.level === level)?.identityStatement ?? ''
+
+  // Balance beam tilt
+  const balanceTilt = 18 - (level - 1) * (26 / 6)
 
   // First incomplete mission
   const firstMission = missions.find((m) => !isMissionCompleted(completed, m.id))
@@ -205,6 +260,31 @@ export default function Home() {
           <div ref={xpFillRef} className={styles.xpFill} />
         </div>
       </div>
+
+      {/* ── Identity statement ──────────────────────────────────────────────── */}
+      <div className={styles.identityCard}>
+        <span className={styles.identityQuote}>"</span>
+        <p className={styles.identityText}>{identityText}</p>
+        <span className={styles.identityQuote}>"</span>
+      </div>
+
+      {/* ── Balance Beam ─────────────────────────────────────────────────────── */}
+      <BalanceBeam tilt={balanceTilt} onInfo={() => setShowBalanceInfo(true)} />
+
+      {/* ── Your Plans for Today ─────────────────────────────────────────────── */}
+      {savedIntentions.length > 0 && (
+        <div className={styles.intentionsCard}>
+          <span className={styles.intentionsLabel}>Your plans for today</span>
+          <ul className={styles.intentionsList}>
+            {savedIntentions.map((intention, i) => (
+              <li key={i} className={styles.intentionItem}>
+                <span className={styles.intentionBullet}>→</span>
+                <span>{intention}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* ── Your Path ────────────────────────────────────────────────────── */}
       <div className={styles.pathSection}>
@@ -299,6 +379,15 @@ export default function Home() {
           title="What is your Human Score?"
           body="Your Human Score measures how intentional you were with your phone today, from 0 to 100. It factors in how many practices you completed, how many times you used the pause, and how much time you spent in Human Mode. Think of it as a daily report card for your phone habits."
           onClose={() => setHsModalOpen(false)}
+        />
+      )}
+
+      {/* ── Balance info modal ───────────────────────────────────────────── */}
+      {showBalanceInfo && (
+        <ExplainerModal
+          title="The Pleasure-Pain Balance"
+          body="Your brain has a balance between pleasure and pain. Too much easy dopamine from scrolling tips it so that normal life feels boring. Unloop's practices help it level out. When it does, everything in life starts feeling more enjoyable again."
+          onClose={() => setShowBalanceInfo(false)}
         />
       )}
     </div>

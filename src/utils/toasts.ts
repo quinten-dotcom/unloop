@@ -131,6 +131,35 @@ export function toastLevelUp(newLevel: number) {
   showToast(`Level ${newLevel} perks are active now. Check out what you unlocked.`, '⚡')
 }
 
+export function toastFirstWeekMilestone(
+  installDate: string,
+  milestonesSent: string[],
+  onMark: (key: string) => void
+): void {
+  if (!installDate) return
+
+  const install = new Date(installDate + 'T00:00:00')
+  const today   = new Date(new Date().toISOString().slice(0, 10) + 'T00:00:00')
+  const daysSince = Math.round((today.getTime() - install.getTime()) / 86_400_000)
+
+  const milestones: Array<{ day: number; key: string; message: string }> = [
+    { day: 1,  key: 'd1',  message: "Day 1. You're in. Most people who make it past day 3 stick with it." },
+    { day: 3,  key: 'd3',  message: "3 days in. You're past the point where most people give up. Keep going." },
+    { day: 5,  key: 'd5',  message: "5 days. Your brain is definitely noticing the new pattern." },
+    { day: 7,  key: 'd7',  message: "One full week. This is usually when people start saying 'I actually feel different.'" },
+    { day: 10, key: 'd10', message: "10 days. You've built more momentum than you realize." },
+    { day: 14, key: 'd14', message: "Two weeks. The research says this is when real neural rewiring kicks in. You're right on schedule." },
+  ]
+
+  for (const m of milestones) {
+    if (daysSince === m.day && !milestonesSent.includes(m.key)) {
+      showToast(m.message, '🌱')
+      onMark(m.key)
+      break
+    }
+  }
+}
+
 export function toastWeeklyRecap(practices: number, pauses: number, avgScore: number) {
   const id = 'weekly-recap'
   if (wasShownToday(id)) return

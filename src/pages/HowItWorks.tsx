@@ -98,6 +98,23 @@ export default function HowItWorks() {
         </p>
       </FadeSection>
 
+      {/* ── Section: The Balance ──────────────────────────────────────────── */}
+      <FadeSection className={styles.section}>
+        <h2 className={styles.sectionTitle}>The Balance</h2>
+        <div className={styles.balanceExplainer}>
+          <div className={styles.balanceBeamIcon}>⚖️</div>
+          <p className={styles.sectionBody}>
+            Your brain has a balance beam. On one side: pleasure. On the other: pain. Every time you scroll mindlessly, the pleasure side tips down. But your brain immediately pushes back by adding weight to the pain side.
+          </p>
+          <p className={styles.sectionBody}>
+            Do this enough times and the pain side gets so heavy that normal life feels flat. Food is boring. Conversations are boring. Nothing feels as good as it used to. That's not depression. That's a tipped balance.
+          </p>
+          <p className={styles.sectionBody}>
+            Unloop helps tip it back in two ways: reducing the junk dopamine, and adding healthy effort that resets the system from the other direction. When the balance levels out, ordinary life starts feeling real again.
+          </p>
+        </div>
+      </FadeSection>
+
       {/* ── Section 3: How Unloop breaks it ──────────────────────────── */}
       <FadeSection className={styles.section}>
         <h2 className={styles.sectionTitle}>How Unloop Breaks It</h2>

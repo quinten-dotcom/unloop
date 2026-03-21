@@ -25,7 +25,7 @@
   padding: 72px 24px 24px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 .heading {
@@ -40,92 +40,64 @@
   font-size: 0.95rem;
   color: #64748B;
   margin: 0;
-}
-
-.tiles {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 4px;
-}
-
-.tile {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 16px;
-  background: #F8FAFC;
-  border: 1.5px solid #E2E8F0;
-  border-radius: 14px;
-  cursor: pointer;
-  text-align: left;
-  width: 100%;
-  transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
-  position: relative;
-}
-
-.tileSelected {
-  border-color: #2563EB;
-  background: #EFF6FF;
-  transform: scale(1.01);
-}
-
-.tileEmoji {
-  font-size: 1.5rem;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.tileText {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-}
-
-.tileTitle {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #1E293B;
-  line-height: 1.3;
-}
-
-.tileDesc {
-  font-size: 0.83rem;
-  color: #64748B;
   line-height: 1.5;
 }
 
-.tileCheck {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 22px;
-  height: 22px;
-  background: #2563EB;
-  color: #fff;
-  border-radius: 50%;
-  font-size: 0.75rem;
-  font-weight: 700;
+.statementBlock {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  background: #F8FAFC;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 8px;
 }
 
-.skipBtn {
-  align-self: center;
-  background: none;
+.prefix {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0F172A;
+  line-height: 1.3;
+}
+
+.input {
+  width: 100%;
   border: none;
+  border-bottom: 2px solid var(--primary, #2563EB);
+  background: transparent;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--primary, #2563EB);
+  padding: 6px 0;
+  outline: none;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.input::placeholder {
+  color: #CBD5E1;
+  font-weight: 400;
+}
+
+.hint {
+  font-size: 0.875rem;
   color: #94A3B8;
-  font-size: 0.85rem;
-  cursor: pointer;
-  padding: 8px;
+  margin: 0;
+  line-height: 1.5;
+  font-style: italic;
 }
 
 .footer {
   flex-shrink: 0;
   padding: 16px 24px calc(16px + env(safe-area-inset-bottom));
   background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid #F1F5F9;
 }
 
 .btn {
@@ -149,4 +121,13 @@
 .btn:not(:disabled):active {
   background: #1D4ED8;
   transform: scale(0.98);
+}
+
+.skipBtn {
+  background: none;
+  border: none;
+  color: #94A3B8;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 8px;
 }

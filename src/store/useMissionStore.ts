@@ -26,7 +26,7 @@ const GOAL_CATEGORY: Record<UserGoal, MissionCategory[]> = {
   'better-sleep':    ['environment'],
   'presence':        ['social', 'intentional'],
   'mental-clarity':  ['focus', 'morning'],
-  'general':         ['morning', 'focus', 'environment', 'intentional', 'social'],
+  'general':         ['morning', 'focus', 'environment', 'intentional', 'social', 'reset'],
 }
 
 // ── ISO week helper ───────────────────────────────────────────────────────────
@@ -105,7 +105,8 @@ function generateMissionsForDate(
   level: number,
   recentIds: string[],
   lastSurpriseWeek: string,
-  triggers: string[] = []
+  triggers: string[] = [],
+  isReturnDay = false
 ): {
   missions: Mission[]
   bonusMission: Mission | null
@@ -113,7 +114,9 @@ function generateMissionsForDate(
   newLastSurpriseWeek: string
 } {
   const rand    = seededRandom(date + goal + String(level))
-  const distrib = difficultyDistribution(level)
+  const distrib = isReturnDay
+    ? ({ easy: 1.0, medium: 0.0, hard: 0.0 } as Record<MissionDifficulty, number>)
+    : difficultyDistribution(level)
 
   // ── Trigger mission slot (slot 0 if user has triggers) ───────────────────────
   const picked: Mission[] = []
@@ -217,12 +220,17 @@ export interface MissionState {
   // Dedup: recent mission IDs (last ~3 days)
   recentMissionIds: string[]
 
+  // Return-day state
+  isReturnDay: boolean
+  returnDayNote: boolean
+
   // Actions
-  generateDailyMissions: (goal: UserGoal, level?: number, triggers?: string[]) => void
+  generateDailyMissions: (goal: UserGoal, level?: number, triggers?: string[], isReturnDay?: boolean) => void
   completeMission: (missionId: string, evidenceText?: string) => void
   revealSurprise: () => void
   unlockBonus: () => void
   resetForNewDay: (goal: UserGoal, level?: number, triggers?: string[]) => void
+  setReturnDay: (v: boolean) => void
 }
 
 // ── Store ─────────────────────────────────────────────────────────────────────
@@ -239,15 +247,17 @@ export const useMissionStore = create<MissionState>()(
       surpriseRevealed: false,
       lastSurpriseWeek: '',
       recentMissionIds: [],
+      isReturnDay: false,
+      returnDayNote: false,
 
-      generateDailyMissions: (goal: UserGoal, level = 1, triggers: string[] = []) => {
+      generateDailyMissions: (goal: UserGoal, level = 1, triggers: string[] = [], isReturnDay = false) => {
         const today = todayISO()
         const state = get()
 
-        if (state.date === today && state.missions.length === 3) return
+        if (!isReturnDay && state.date === today && state.missions.length === 3) return
 
         const { missions, bonusMission, surpriseMissionId, newLastSurpriseWeek } =
-          generateMissionsForDate(today, goal, level, state.recentMissionIds, state.lastSurpriseWeek, triggers)
+          generateMissionsForDate(today, goal, level, state.recentMissionIds, state.lastSurpriseWeek, triggers, isReturnDay)
 
         const todayIds         = [...missions.map((m) => m.id), bonusMission?.id].filter(Boolean) as string[]
         const recentMissionIds = [...todayIds, ...state.recentMissionIds].slice(0, RECENT_WINDOW)
@@ -262,8 +272,12 @@ export const useMissionStore = create<MissionState>()(
           surpriseRevealed: false,
           lastSurpriseWeek: newLastSurpriseWeek,
           recentMissionIds,
+          isReturnDay,
+          returnDayNote: isReturnDay,
         })
       },
+
+      setReturnDay: (v) => set({ isReturnDay: v }),
 
       completeMission: (missionId: string, evidenceText?: string) => {
         set((state) => {

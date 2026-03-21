@@ -1,16 +1,19 @@
 .container {
-  min-height: 100dvh;
+  height: 100%;
   background: #1A1A2E;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 48px 32px 120px;
+  overflow: hidden;
 }
 
 .content {
+  flex: 1;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 20px;
+  padding: 48px 32px 24px;
 }
 
 .line {
@@ -44,11 +47,9 @@
 }
 
 .footer {
-  position: fixed;
-  bottom: calc(40px + env(safe-area-inset-bottom));
-  left: 0;
-  right: 0;
-  padding: 0 24px;
+  flex-shrink: 0;
+  padding: 16px 24px calc(16px + env(safe-area-inset-bottom));
+  background: #1A1A2E;
 }
 
 .footerVisible {

@@ -129,12 +129,15 @@ export default function LevelUpModal({ newLevel, onClose }: Props) {
           LEVEL UP!
         </h1>
 
-        <div className={styles.youAreNow}>You're now...</div>
+        <div className={styles.youAreNow}>Every practice was a vote for...</div>
 
         <div className={styles.levelName}>
           {levelName}
           <span className={styles.cursor}>{cursor}</span>
         </div>
+
+        <div className={styles.identityStatement}>"{newLevel.identityStatement}"</div>
+        <div className={styles.whatAbout}>{newLevel.whatThisLevelIsAbout}</div>
 
         <div className={styles.scienceCard}>
           <p className={styles.scienceText}>{newLevel.levelUpMessage}</p>

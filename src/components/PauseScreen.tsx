@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useUserStore } from '../store/useUserStore'
 import { useUsageStore } from '../store/useUsageStore'
+import { useProStore } from '../store/useProStore'
 import { toastPauseUsed } from '../utils/toasts'
 import styles from './PauseScreen.module.css'
 
@@ -14,7 +15,8 @@ const TRIGGERS = [
   'Just a habit',
   'I actually need something specific',
 ]
-const COUNTDOWN_SECS = 10
+const PRO_COUNTDOWN_SECS  = 10
+const FREE_COUNTDOWN_SECS = 5
 
 // ── XP fly element ────────────────────────────────────────────────────────────
 
@@ -97,6 +99,8 @@ type PausePhase =
 export default function PauseScreen({ onClose }: Props) {
   const { addXP, updateStats, totalPausesTriggered } = useUserStore()
   const { logPause } = useUsageStore()
+  const { isPro } = useProStore()
+  const COUNTDOWN_SECS = isPro ? PRO_COUNTDOWN_SECS : FREE_COUNTDOWN_SECS
 
   const [phase,        setPhase]        = useState<PausePhase>('breathing')
   const [showInput,    setShowInput]    = useState(false)  // input fades in after 3s

@@ -8,9 +8,11 @@ import Step3Tools from './onboarding/Step3Tools'
 import Step4Triggers from './onboarding/Step4Triggers'
 import Step5Apps from './onboarding/Step5Apps'
 import Step6Goal from './onboarding/Step6Goal'
-import Step7Schedule from './onboarding/Step7Schedule'
-import Step8HumanMode from './onboarding/Step8HumanMode'
-import Step9Welcome from './onboarding/Step9Welcome'
+import Step7IntentionPlans from './onboarding/Step7IntentionPlans'
+import Step8IdentityStatement from './onboarding/Step8IdentityStatement'
+import Step9Schedule from './onboarding/Step7Schedule'
+import Step10HumanMode from './onboarding/Step8HumanMode'
+import Step11Welcome from './onboarding/Step9Welcome'
 import styles from './Onboarding.module.css'
 
 export default function Onboarding() {
@@ -21,6 +23,8 @@ export default function Onboarding() {
   const [triggers, setTriggers] = useState<string[]>([])
   const [apps, setApps] = useState<string[]>(['TikTok', 'Instagram', 'X', 'YouTube'])
   const [goal, setGoalLocal] = useState<UserGoal>('general')
+  const [savedIntentions, setSavedIntentionsLocal] = useState<string[]>([])
+  const [identityStatementLocal, setIdentityStatementLocal] = useState('')
   const [reminderTime, setReminderTime] = useState('08:00')
   const [eveningEnabled, setEveningEnabled] = useState(true)
   const [hmStart, setHmStart] = useState('09:00')
@@ -31,8 +35,8 @@ export default function Onboarding() {
   const store = useUserStore()
 
   const hasSocialMedia = triggers.includes('social-media')
-  // Total logical steps: 9 if social-media selected, 8 if not (skip step 5)
-  const totalDots = hasSocialMedia ? 9 : 8
+  // Total logical steps: 11 if social-media selected, 10 if not (skip step 5)
+  const totalDots = hasSocialMedia ? 11 : 10
 
   // Map logical step to dot index (step 5 is skipped → step 6+ shift left by 1)
   function dotIndex(): number {
@@ -57,13 +61,15 @@ export default function Onboarding() {
   }
 
   function skipToEnd() {
-    advance(9)
+    advance(11)
   }
 
   function handleFinish() {
     store.setTriggers(triggers)
     store.updateStats({ pauseApps: apps })
     store.setGoal(goal)
+    store.setSavedIntentions(savedIntentions)
+    store.setPersonalIdentityStatement(identityStatementLocal)
     store.setNotifyTime(reminderTime)
     store.setNotifyPref('notifyEveningReflection', eveningEnabled)
     store.setNotifyPref('notifyStreakReminder', eveningEnabled)
@@ -113,7 +119,22 @@ export default function Onboarding() {
           />
         )}
         {step === 7 && (
-          <Step7Schedule
+          <Step7IntentionPlans
+            onNext={(intentions) => { setSavedIntentionsLocal(intentions); advance() }}
+            onBack={() => goBack()}
+            onSkip={skipToEnd}
+          />
+        )}
+        {step === 8 && (
+          <Step8IdentityStatement
+            goal={goal}
+            onNext={(stmt) => { setIdentityStatementLocal(stmt); advance() }}
+            onBack={() => goBack()}
+            onSkip={skipToEnd}
+          />
+        )}
+        {step === 9 && (
+          <Step9Schedule
             initialTime={reminderTime}
             initialEvening={eveningEnabled}
             onNext={(t, e) => { setReminderTime(t); setEveningEnabled(e); advance() }}
@@ -121,8 +142,8 @@ export default function Onboarding() {
             onSkip={skipToEnd}
           />
         )}
-        {step === 8 && (
-          <Step8HumanMode
+        {step === 10 && (
+          <Step10HumanMode
             initialStart={hmStart}
             initialEnd={hmEnd}
             initialActive={hmActive}
@@ -131,8 +152,8 @@ export default function Onboarding() {
             onSkip={skipToEnd}
           />
         )}
-        {step === 9 && (
-          <Step9Welcome onNext={handleFinish} />
+        {step === 11 && (
+          <Step11Welcome onNext={handleFinish} />
         )}
       </div>
 

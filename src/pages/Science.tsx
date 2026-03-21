@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { SCIENCE_CARDS } from '../data/scienceCards'
 import type { ScienceCard, ScienceCategory } from '../data/scienceCards'
 import { MISSIONS } from '../data/missions'
-import { useUserStore } from '../store/useUserStore'
+import { useProStore } from '../store/useProStore'
+import PaywallSheet from '../components/PaywallSheet'
 import styles from './Science.module.css'
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -140,15 +141,14 @@ function AllSources({ open }: { open: boolean }) {
 
 // ── Page ─────────────────────────────────────────────────────────────────────
 
+const FREE_SCIENCE_LIMIT = 10  // free users see first 10 cards
+
 export default function Science() {
   const [activeCategory, setActiveCategory] = useState<FilterCategory>('All')
   const [showSources, setShowSources] = useState(false)
+  const [showPaywall, setShowPaywall] = useState(false)
   const tabsRef = useRef<HTMLDivElement>(null)
-  const { level } = useUserStore()
-
-  // Full science hub unlocks at level 3
-  const scienceUnlocked = level >= 3
-  const VISIBLE_COUNT   = 3  // cards visible before unlock
+  const { isPro } = useProStore()
 
   const filtered = activeCategory === 'All'
     ? SCIENCE_CARDS
@@ -215,15 +215,24 @@ export default function Science() {
       {/* ── Cards ─────────────────────────────────────────────────────── */}
       <div className={styles.cardList}>
         {filtered.map((card, i) => {
-          const isLocked = !scienceUnlocked && i >= VISIBLE_COUNT
+          // Free users see first FREE_SCIENCE_LIMIT cards in the All view,
+          // or the first FREE_SCIENCE_LIMIT across all filtered views
+          const globalIndex = SCIENCE_CARDS.indexOf(card)
+          const isLocked = !isPro && globalIndex >= FREE_SCIENCE_LIMIT
           return isLocked ? (
-            <div key={card.id} className={styles.lockedCard} aria-label="Locked science card">
+            <div
+              key={card.id}
+              className={styles.lockedCard}
+              aria-label="Locked science card"
+              onClick={() => setShowPaywall(true)}
+              role="button"
+            >
               <div className={styles.lockedBlur}>
                 <h2 className={styles.lockedTitle}>{card.title}</h2>
               </div>
               <div className={styles.lockedOverlay}>
-                <span className={styles.lockIcon}>🔒</span>
-                <span className={styles.lockMsg}>the full science library opens at Level 3</span>
+                <span className={styles.lockIcon}>✨</span>
+                <span className={styles.lockMsg}>Part of the full science library. Upgrade to Pro to read all {SCIENCE_CARDS.length}+ cards.</span>
               </div>
             </div>
           ) : (
@@ -231,6 +240,14 @@ export default function Science() {
           )
         })}
       </div>
+
+      {showPaywall && (
+        <PaywallSheet
+          title="Full Science Library"
+          body={`You've got access to ${FREE_SCIENCE_LIMIT} science cards on the free plan. Pro unlocks all ${SCIENCE_CARDS.length}+ cards covering every trigger, habit, and recovery topic in the app.`}
+          onClose={() => setShowPaywall(false)}
+        />
+      )}
 
       {/* ── All Sources ───────────────────────────────────────────────── */}
       <div className={styles.sourcesSection}>

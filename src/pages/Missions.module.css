@@ -35,6 +35,19 @@
   position: relative;
 }
 
+/* ── Return-day banner ─────────────────────────────────────────────── */
+
+.returnDayBanner {
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 0.875rem;
+  color: #1D4ED8;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
 /* ── Challenge banner ──────────────────────────────────────────────── */
 
 .challengeBanner {
@@ -582,4 +595,143 @@
   padding: 0 8px;
   font-style: italic;
   opacity: 0.85;
+}
+
+/* ── Two-minute version ──────────────────────────────────────────────── */
+
+.twoMinWrap {
+  border-top: 1px solid var(--border);
+  margin-top: 12px;
+  padding-top: 10px;
+}
+
+.twoMinToggle {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+
+.twoMinToggle:hover {
+  opacity: 1;
+}
+
+.twoMinContent {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.twoMinDesc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+  padding: 10px 12px;
+  background: rgba(37,99,235,0.05);
+  border-radius: 8px;
+  border-left: 3px solid var(--primary);
+}
+
+.twoMinBtn {
+  align-self: flex-start;
+  padding: 8px 14px;
+  background: var(--bg-surface);
+  border: 1.5px solid var(--primary);
+  border-radius: 10px;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.twoMinBtn:active {
+  background: rgba(37,99,235,0.08);
+}
+
+/* ── Habit stack modal ───────────────────────────────────────────────── */
+
+.stackOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: flex-end;
+  z-index: 200;
+}
+
+.stackSheet {
+  width: 100%;
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  padding: 12px 24px calc(32px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stackHandle {
+  width: 40px;
+  height: 4px;
+  background: #E2E8F0;
+  border-radius: 2px;
+  margin: 0 auto 8px;
+}
+
+.stackEyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--primary);
+  margin: 0;
+}
+
+.stackText {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.stackHint {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.stackAcceptBtn {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #7C3AED, #2563EB);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.stackAcceptBtn:active {
+  opacity: 0.85;
+}
+
+.stackDismissBtn {
+  width: 100%;
+  padding: 12px;
+  background: none;
+  color: #94A3B8;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
 }

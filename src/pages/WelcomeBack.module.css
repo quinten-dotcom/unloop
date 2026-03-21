@@ -1,0 +1,179 @@
+.page {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  overflow-y: auto;
+  z-index: 9999;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 24px 64px;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1A1A2E;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.body {
+  font-size: 1.0625rem;
+  color: #1A1A2E;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.statsCard {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.statsLabel {
+  font-size: 0.8125rem;
+  color: #64748B;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+.statsRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.statItem {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+.statDivider {
+  color: #CBD5E1;
+  font-size: 0.9375rem;
+}
+
+.streakNote {
+  font-size: 0.9375rem;
+  color: #64748B;
+  line-height: 1.55;
+  margin: 0;
+  padding: 14px 16px;
+  background: #F1F5F9;
+  border-radius: 10px;
+}
+
+.primaryBtn {
+  width: 100%;
+  padding: 16px;
+  background: #2563EB;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.primaryBtn:hover {
+  background: #1D4ED8;
+}
+
+.primaryBtn:active {
+  background: #1E40AF;
+}
+
+.buttonRow {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.secondaryBtn {
+  width: 100%;
+  padding: 16px;
+  background: transparent;
+  color: #2563EB;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 2px solid #2563EB;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.secondaryBtn:hover {
+  background: #EFF6FF;
+}
+
+/* Why I Left section */
+
+.whySection {
+  border-top: 1px solid #E2E8F0;
+  padding-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.whyPrompt {
+  font-size: 0.9375rem;
+  color: #1A1A2E;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.chipGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip {
+  padding: 10px 16px;
+  background: #F1F5F9;
+  color: #1A1A2E;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid #E2E8F0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.chip:hover {
+  background: #E0EAFF;
+  border-color: #93C5FD;
+}
+
+.skipLink {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.9375rem;
+  color: #64748B;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.12s ease;
+}
+
+.skipLink:hover {
+  color: #1A1A2E;
+}

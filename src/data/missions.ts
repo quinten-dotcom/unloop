@@ -1,5 +1,5 @@
 export type MissionDifficulty = 'easy' | 'medium' | 'hard'
-export type MissionCategory = 'morning' | 'focus' | 'environment' | 'intentional' | 'social'
+export type MissionCategory = 'morning' | 'focus' | 'environment' | 'intentional' | 'social' | 'reset'
 export type MissionTrigger =
   | 'gaming'
   | 'binge-watching'
@@ -55,7 +55,7 @@ export const MISSIONS: Mission[] = [
     name: 'First Hour Human',
     emoji: '🌅',
     description:
-      "when you wake up tomorrow, your phone goes face-down or in another room for the whole first hour. just one hour. you can drink coffee, shower, stare at the wall, whatever. just no phone for that first hour.",
+      "give yourself one hour of uninterrupted morning energy. your brain's focus chemicals peak in the first hour after waking. this is your most powerful thinking time and you get it all to yourself. phone goes face-down or in another room for that first hour.",
     xpReward: 30,
     difficulty: 'easy',
     scienceCardId: 'body-4',
@@ -94,7 +94,7 @@ export const MISSIONS: Mission[] = [
     name: 'Phone-Free Breakfast',
     emoji: '🥣',
     description:
-      "eat breakfast without your phone near you. put it in another room or flip it face-down out of reach. just eat your food and let your brain wake up on its own for once.",
+      "eat breakfast and let your brain wake up on its own. put your phone in another room or flip it face-down out of reach. that first meal is one of the best moments of the day when you're actually present for it.",
     xpReward: 30,
     difficulty: 'easy',
     scienceCardId: 'body-12',
@@ -120,7 +120,7 @@ export const MISSIONS: Mission[] = [
     name: 'Screen-Free Morning Routine',
     emoji: '🪥',
     description:
-      "get fully ready for your day before you touch your phone. shower, dressed, breakfast, all of it. your phone can wait.",
+      "get fully ready for your day before you touch your phone. shower, dressed, breakfast, all of it. you get to start the day on your own terms instead of on the internet's terms. the phone will still be there.",
     xpReward: 30,
     difficulty: 'easy',
     scienceCardId: 'first-hour',
@@ -159,7 +159,7 @@ export const MISSIONS: Mission[] = [
     name: 'No News Before Noon',
     emoji: '📰',
     description:
-      "no news apps, no news sites, no news at all until after 12pm. the world will still be there at lunch. your morning brain deserves your own priorities first.",
+      "keep your morning for your own priorities. no news apps, no news sites, nothing until after 12pm. your morning brain is your sharpest thinking time and you get to decide what goes in it first.",
     xpReward: 30,
     difficulty: 'medium',
     scienceCardId: 'body-17',
@@ -172,7 +172,7 @@ export const MISSIONS: Mission[] = [
     name: 'Alarm and Done',
     emoji: '📵',
     description:
-      "use your phone for the alarm and then put it in another room for 30 minutes. that's it. 30 minutes of morning that belongs to you.",
+      "use your phone for the alarm and then put it in another room for 30 minutes. that's it. 30 minutes of morning that belongs entirely to you.",
     xpReward: 20,
     difficulty: 'easy',
     scienceCardId: 'habits-19',
@@ -227,7 +227,7 @@ export const MISSIONS: Mission[] = [
     name: 'Notification Detox',
     emoji: '🔕',
     description:
-      "turn off every notification that isn't a phone call or a calendar reminder, just for today. no buzzes, no banners, no little red dots. pay attention to how many times you still reach for your phone out of pure habit even without anything going off. that's the interesting part.",
+      "reclaim your own attention for one full day. turn off every notification except calls and calendar reminders, and watch how many times you still reach for your phone out of pure habit, even with nothing going off. that's the interesting part.",
     xpReward: 40,
     difficulty: 'medium',
     scienceCardId: 'focus-10',
@@ -292,7 +292,7 @@ export const MISSIONS: Mission[] = [
     name: 'Airplane Mode Block',
     emoji: '✈️',
     description:
-      "put your phone on airplane mode for 2 hours while you do something that matters to you. work, a project, whatever. 2 hours of actual uninterrupted life.",
+      "put your phone on airplane mode for 2 hours while you do something that matters to you. work, a project, whatever. 2 hours of actual uninterrupted time where your thinking stays yours.",
     xpReward: 45,
     difficulty: 'medium',
     scienceCardId: 'focus-9',
@@ -331,7 +331,7 @@ export const MISSIONS: Mission[] = [
     name: 'No Phone Meeting',
     emoji: '🤝',
     description:
-      "next time you have a meeting or conversation today, leave your phone somewhere else entirely. just be there fully.",
+      "next time you have a meeting or conversation today, leave your phone somewhere else entirely. you get to actually be there for the whole thing, which sounds small and makes a real difference.",
     xpReward: 30,
     difficulty: 'easy',
     scienceCardId: 'relationships-8',
@@ -373,7 +373,7 @@ export const MISSIONS: Mission[] = [
     name: 'No Bedroom Phone',
     emoji: '🌙',
     description:
-      "tonight, charge your phone somewhere outside your bedroom. hallway, kitchen, wherever. not next to your bed. if you use it as an alarm, just grab a cheap alarm clock. your sleep will probably be noticeably better.",
+      "tonight, charge your phone somewhere outside your bedroom. hallway, kitchen, wherever. not next to your bed. your sleep will probably be noticeably better, and your mornings will feel different when the first thing you reach for isn't a screen.",
     xpReward: 30,
     difficulty: 'easy',
     scienceCardId: 'relationships-6',
@@ -412,7 +412,7 @@ export const MISSIONS: Mission[] = [
     name: 'No Phone Bathroom',
     emoji: '🚿',
     description:
-      "leave your phone outside the bathroom every single time today. just today. most people quietly reclaim like 20 to 30 minutes a day from this one change without realizing that's where it was going.",
+      "leave your phone outside the bathroom every single time today. most people quietly reclaim 20 to 30 minutes a day from this one change. that's real time that was just disappearing.",
     xpReward: 20,
     difficulty: 'easy',
     scienceCardId: 'body-14',
@@ -451,7 +451,7 @@ export const MISSIONS: Mission[] = [
     name: 'Screen-Free Commute',
     emoji: '🚌',
     description:
-      "no phone during your commute. if you drive, it's in the back seat. if you take transit, keep it in your bag. if you work from home, take a 15 minute walk without it.",
+      "your commute belongs to you today. if you drive, phone goes in the back seat. if you take transit, it stays in your bag. if you work from home, take a 15 minute walk without it. you get to just be somewhere without being connected.",
     xpReward: 35,
     difficulty: 'medium',
     scienceCardId: 'body-13',
@@ -477,7 +477,7 @@ export const MISSIONS: Mission[] = [
     name: 'Tech Sunset',
     emoji: '🌇',
     description:
-      "no screens after 9pm tonight. read a book, talk to someone, stretch, stare at the ceiling, anything. just no screens after 9.",
+      "give yourself a real evening tonight. screens off after 9pm. read a book, talk to someone, stretch, stare at the ceiling. your sleep quality goes up measurably when you get even an hour of screen-free wind-down before bed.",
     xpReward: 45,
     difficulty: 'medium',
     scienceCardId: 'body-11',
@@ -709,6 +709,113 @@ export const MISSIONS: Mission[] = [
     difficulty: 'medium',
     scienceCardId: 'relationships-13',
     category: 'social',
+    requiresEvidence: false,
+    evidencePrompt: null,
+  },
+
+  // ── Reset (8) ────────────────────────────────────────────────────────────────
+
+  {
+    id: 'cold-finish',
+    name: 'Cold Finish',
+    emoji: '🚿',
+    description:
+      "end your shower with 30 seconds of cold water. your body releases norepinephrine and endorphins in response to cold. it's uncomfortable for 30 seconds and you'll feel genuinely good for hours. this is one of those things that sounds annoying and then becomes something you look forward to.",
+    xpReward: 30,
+    difficulty: 'easy',
+    scienceCardId: 'cold-exposure',
+    category: 'reset',
+    requiresEvidence: false,
+    evidencePrompt: null,
+  },
+  {
+    id: 'hard-thing-first',
+    name: 'Hard Thing First',
+    emoji: '🏋️',
+    description:
+      "start your day by doing the task you least want to do. the thing you've been avoiding. before your phone, before email, before the easy warm-up stuff. your dopamine system is designed to reward effort and the payoff from starting hard is real. the rest of the day feels easier.",
+    xpReward: 35,
+    difficulty: 'medium',
+    scienceCardId: 'effort-paradox',
+    category: 'reset',
+    requiresEvidence: true,
+    evidencePrompt: "what was the hard thing and how did you feel after doing it first?",
+  },
+  {
+    id: 'voluntary-boredom',
+    name: 'Voluntary Boredom',
+    emoji: '🪑',
+    description:
+      "sit somewhere for 10 minutes with absolutely nothing to do. no phone, no book, no music, no podcast. just sit there. this feels genuinely terrible at first, and that's the point. you're teaching your brain that it doesn't need constant stimulation. boredom is where creativity actually lives.",
+    xpReward: 25,
+    difficulty: 'easy',
+    scienceCardId: 'boredom-medicine',
+    category: 'reset',
+    requiresEvidence: false,
+    evidencePrompt: null,
+  },
+  {
+    id: 'sweat-session',
+    name: 'Sweat Session',
+    emoji: '🏃',
+    description:
+      "do 20 minutes of exercise that makes you actually sweat. running, biking, jumping jacks in your living room, whatever. exercise intentionally works the effort side of your brain's balance beam, and your brain responds by releasing natural dopamine, serotonin, and endorphins that can last for hours. it's literally medicine.",
+    xpReward: 40,
+    difficulty: 'medium',
+    scienceCardId: 'exercise-dopamine',
+    category: 'reset',
+    requiresEvidence: false,
+    evidencePrompt: null,
+  },
+  {
+    id: 'early-alarm-no-snooze',
+    name: 'Early Alarm, No Snooze',
+    emoji: '⏰',
+    description:
+      "set your alarm 15 minutes earlier than usual and get up the moment it goes off. no snooze, no negotiating with yourself. getting out of a warm bed is a form of voluntary discomfort that starts your day with a win. the small act of doing the hard thing first thing sets a tone that carries forward.",
+    xpReward: 30,
+    difficulty: 'easy',
+    scienceCardId: 'effort-paradox',
+    category: 'reset',
+    requiresEvidence: false,
+    evidencePrompt: null,
+  },
+  {
+    id: 'boring-meal',
+    name: 'The Boring Meal',
+    emoji: '🥗',
+    description:
+      "eat one meal today that's simple, whole, and not engineered to be exciting. an apple and some nuts. rice and vegetables. something basic. your taste buds have been conditioned by flavor-engineered food the same way your attention has been conditioned by engineered content. simple food starts tasting incredible again when you give your system a break.",
+    xpReward: 25,
+    difficulty: 'easy',
+    scienceCardId: 'dopamine-baseline',
+    category: 'reset',
+    requiresEvidence: false,
+    evidencePrompt: null,
+  },
+  {
+    id: 'hand-wash-dishes',
+    name: 'Hand Wash the Dishes',
+    emoji: '🫧',
+    description:
+      "hand wash your dishes today instead of the dishwasher, or instead of leaving them. it takes about 5 minutes and requires just enough attention to pull you out of your head. manual tasks that require low-level attention are exactly the kind of understimulating activity that helps your dopamine system reset. it sounds boring. that's kind of the point.",
+    xpReward: 20,
+    difficulty: 'easy',
+    scienceCardId: 'boredom-medicine',
+    category: 'reset',
+    requiresEvidence: false,
+    evidencePrompt: null,
+  },
+  {
+    id: 'stretch-in-silence',
+    name: 'Stretch in Silence',
+    emoji: '🧘',
+    description:
+      "spend 10 minutes stretching without any audio at all. no music, no podcast, no tv in the background. just your body, the stretch, and the quiet. your nervous system needs practice being understimulated. this is some of the best recovery your brain can get and it works better than you'd expect.",
+    xpReward: 25,
+    difficulty: 'easy',
+    scienceCardId: 'boredom-medicine',
+    category: 'reset',
     requiresEvidence: false,
     evidencePrompt: null,
   },
