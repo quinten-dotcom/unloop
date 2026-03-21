@@ -61,8 +61,8 @@ function SurpriseMysteryCard({ onReveal }: { onReveal: () => void }) {
       aria-label="Tap to reveal today's surprise practice"
     >
       <div className={styles.mysteryGiftBox}>🎁</div>
-      <div className={styles.mysteryLabel}>today's surprise practice</div>
-      <div className={styles.mysteryHint}>tap to reveal</div>
+      <div className={styles.mysteryLabel}>Today's surprise practice</div>
+      <div className={styles.mysteryHint}>Tap to reveal</div>
     </div>
   )
 }
@@ -95,7 +95,7 @@ function MissionCard({
           <span className={styles.cardName}>{mission.name}</span>
         </div>
         <div className={styles.cardBadges}>
-          {isSurprise && <span className={styles.surpriseBadge}>🎁 surprise</span>}
+          {isSurprise && <span className={styles.surpriseBadge}>🎁 Surprise</span>}
           <span className={styles.xpBadge}>+{mission.xpReward} XP</span>
           <span className={`${styles.diffBadge} ${styles[`diff_${mission.difficulty}`]}`}>
             {DIFF_LABELS[mission.difficulty]}
@@ -111,13 +111,13 @@ function MissionCard({
           disabled={done}
           onClick={(e) => !done && onComplete(mission, e)}
         >
-          {done ? '✓ done' : 'mark complete'}
+          {done ? '✓ Done' : 'Mark complete'}
         </button>
         <button
           className={styles.scienceLink}
           onClick={() => onViewScience(mission.scienceCardId)}
         >
-          why this works
+          Why this works
         </button>
       </div>
     </div>
@@ -142,8 +142,8 @@ function BonusCard({
   return (
     <div className={`${styles.bonusWrap} ${unlocked ? styles.bonusActive : ''}`}>
       <div className={styles.bonusHeader}>
-        <span className={styles.bonusLabel}>⚡ bonus practice</span>
-        {!unlocked && <span className={styles.bonusLockLabel}>finish all 3 to unlock this</span>}
+        <span className={styles.bonusLabel}>⚡ Bonus practice</span>
+        {!unlocked && <span className={styles.bonusLockLabel}>Finish all 3 to unlock this</span>}
       </div>
 
       <div className={`${styles.bonusContent} ${!unlocked ? styles.bonusBlurred : ''}`}>
@@ -321,8 +321,8 @@ export default function Missions() {
       {/* ── Header ────────────────────────────────────────────────────── */}
       <div className={styles.header}>
         <div className={styles.headerTop}>
-          <h1 className={styles.title}>today's practices</h1>
-          <span className={styles.resetLabel}>resets in {timeToReset}</span>
+          <h1 className={styles.title}>Today's practices</h1>
+          <span className={styles.resetLabel}>Resets in {timeToReset}</span>
         </div>
         <p className={styles.dateLabel}>{formatDate()}</p>
       </div>
@@ -332,7 +332,7 @@ export default function Missions() {
         <div className={styles.progressHeader}>
           <span className={styles.progressLabel}>{doneCount} of 3 done</span>
           {doneCount === 3 && (
-            <span className={styles.progressComplete}>all done!</span>
+            <span className={styles.progressComplete}>All done!</span>
           )}
         </div>
         <div className={styles.progressTrack}>

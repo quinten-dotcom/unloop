@@ -62,10 +62,10 @@ function fmt24to12(time: string): string {
 const DEFAULT_APPS = ['TikTok', 'Instagram', 'X (Twitter)', 'YouTube Shorts', 'Snapchat', 'Reddit']
 
 const GOAL_OPTIONS: Array<{ id: UserGoal; icon: string; label: string; desc: string }> = [
-  { id: 'better-focus',     icon: '🎯', label: 'Focus & Deep Work',    desc: "stop losing hours you can't account for" },
-  { id: 'better-sleep',     icon: '😴', label: 'Better Sleep',          desc: 'your evenings and mornings are yours again' },
-  { id: 'healthier-habits', icon: '💪', label: 'Actually Be Present',   desc: 'be there for the people in front of you' },
-  { id: 'reduce-scrolling', icon: '🧠', label: 'Mental Quiet',          desc: 'less noise in your head, more actual thoughts' },
+  { id: 'better-focus',   icon: '🎯', label: 'Focus & productivity', desc: "Stop losing hours you can't account for." },
+  { id: 'better-sleep',   icon: '😴', label: 'Better sleep',         desc: 'Your evenings and mornings are yours again.' },
+  { id: 'presence',       icon: '💪', label: 'Real-life presence',   desc: 'Be there for the people in front of you.' },
+  { id: 'mental-clarity', icon: '🧠', label: 'Mental clarity',       desc: 'Less noise in your head, more actual thoughts.' },
 ]
 
 // ── Time Block Modal ──────────────────────────────────────────────────────────
@@ -88,9 +88,9 @@ function TimeBlockModal({
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalSheet} onClick={(e) => e.stopPropagation()}>
         <div className={styles.sheetHandle} />
-        <h3 className={styles.sheetTitle}>add a phone-free block</h3>
+        <h3 className={styles.sheetTitle}>Add a phone-free block</h3>
         <p className={styles.sheetDesc}>
-          during this time, we'll remind you to stay off your phone.
+          During this time, we'll remind you to stay off your phone.
         </p>
 
         <div className={styles.timeRow}>
@@ -116,8 +116,8 @@ function TimeBlockModal({
         </div>
 
         <div className={styles.sheetActions}>
-          <button className={styles.cancelBtn} onClick={onClose}>cancel</button>
-          <button className={styles.saveBtn} onClick={handleSave}>save block</button>
+          <button className={styles.cancelBtn} onClick={onClose}>Cancel</button>
+          <button className={styles.saveBtn} onClick={handleSave}>Save block</button>
         </div>
       </div>
     </div>
@@ -141,9 +141,9 @@ function ResetConfirm({ onCancel }: { onCancel: () => void }) {
   return (
     <div className={styles.resetConfirm}>
       <p className={styles.resetWarning}>
-        ⚠️ this will erase all your XP, streaks, and history. it cannot be undone.
+        ⚠️ This will erase all your XP, streaks, and history. It cannot be undone.
       </p>
-      <p className={styles.resetPrompt}>type <strong>RESET</strong> to confirm:</p>
+      <p className={styles.resetPrompt}>Type <strong>RESET</strong> to confirm:</p>
       <input
         type="text"
         className={styles.resetInput}
@@ -153,13 +153,13 @@ function ResetConfirm({ onCancel }: { onCancel: () => void }) {
         autoCapitalize="characters"
       />
       <div className={styles.resetActions}>
-        <button className={styles.cancelBtn} onClick={onCancel}>cancel</button>
+        <button className={styles.cancelBtn} onClick={onCancel}>Cancel</button>
         <button
           className={`${styles.dangerBtn} ${!ready ? styles.dangerDisabled : ''}`}
           disabled={!ready}
           onClick={handleReset}
         >
-          erase everything
+          Erase everything
         </button>
       </div>
     </div>
@@ -177,7 +177,7 @@ function HumanHoursSection() {
       <SectionHeader label="Human Hours" icon="🕐" />
 
       {humanHours.length === 0 ? (
-        <p className={styles.emptyNote}>no blocks set yet. add one to schedule some phone-free time.</p>
+        <p className={styles.emptyNote}>No blocks set yet. Add one to schedule some phone-free time.</p>
       ) : (
         <div className={styles.blockList}>
           {humanHours.map((h) => (
@@ -246,7 +246,7 @@ function PauseListSection() {
     <section className={styles.section}>
       <SectionHeader label="Pause List" icon="⏸️" />
       <p className={styles.sectionNote}>
-        we'll add a 10-second pause before you open any of these.
+        We'll add a 10-second pause before you open any of these.
       </p>
 
       <div className={styles.checkList}>
@@ -394,10 +394,10 @@ function AccountSection() {
       {/* Display name */}
       <div className={styles.row}>
         <div className={styles.rowLeft}>
-          <span className={styles.rowLabel}>your name</span>
+          <span className={styles.rowLabel}>Your name</span>
           {!editingName && (
             <span className={styles.rowDesc}>
-              {name || <em className={styles.unset}>not set yet</em>}
+              {name || <em className={styles.unset}>Not set yet</em>}
             </span>
           )}
         </div>
@@ -428,7 +428,7 @@ function AccountSection() {
       {/* Goal */}
       <div className={styles.row} style={{ flexDirection: 'column', gap: 12, alignItems: 'stretch' }}>
         <div className={styles.rowHeaderLine}>
-          <span className={styles.rowLabel}>your goal</span>
+          <span className={styles.rowLabel}>Your goal</span>
           <button className={styles.editBtn} onClick={() => setShowGoalPicker((s) => !s)}>
             {showGoalPicker ? 'Done' : 'Change'}
           </button>

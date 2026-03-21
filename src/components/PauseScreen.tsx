@@ -8,11 +8,11 @@ import styles from './PauseScreen.module.css'
 
 const APPS = ['Instagram', 'TikTok', 'X', 'YouTube', 'Reddit', 'Snapchat', 'Other']
 const TRIGGERS = [
-  "i'm bored",
-  'feeling anxious',
-  'avoiding something',
-  'just a habit',
-  'i actually need something specific',
+  "I'm bored",
+  'Feeling anxious',
+  'Avoiding something',
+  'Just a habit',
+  'I actually need something specific',
 ]
 const COUNTDOWN_SECS = 10
 
@@ -196,7 +196,7 @@ export default function PauseScreen({ onClose }: Props) {
 
   const showSummary = useCallback((outcome: 'skip' | 'proceed') => {
     const newTotal = totalPausesTriggered + 1
-    const msg = `that's ${newTotal} pause${newTotal !== 1 ? 's' : ''} today. every single one matters.`
+    const msg = `That's ${newTotal} pause${newTotal !== 1 ? 's' : ''} today. Every single one matters.`
     setSummaryMsg(msg)
     setPhase('done')
     setTimeout(() => setSummaryVis(true), 200)
@@ -231,12 +231,12 @@ export default function PauseScreen({ onClose }: Props) {
         {/* ── Breathing phase ────────────────────────────────────────── */}
         {phase === 'breathing' && (
           <div className={styles.breathingPhase}>
-            <p className={styles.breathLabel}>taking a pause...</p>
+            <p className={styles.breathLabel}>Taking a pause</p>
             <BreathingCircle />
-            <p className={styles.breathHint}>breathe with the circle for a sec if you want</p>
+            <p className={styles.breathHint}>Breathe with the circle for a second if you want.</p>
 
             <div className={`${styles.appSection} ${showInput ? styles.appSectionVisible : ''}`}>
-              <p className={styles.questionText}>so what were you about to open?</p>
+              <p className={styles.questionText}>What were you about to open?</p>
               <div className={styles.chipRow}>
                 {APPS.map((app) => (
                   <button
@@ -255,7 +255,7 @@ export default function PauseScreen({ onClose }: Props) {
                 <input
                   type="text"
                   className={styles.customInput}
-                  placeholder="which app?"
+                  placeholder="Which app?"
                   value={customApp}
                   onChange={(e) => setCustomApp(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter' && customApp.trim()) setPhase('app') }}
@@ -264,7 +264,7 @@ export default function PauseScreen({ onClose }: Props) {
               )}
               {selectedApp === 'Other' && customApp.trim() && (
                 <button className={styles.continueBtn} onClick={() => setPhase('app')}>
-                  continue
+                  Continue
                 </button>
               )}
             </div>
@@ -275,7 +275,7 @@ export default function PauseScreen({ onClose }: Props) {
         {phase === 'app' && (
           <div className={styles.triggerPhase}>
             <BreathingCircle small />
-            <p className={styles.questionText}>and honestly... why?</p>
+            <p className={styles.questionText}>And honestly, why?</p>
             <div className={styles.chipColumn}>
               {TRIGGERS.map((trig) => (
                 <button
@@ -291,7 +291,7 @@ export default function PauseScreen({ onClose }: Props) {
               <input
                 type="text"
                 className={styles.customInput}
-                placeholder="what do you need?"
+                placeholder="What do you need?"
                 value={customTrig}
                 onChange={(e) => setCustomTrig(e.target.value)}
                 autoFocus
@@ -305,16 +305,16 @@ export default function PauseScreen({ onClose }: Props) {
           <div className={styles.countdownPhase}>
             <CountdownRing seconds={countdown} total={COUNTDOWN_SECS} />
             <p className={styles.countdownHint}>
-              do you still want to open it? it's cool either way
+              Do you still want to open it? Either way is fine.
             </p>
 
             <div className={`${styles.choiceButtons} ${choiceVisible ? styles.choiceVisible : ''}`}>
               <button className={styles.skipBtn} onClick={handleSkip}>
-                nah i'm good
+                Nah, I'm good
                 <span className={styles.xpBadge}>+10 XP</span>
               </button>
               <button className={styles.proceedBtn} onClick={handleProceed}>
-                i'll open it, but on purpose
+                I'll open it, but on purpose
                 <span className={styles.xpBadgeSmall}>+5 XP</span>
               </button>
             </div>

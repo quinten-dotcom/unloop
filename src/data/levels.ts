@@ -5,6 +5,7 @@ export interface Level {
   description: string
   levelUpMessage: string
   scienceNote: string
+  pathDescription: string   // shown on Home screen "Your Path" section
 }
 
 export const LEVELS: Level[] = [
@@ -12,71 +13,85 @@ export const LEVELS: Level[] = [
     level: 1,
     name: 'Autopilot',
     minXP: 0,
-    description: 'you\'re picking it up without even deciding to',
+    description: 'You\'re picking it up without even deciding to.',
     levelUpMessage:
-      'okay so just being here and doing the first practice is more than most people ever do. you noticed the loop. that\'s the first step and it\'s a real one.',
+      'Just being here and doing the first practice is more than most people ever do. You noticed the loop. That\'s the first step and it\'s a real one.',
     scienceNote:
-      'right now most of your phone use is running on autopilot through a part of your brain called the basal ganglia, basically the habit machine, no conscious thought required',
+      'Right now most of your phone use is running on autopilot through a part of your brain called the basal ganglia. It\'s basically the habit machine — no conscious thought required.',
+    pathDescription:
+      'You\'re starting to notice when it happens. That awareness is the first real step.',
   },
   {
     level: 2,
     name: 'Noticing',
     minXP: 100,
-    description: 'you\'re starting to catch yourself mid-scroll',
+    description: 'You\'re starting to catch yourself mid-scroll.',
     levelUpMessage:
-      'so here\'s what just happened: there\'s this part of your brain called the anterior cingulate cortex, it\'s like your internal alarm that goes off when you do something on autopilot. you\'re waking it up right now. every time you catch an urge without immediately acting on it, that alarm gets a little louder. it\'s working.',
+      'Here\'s what just happened. There\'s a part of your brain called the anterior cingulate cortex, which acts like an internal alarm that goes off when you do something on autopilot. You\'re waking it up right now. Every time you catch an urge without immediately acting on it, that alarm gets a little louder. It\'s working.',
     scienceNote:
-      'catching an urge without acting on it activates your anterior cingulate cortex, basically your brain\'s conflict detector, and each time you do it that signal gets a little stronger',
+      'Catching an urge without acting on it activates your anterior cingulate cortex, basically your brain\'s conflict detector. Each time you do it, that signal gets a little stronger.',
+    pathDescription:
+      'You\'re starting to catch yourself reaching for your phone without thinking. That awareness is the first real step.',
   },
   {
     level: 3,
     name: 'Pausing',
     minXP: 300,
-    description: 'there\'s a gap between the urge and what you do about it',
+    description: 'There\'s a gap between the urge and what you do about it.',
     levelUpMessage:
-      'okay this is genuinely significant. even a 3-second pause before reaching for your phone can cut automatic behavior by around 40%. that gap you\'re creating between wanting to scroll and actually scrolling? your brain is using it to make a real choice. that\'s not a small thing at all.',
+      'This is genuinely significant. Even a 3-second pause before reaching for your phone can cut automatic behavior by around 40%. That gap you\'re creating between wanting to scroll and actually scrolling? Your brain is using it to make a real choice. That\'s not a small thing at all.',
     scienceNote:
-      'when you pause before reaching, your prefrontal cortex gets involved in the decision before your hands move, that\'s called inhibitory control and you\'re literally training it right now',
+      'When you pause before reaching, your prefrontal cortex gets involved in the decision before your hands move. That\'s called inhibitory control and you\'re literally training it right now.',
+    pathDescription:
+      'There\'s a gap between the urge and what you do with it. Your brain is starting to check in before acting.',
   },
   {
     level: 4,
     name: 'Choosing',
     minXP: 600,
-    description: 'you\'re using your phone on purpose most of the time',
+    description: 'You\'re using your phone on purpose most of the time.',
     levelUpMessage:
-      'your brain is shifting from running on habit to running on intention and that shift is actually measurable in brain scans. the part of your brain that processes rewards is learning to care about what you chose to do, not just what felt good automatically. that\'s a fundamentally different relationship with your phone than you had at the start.',
+      'Your brain is shifting from running on habit to running on intention, and that shift is actually measurable in brain scans. The part of your brain that processes rewards is learning to care about what you chose to do, not just what felt good automatically. That\'s a fundamentally different relationship with your phone than you had at the start.',
     scienceNote:
-      'the shift from habit-based to goal-directed behavior shows up in fMRI scans as a change in which part of your striatum is most active, and right now yours is moving toward the intentional side',
+      'The shift from habit-based to goal-directed behavior shows up in fMRI scans as a change in which part of your striatum is most active. Right now yours is moving toward the intentional side.',
+    pathDescription:
+      'Most of your phone use is intentional now. The automatic pull is still there, but you\'re the one deciding.',
   },
   {
     level: 5,
     name: 'Directing',
     minXP: 1000,
-    description: 'you\'re in charge and it mostly feels natural now',
+    description: 'You\'re in charge and it mostly feels natural now.',
     levelUpMessage:
-      'so you\'ve basically reset your dopamine baseline at this point. things that have nothing to do with your phone are starting to feel interesting and satisfying again. that\'s called receptor upregulation and it means your brain\'s reward system is genuinely healing. like actually physiologically healing, not just metaphorically.',
+      'You\'ve basically reset your dopamine baseline at this point. Things that have nothing to do with your phone are starting to feel interesting and satisfying again. That\'s called receptor upregulation and it means your brain\'s reward system is genuinely healing. Actually physiologically healing, not just metaphorically.',
     scienceNote:
-      'consistent intentional use brings your tonic dopamine down just enough to restore sensitivity to natural rewards, your brain is literally rebuilding the circuitry around what feels good',
+      'Consistent intentional use brings your tonic dopamine down just enough to restore sensitivity to natural rewards. Your brain is literally rebuilding the circuitry around what feels good.',
+    pathDescription:
+      'You\'re in charge and it mostly feels natural. Your dopamine baseline is resetting to a healthier level.',
   },
   {
     level: 6,
     name: 'Free',
     minXP: 1500,
-    description: 'the compulsive pull is mostly gone',
+    description: 'The compulsive pull is mostly gone.',
     levelUpMessage:
-      'what most people don\'t realize is that freedom from your phone isn\'t about willpower. it\'s about your brain restoring a part called the ventromedial prefrontal cortex, the region that handles real value-based decisions. you have access to that again now. you\'re not white-knuckling anything anymore.',
+      'What most people don\'t realize is that freedom from your phone isn\'t about willpower. It\'s about your brain restoring a part called the ventromedial prefrontal cortex, the region that handles real value-based decisions. You have access to that again now. You\'re not white-knuckling anything anymore.',
     scienceNote:
-      'freedom from compulsive phone behavior correlates with restored activity in the ventromedial prefrontal cortex, the region responsible for weighing what actually matters to you',
+      'Freedom from compulsive phone behavior correlates with restored activity in the ventromedial prefrontal cortex, the region responsible for weighing what actually matters to you.',
+    pathDescription:
+      'The compulsive pull is mostly gone. You open your phone when you mean to and put it down when you\'re done.',
   },
   {
     level: 7,
     name: 'Unlooped',
     minXP: 2100,
-    description: 'the phone is just a tool you use when you actually mean to',
+    description: 'The phone is just a tool you use when you actually mean to.',
     levelUpMessage:
-      'so you did something very few people actually do: you changed your brain. not metaphorically. the automatic pull of apps is structurally weaker than it was when you started. the intentional circuits are stronger. you didn\'t just build good habits, you rebuilt the underlying hardware.',
+      'You did something very few people actually do: you changed your brain. Not metaphorically. The automatic pull of apps is structurally weaker than it was when you started. The intentional circuits are stronger. You didn\'t just build good habits, you rebuilt the underlying hardware.',
     scienceNote:
-      'at this stage neuroplasticity has reinforced your intentional circuits at a synaptic level, the automatic pull of apps is measurably weaker than it was when you started',
+      'At this stage, neuroplasticity has reinforced your intentional circuits at a synaptic level. The automatic pull of apps is measurably weaker than it was when you started.',
+    pathDescription:
+      'The phone is just a tool now. You pick it up when you mean to, and put it down when you\'re done.',
   },
 ]
 

@@ -14,31 +14,31 @@ interface Step {
 const STEPS: Step[] = [
   {
     target: 'loop',
-    text: "this is you right now. you're on Autopilot, which is level 1. as you complete practices and earn XP, this visual actually changes and opens up. by level 7 you'll be fully Unlooped... that's the goal",
+    text: "This is you right now. You're on Autopilot, which is Level 1. As you complete practices and earn XP, this visual actually changes and opens up. By Level 7 you'll be fully Unlooped. That's the goal.",
   },
   {
     target: 'xp-bar',
-    text: "this bar tracks your XP. you earn XP by completing daily practices, using the pause feature, and finishing challenges. when the bar fills up you level up and unlock new stuff",
+    text: "This bar tracks your XP. You earn XP by completing daily practices, using the pause feature, and finishing challenges. When the bar fills up, you level up and unlock new stuff.",
   },
   {
     target: 'streak',
-    text: "your streak counts how many days in a row you've done at least 2 practices. and don't stress if you miss a day, your streak pauses instead of breaking. miss two days in a row though and it resets",
+    text: "Your streak counts how many days in a row you've done at least 2 practices. Don't stress if you miss a day. Your streak pauses instead of breaking. Miss two days in a row and it resets.",
   },
   {
     target: 'mission-card',
-    text: "every day you get 3 new practices. they're all based on real science and most of them take like 5 minutes or less. you can see today's first one right here, tap it when you're ready",
+    text: "Every day you get 3 new practices. They're all based on real science and most of them take 5 minutes or less. You can see today's first one right here. Tap it when you're ready.",
   },
   {
     target: 'score-pill',
-    text: "this is your daily score from 0 to 100. it's basically measuring how intentional you were with your phone today. it factors in your practices, your pauses, and how much time you spent in human mode",
+    text: "This is your Human Score, from 0 to 100. It measures how intentional you were with your phone today. It factors in your practices, your pauses, and how much time you spent in Human Mode.",
   },
   {
     target: 'missions-tab',
-    text: "this is where your daily practices live. honestly this is probably where you'll spend the most time. check in here every morning to see what you've got",
+    text: "This is where your daily practices live. It's probably where you'll spend the most time. Check in here every morning to see what you've got.",
   },
   {
     target: 'human-mode',
-    text: "when you turn this on, it activates the pause feature. so before you open any of your scroll apps you'll get a 10 second pause to ask yourself if you actually want to be opening it. sounds simple but it's honestly the most powerful thing in the whole app",
+    text: "When you turn this on, it activates the pause feature. Before you open any of your scroll apps, you'll get a 10-second pause to ask yourself if you actually want to open it. It's honestly the most powerful thing in the whole app.",
   },
 ]
 
@@ -231,7 +231,7 @@ export default function TutorialOverlay() {
       <div className={styles.root}>
         <canvas ref={canvasRef} className={styles.confettiCanvas} aria-hidden="true" />
         <p className={`${styles.celebrationMsg} ${msgVisible ? styles.celebrationMsgVisible : ''}`}>
-          you're all set. go check out your first practice whenever you're ready
+          You're all set. Go check out your first practice whenever you're ready.
         </p>
       </div>
     )
@@ -251,7 +251,7 @@ export default function TutorialOverlay() {
 
       {/* Always-visible skip button in top corner */}
       <button className={styles.floatingSkip} onClick={skip}>
-        skip tour ×
+        Skip tour ×
       </button>
 
       {/* Spotlight — creates the hole via box-shadow */}
@@ -290,14 +290,14 @@ export default function TutorialOverlay() {
               onClick={skip}
               aria-label="Skip tutorial"
             >
-              skip tutorial
+              Skip tutorial
             </button>
             <button
               className={styles.nextBtn}
               onClick={advance}
               aria-label={step === STEPS.length - 1 ? 'Finish tutorial' : 'Next step'}
             >
-              {step === STEPS.length - 1 ? 'got it' : 'Next →'}
+              {step === STEPS.length - 1 ? 'Got it' : 'Next →'}
             </button>
           </div>
         </div>

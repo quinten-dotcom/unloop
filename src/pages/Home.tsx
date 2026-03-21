@@ -38,7 +38,7 @@ function HumanModeToggle({
       <div className={styles.hmInfo}>
         <span className={styles.hmTitle}>Human Mode</span>
         <span className={styles.hmDesc}>
-          {active ? 'on, you\'re here right now' : 'start a phone-free window'}
+          {active ? 'On — you\'re here right now' : 'Start a phone-free window'}
         </span>
       </div>
       <button
@@ -185,11 +185,11 @@ export default function Home() {
             </button>
           </>
         ) : missions.length === 0 ? (
-          <div className={styles.missionEmpty}>grabbing today's practices...</div>
+          <div className={styles.missionEmpty}>Grabbing today's practices...</div>
         ) : (
           <div className={styles.missionAllDone}>
             <span>🎉</span>
-            <span>all done for today, nice work</span>
+            <span>All done for today. Nice work.</span>
           </div>
         )}
       </div>

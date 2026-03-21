@@ -24,10 +24,10 @@ function scoreColor(score: number): string {
 }
 
 function scoreLabel(score: number): string {
-  if (score >= 71) return 'your intentional practice is actually working. keep it up.'
-  if (score >= 41) return "you're building something real. show up again tomorrow."
-  if (score >= 1)  return 'every practice is moving something. seriously.'
-  return "complete today's practices to get your first score"
+  if (score >= 71) return 'Your intentional practice is actually working. Keep it up.'
+  if (score >= 41) return "You're building something real. Show up again tomorrow."
+  if (score >= 1)  return 'Every practice is moving something. Seriously.'
+  return "Complete today's practices to get your first score."
 }
 
 function getLast7DayNames(): string[] {
@@ -92,7 +92,7 @@ function HumanScoreCard({ score }: { score: number }) {
   return (
     <div className={styles.scoreCard} style={{ borderColor: `${color}30` }}>
       <div className={styles.scoreTop}>
-        <span className={styles.scoreLabel}>human score</span>
+        <span className={styles.scoreLabel}>Human Score</span>
         <span className={styles.scoreBar}>
           <span
             className={styles.scoreBarFill}
@@ -125,7 +125,7 @@ function WeeklyChart({ weeklyXP }: { weeklyXP: number[] }) {
   return (
     <div className={styles.chartCard}>
       <div className={styles.chartHeader}>
-        <span className={styles.chartTitle}>this week</span>
+        <span className={styles.chartTitle}>This week</span>
         <span className={styles.chartTotal}>{totalWeek} XP</span>
       </div>
 
@@ -182,7 +182,7 @@ function StreakSection({
           <div>
             <span className={styles.streakCount}>{humanStreak}</span>
             <span className={styles.streakUnit}> day{humanStreak !== 1 ? 's' : ''}</span>
-            <div className={styles.streakBest}>best: {bestStreak} days</div>
+            <div className={styles.streakBest}>Best: {bestStreak} days</div>
           </div>
         </div>
         <div className={styles.streakDots}>
@@ -197,9 +197,9 @@ function StreakSection({
         </div>
       </div>
       <div className={styles.dotLegend}>
-        <span className={styles.legendItem}><span className={`${styles.legendDot} ${styles.legendGreen}`}/>done</span>
-        <span className={styles.legendItem}><span className={`${styles.legendDot} ${styles.legendBlue}`}/>today</span>
-        <span className={styles.legendItem}><span className={`${styles.legendDot} ${styles.legendGray}`}/>missed</span>
+        <span className={styles.legendItem}><span className={`${styles.legendDot} ${styles.legendGreen}`}/>Done</span>
+        <span className={styles.legendItem}><span className={`${styles.legendDot} ${styles.legendBlue}`}/>Today</span>
+        <span className={styles.legendItem}><span className={`${styles.legendDot} ${styles.legendGray}`}/>Missed</span>
       </div>
     </div>
   )
@@ -229,7 +229,7 @@ function LevelTimeline({
 
   return (
     <div className={styles.timelineCard}>
-      <span className={styles.timelineTitle}>your path</span>
+      <span className={styles.timelineTitle}>Your path</span>
 
       <div className={styles.timelineScroll} ref={scrollRef}>
         {LEVELS.map((lvl, i) => {
@@ -293,7 +293,7 @@ function InsightsSection({
 
   return (
     <div className={styles.insightsSection}>
-      <span className={styles.insightsTitle}>your stats</span>
+      <span className={styles.insightsTitle}>Your stats</span>
       <div className={styles.insightGrid}>
         <div className={styles.insightCard}>
           <span className={styles.insightIcon}>⏸️</span>
@@ -362,7 +362,7 @@ function MilestonesSection({
 
   return (
     <div className={styles.milestonesCard}>
-      <span className={styles.milestonesTitle}>milestones</span>
+      <span className={styles.milestonesTitle}>Milestones</span>
       <div className={styles.milestonesGrid}>
         {earnedMilestones.map((m) => {
           const data = buildFromId(m.id, m.earnedAt)
@@ -405,7 +405,7 @@ function UnlockRoadmap({
 }) {
   return (
     <div className={styles.roadmapCard}>
-      <span className={styles.roadmapTitle}>what's coming</span>
+      <span className={styles.roadmapTitle}>What's coming</span>
       <div className={styles.roadmapList}>
         {LEVELS.map((lvl) => {
           const reached   = lvl.level < currentLevel
@@ -487,7 +487,7 @@ export default function Progress() {
 
       {/* ── Header ────────────────────────────────────────────────────── */}
       <div className={styles.header}>
-        <h1 className={styles.title}>your progress</h1>
+        <h1 className={styles.title}>Your progress</h1>
         <div className={styles.levelBadge}>
           <span className={styles.levelDot} />
           Level {level}: {levelName}

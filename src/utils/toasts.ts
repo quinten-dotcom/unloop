@@ -66,9 +66,9 @@ export function toastFirstOpenOfDay(streak: number, xp: number, nextLevelXP: num
 
   const progress = Math.round(((xp - currentLevelXP) / Math.max(1, nextLevelXP - currentLevelXP)) * 100)
   const msgs = [
-    `morning! you're on day ${streak} of your streak, let's keep it rolling`,
-    'new day, 3 new practices waiting for you whenever you\'re ready',
-    `welcome back. your brain is ${progress}% through to the next level`,
+    `Morning! You're on day ${streak} of your streak. Let's keep it going.`,
+    'New day, 3 new practices waiting whenever you\'re ready.',
+    `Welcome back. Your brain is ${progress}% through to the next level.`,
   ]
   showToast(msgs[Math.floor(Math.random() * msgs.length)], '👋')
 }
@@ -76,11 +76,11 @@ export function toastFirstOpenOfDay(streak: number, xp: number, nextLevelXP: num
 export function toastMissionComplete(xpEarned: number, doneCount: number, nextLevelName: string) {
   const remaining = 3 - doneCount
   if (doneCount === 3) {
-    showToast('all 3 done! you just unlocked the bonus practice for today', '🎉')
+    showToast('All 3 done! You just unlocked today\'s bonus practice.', '🎉')
   } else {
     const msgs = [
-      `nice, that's ${xpEarned} XP. you're getting closer to ${nextLevelName}`,
-      `${doneCount} out of 3 done today, ${remaining} left to go`,
+      `Nice, that's ${xpEarned} XP. You're getting closer to ${nextLevelName}.`,
+      `${doneCount} out of 3 done today. ${remaining} left to go.`,
     ]
     showToast(msgs[Math.floor(Math.random() * msgs.length)], '✅')
   }
@@ -92,13 +92,13 @@ export function toastStreakMilestone(streak: number) {
   markShownToday(id)
 
   const msgs: Record<number, string> = {
-    3:  '3 days in a row... your brain is starting to pick up on the pattern',
-    7:  'one full week. this is usually where people start noticing they feel different',
-    14: 'two weeks of this and honestly your dopamine receptors are thanking you right now',
-    21: "21 days. you've officially been doing this longer than most people stick with anything",
-    30: 'you are genuinely not the same person who downloaded this app',
-    60: "60 days. at this point you're basically teaching your brain a whole new operating system",
-    100: "100 days. that's... honestly kind of incredible",
+    3:  'Three days in a row. Your brain is starting to pick up on the pattern.',
+    7:  'One full week. This is usually where people start noticing they feel different.',
+    14: 'Two weeks of this. Your dopamine receptors are genuinely thanking you right now.',
+    21: "21 days. You've officially been doing this longer than most people stick with anything.",
+    30: 'You are genuinely not the same person who downloaded this app.',
+    60: "60 days. At this point you're teaching your brain a whole new operating system.",
+    100: "100 days. That's honestly kind of incredible.",
   }
 
   const msg = msgs[streak]
@@ -113,22 +113,22 @@ export function toastIdleNudge(streak: number) {
   markShownToday(id)
 
   const msgs = [
-    `hey so you haven't done any practices today and your streak is at ${streak} days... just two quick ones before midnight and you're good`,
-    "no pressure but your streak is on the line and there's still time",
+    `You haven't done any practices yet today and your streak is at ${streak} days. Two quick ones before midnight and you're good.`,
+    "No pressure, but your streak is on the line and there's still time.",
   ]
   showToast(msgs[Math.floor(Math.random() * msgs.length)], '⏰')
 }
 
 export function toastPauseUsed(app: string, totalPausesToday: number) {
   const msgs = [
-    `you just chose to pause instead of mindlessly opening ${app}. that's your brain getting stronger`,
-    `another pause logged. that's ${totalPausesToday} today, each one is literally rewiring your habits`,
+    `You chose to pause instead of mindlessly opening ${app}. That's your brain getting stronger.`,
+    `Another pause logged. That's ${totalPausesToday} today. Each one is literally rewiring your habits.`,
   ]
   showToast(msgs[Math.floor(Math.random() * msgs.length)], '⏸️')
 }
 
 export function toastLevelUp(newLevel: number) {
-  showToast(`level ${newLevel} perks are active now, check out what you unlocked`, '⚡')
+  showToast(`Level ${newLevel} perks are active now. Check out what you unlocked.`, '⚡')
 }
 
 export function toastWeeklyRecap(practices: number, pauses: number, avgScore: number) {
@@ -139,7 +139,7 @@ export function toastWeeklyRecap(practices: number, pauses: number, avgScore: nu
   markShownToday(id)
 
   showToast(
-    `weekly recap: you did ${practices} practices, used the pause ${pauses} times, and your average score was ${avgScore}. not bad at all`,
+    `Weekly recap: ${practices} practices, ${pauses} pauses, average score of ${avgScore}. Not bad at all.`,
     '📊'
   )
 }

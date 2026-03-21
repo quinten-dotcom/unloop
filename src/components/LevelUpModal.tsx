@@ -129,7 +129,7 @@ export default function LevelUpModal({ newLevel, onClose }: Props) {
           LEVEL UP!
         </h1>
 
-        <div className={styles.youAreNow}>you're now...</div>
+        <div className={styles.youAreNow}>You're now...</div>
 
         <div className={styles.levelName}>
           {levelName}
@@ -143,7 +143,7 @@ export default function LevelUpModal({ newLevel, onClose }: Props) {
 
         <div className={styles.actions}>
           <button className={styles.keepGoingBtn} onClick={onClose}>
-            keep going
+            Keep going
           </button>
           <button
             className={styles.shareBtn}
@@ -156,7 +156,7 @@ export default function LevelUpModal({ newLevel, onClose }: Props) {
               }
             }}
           >
-            share
+            Share
           </button>
         </div>
       </div>
