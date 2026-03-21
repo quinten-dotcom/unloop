@@ -146,7 +146,7 @@ export default function PauseScreen({ onClose }: Props) {
   }, [phase])
 
   const effectiveApp = selectedApp === 'Other' ? (customApp || 'Other') : (selectedApp ?? '')
-  const effectiveTrig = selectedTrig === 'i actually need something specific'
+  const effectiveTrig = selectedTrig === 'I actually need something specific'
     ? (customTrig || 'something specific')
     : (selectedTrig ?? '')
 
@@ -287,7 +287,7 @@ export default function PauseScreen({ onClose }: Props) {
                 </button>
               ))}
             </div>
-            {selectedTrig === 'i actually need something specific' && (
+            {selectedTrig === 'I actually need something specific' && (
               <input
                 type="text"
                 className={styles.customInput}

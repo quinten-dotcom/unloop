@@ -39,6 +39,22 @@ function scoreColor(score: number): string {
   return '#94A3B8'
 }
 
+function calcPhoneFreeTime(humanHours: import('../store/useUserStore').HumanHour[]): string {
+  if (humanHours.length === 0) return '0h'
+  let totalMins = 0
+  for (const h of humanHours) {
+    const [sh, sm] = h.start.split(':').map(Number)
+    const [eh, em] = h.end.split(':').map(Number)
+    const duration = (eh * 60 + em) - (sh * 60 + sm)
+    if (duration > 0) totalMins += duration
+  }
+  if (totalMins === 0) return '0h'
+  const hrs = Math.floor(totalMins / 60)
+  const mins = totalMins % 60
+  if (hrs === 0) return `${mins}m`
+  return mins === 0 ? `${hrs}h` : `${hrs}h ${mins}m`
+}
+
 // ── Human Mode toggle ────────────────────────────────────────────────────────
 
 function HumanModeToggle({
@@ -90,6 +106,7 @@ export default function Home() {
     totalMissionsCompleted,
     totalPausesTriggered,
     humanModeActive,
+    humanHours,
     setHumanMode,
     goal,
   } = useUserStore()
@@ -232,7 +249,7 @@ export default function Home() {
           <span className={styles.statLabel}>pauses today</span>
         </div>
         <div className={styles.statPill}>
-          <span className={styles.statNum}>0h</span>
+          <span className={styles.statNum}>{calcPhoneFreeTime(humanHours)}</span>
           <span className={styles.statLabel}>phone-free time</span>
         </div>
         <div className={styles.statPill}>

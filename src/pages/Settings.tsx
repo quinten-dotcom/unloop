@@ -506,7 +506,7 @@ function AboutSection() {
       <SectionHeader label="About" icon="ℹ️" />
 
       <button className={styles.linkRow} onClick={() => navigate('/how-it-works')}>
-        <span>how unloop works</span>
+        <span>How Unloop Works</span>
         <span className={styles.externalIcon}>→</span>
       </button>
       <div className={styles.divider} />
@@ -578,7 +578,7 @@ function DevSection() {
 export default function Settings() {
   return (
     <div className={styles.page}>
-      <h1 className={styles.pageTitle}>settings</h1>
+      <h1 className={styles.pageTitle}>Settings</h1>
 
       <DevSection />
       <HumanHoursSection />

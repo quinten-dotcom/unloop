@@ -171,7 +171,7 @@ export default function Science() {
       <div className={styles.header}>
         <h1 className={styles.title}>Why This Works</h1>
         <p className={styles.subtitle}>
-          every practice in Unloop is based on actual research. here's what the science says.
+          Every practice in Unloop is based on actual research. Here's what the science says.
         </p>
         <p className={styles.cardPoolHint}>{SCIENCE_CARDS.length} cards across 8 topics</p>
       </div>

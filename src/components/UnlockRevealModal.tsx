@@ -32,7 +32,7 @@ export default function UnlockRevealModal({ level, unlocks, onClose }: Props) {
 
         <div className={styles.header}>
           <div className={styles.levelBadge}>Level {level}</div>
-          <h2 className={styles.title}>you just unlocked some new stuff</h2>
+          <h2 className={styles.title}>You just unlocked some new stuff</h2>
         </div>
 
         <div className={styles.list}>
@@ -51,7 +51,7 @@ export default function UnlockRevealModal({ level, unlocks, onClose }: Props) {
         </div>
 
         <button className={styles.btn} onClick={onClose}>
-          nice, let's go
+          Nice, let's go
         </button>
       </div>
     </div>

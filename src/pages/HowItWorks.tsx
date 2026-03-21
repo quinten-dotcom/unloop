@@ -78,20 +78,20 @@ export default function HowItWorks() {
 
       {/* ── Back button ───────────────────────────────────────────────── */}
       <button className={styles.backBtn} onClick={() => navigate(-1)} aria-label="Go back">
-        ← back
+        ← Back
       </button>
 
       {/* ── Section 1: Hero ───────────────────────────────────────────── */}
       <FadeSection className={styles.hero}>
-        <h1 className={styles.heroTitle}>your phone was designed to keep you scrolling</h1>
+        <h1 className={styles.heroTitle}>Your phone was designed to keep you scrolling</h1>
         <p className={styles.heroSub}>
-          unloop was designed to help you stop. here's how it actually works.
+          Unloop was designed to help you stop. Here's how it actually works.
         </p>
       </FadeSection>
 
       {/* ── Section 2: The Loop ───────────────────────────────────────── */}
       <FadeSection className={styles.section}>
-        <h2 className={styles.sectionTitle}>the loop</h2>
+        <h2 className={styles.sectionTitle}>The Loop</h2>
         <LoopDiagram />
         <p className={styles.sectionBody}>
           every time you pick up your phone without thinking about it, your brain gets a tiny hit of dopamine. it feels good for a second so your brain wants to do it again. and again. and again. that's the loop. and it's literally the same mechanism behind slot machines.
@@ -100,12 +100,12 @@ export default function HowItWorks() {
 
       {/* ── Section 3: How Unloop breaks it ──────────────────────────── */}
       <FadeSection className={styles.section}>
-        <h2 className={styles.sectionTitle}>how unloop breaks it</h2>
+        <h2 className={styles.sectionTitle}>How Unloop Breaks It</h2>
         <div className={styles.cards}>
 
           <div className={styles.card}>
             <div className={styles.cardIcon}>⏸</div>
-            <h3 className={styles.cardTitle}>the pause</h3>
+            <h3 className={styles.cardTitle}>The Pause</h3>
             <p className={styles.cardBody}>
               before you open your scroll apps, unloop gives you 10 seconds. not a block. not a lecture. just a pause. enough time to ask yourself "do i actually want to be doing this right now?" research shows that this tiny bit of friction works better than blocking apps entirely, because you're not fighting yourself. you're just giving yourself a chance to choose.
             </p>
@@ -113,7 +113,7 @@ export default function HowItWorks() {
 
           <div className={styles.card}>
             <div className={styles.cardIcon}>✅</div>
-            <h3 className={styles.cardTitle}>daily practices</h3>
+            <h3 className={styles.cardTitle}>Daily Practices</h3>
             <p className={styles.cardBody}>
               every day you get 3 small things to try. stuff like leaving your phone out of the bedroom, or going for a walk without it, or calling someone instead of texting. they take a few minutes each and they're all based on stuff that's actually been shown to help people use their phones less without feeling deprived.
             </p>
@@ -121,7 +121,7 @@ export default function HowItWorks() {
 
           <div className={styles.card}>
             <div className={styles.cardIcon}>📈</div>
-            <h3 className={styles.cardTitle}>leveling up</h3>
+            <h3 className={styles.cardTitle}>Leveling Up</h3>
             <p className={styles.cardBody}>
               as you do practices and use the pause feature, you earn XP and level up. each level unlocks new tools, deeper insights about your habits, and new challenges. the leveling system uses the same reward mechanics that make apps addictive... but pointed in a direction that actually helps you.
             </p>
@@ -132,7 +132,7 @@ export default function HowItWorks() {
 
       {/* ── Section 4: The levels ─────────────────────────────────────── */}
       <FadeSection className={styles.section}>
-        <h2 className={styles.sectionTitle}>the levels</h2>
+        <h2 className={styles.sectionTitle}>The Levels</h2>
         <div className={styles.levelsRow}>
           {LEVELS.map((lvl, i) => (
             <div key={lvl.level} className={styles.levelItem}>

@@ -29,7 +29,7 @@ export default function EvidenceModal({ prompt, missionName, onSubmit, onDismiss
         <div className={styles.handle} />
 
         <div className={styles.header}>
-          <span className={styles.label}>reflection</span>
+          <span className={styles.label}>Reflection</span>
           <h2 className={styles.title}>{missionName}</h2>
         </div>
 
@@ -38,7 +38,7 @@ export default function EvidenceModal({ prompt, missionName, onSubmit, onDismiss
         <textarea
           ref={textareaRef}
           className={styles.textarea}
-          placeholder="type anything here..."
+          placeholder="Type anything here..."
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows={4}
@@ -46,7 +46,7 @@ export default function EvidenceModal({ prompt, missionName, onSubmit, onDismiss
 
         <div className={styles.actions}>
           <button className={styles.cancelBtn} onClick={onDismiss}>
-            cancel
+            Cancel
           </button>
           <button
             className={`${styles.submitBtn} ${text.trim() ? '' : styles.submitDisabled}`}
