@@ -2,12 +2,14 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { MISSIONS, SURPRISE_MISSIONS } from '../data/missions'
 import type { Mission, MissionCategory, MissionDifficulty } from '../data/missions'
+import { TRIGGER_MISSIONS } from '../data/triggerMissions'
+import type { TriggerMission } from '../data/missions'
 import type { UserGoal } from './useUserStore'
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-const RECENT_WINDOW = 12   // keep last ~3 days of mission IDs (4 per day × 3 days)
-export const TOTAL_MISSIONS = MISSIONS.length  // 50
+const RECENT_WINDOW = 14   // keep last ~3-4 days of mission IDs
+export const TOTAL_MISSIONS = MISSIONS.length + TRIGGER_MISSIONS.length
 
 // ── Difficulty distribution by level ─────────────────────────────────────────
 
@@ -78,6 +80,23 @@ function pickOne(
   return source[source.length - 1].mission
 }
 
+// ── Convert TriggerMission to Mission for use in daily slots ─────────────────
+
+function triggerToMission(t: TriggerMission): Mission {
+  return {
+    id:               t.id,
+    name:             t.name,
+    emoji:            t.emoji,
+    description:      t.description,
+    xpReward:         t.xpReward,
+    difficulty:       t.difficulty,
+    scienceCardId:    t.scienceCardId,
+    category:         'intentional', // placeholder; trigger missions are selected separately
+    requiresEvidence: t.requiresEvidence,
+    evidencePrompt:   t.evidencePrompt,
+  }
+}
+
 // ── Core generation logic ─────────────────────────────────────────────────────
 
 function generateMissionsForDate(
@@ -85,7 +104,8 @@ function generateMissionsForDate(
   goal: UserGoal,
   level: number,
   recentIds: string[],
-  lastSurpriseWeek: string
+  lastSurpriseWeek: string,
+  triggers: string[] = []
 ): {
   missions: Mission[]
   bonusMission: Mission | null
@@ -95,20 +115,40 @@ function generateMissionsForDate(
   const rand    = seededRandom(date + goal + String(level))
   const distrib = difficultyDistribution(level)
 
-  // Build pool excluding recently seen missions
-  let pool = MISSIONS.filter((m) => !recentIds.includes(m.id))
-  if (pool.length < 6) pool = [...MISSIONS]   // safety fallback
-
-  // Ensure at least one mission from goal's preferred category
-  const goalCats = GOAL_CATEGORY[goal]
-  const goalPool = pool.filter((m) => goalCats.includes(m.category))
+  // ── Trigger mission slot (slot 0 if user has triggers) ───────────────────────
   const picked: Mission[] = []
 
-  if (goalPool.length > 0) {
-    const m = pickOne(goalPool, distrib, rand)
-    if (m) {
-      picked.push(m)
-      pool = pool.filter((x) => x.id !== m.id)
+  if (triggers.length > 0) {
+    // Pick which trigger to feature today using seeded rotation
+    const triggerIdx = Math.floor(rand() * triggers.length)
+    const todayTrigger = triggers[triggerIdx]
+
+    const triggerPool = TRIGGER_MISSIONS.filter(
+      (m) => m.trigger === todayTrigger && !recentIds.includes(m.id)
+    )
+    const triggerFallback = TRIGGER_MISSIONS.filter((m) => m.trigger === todayTrigger)
+    const source = triggerPool.length > 0 ? triggerPool : triggerFallback
+
+    if (source.length > 0) {
+      const idx = Math.floor(rand() * source.length)
+      picked.push(triggerToMission(source[idx]))
+    }
+  }
+
+  // ── General mission slots ────────────────────────────────────────────────────
+  let pool = MISSIONS.filter((m) => !recentIds.includes(m.id) && !picked.some((p) => p.id === m.id))
+  if (pool.length < 6) pool = MISSIONS.filter((m) => !picked.some((p) => p.id === m.id))
+
+  // Ensure at least one mission from goal's preferred category (only if no trigger slot taken)
+  const goalCats = GOAL_CATEGORY[goal]
+  if (picked.length === 0) {
+    const goalPool = pool.filter((m) => goalCats.includes(m.category))
+    if (goalPool.length > 0) {
+      const m = pickOne(goalPool, distrib, rand)
+      if (m) {
+        picked.push(m)
+        pool = pool.filter((x) => x.id !== m.id)
+      }
     }
   }
 
@@ -178,11 +218,11 @@ export interface MissionState {
   recentMissionIds: string[]
 
   // Actions
-  generateDailyMissions: (goal: UserGoal, level?: number) => void
+  generateDailyMissions: (goal: UserGoal, level?: number, triggers?: string[]) => void
   completeMission: (missionId: string, evidenceText?: string) => void
   revealSurprise: () => void
   unlockBonus: () => void
-  resetForNewDay: (goal: UserGoal, level?: number) => void
+  resetForNewDay: (goal: UserGoal, level?: number, triggers?: string[]) => void
 }
 
 // ── Store ─────────────────────────────────────────────────────────────────────
@@ -200,14 +240,14 @@ export const useMissionStore = create<MissionState>()(
       lastSurpriseWeek: '',
       recentMissionIds: [],
 
-      generateDailyMissions: (goal: UserGoal, level = 1) => {
+      generateDailyMissions: (goal: UserGoal, level = 1, triggers: string[] = []) => {
         const today = todayISO()
         const state = get()
 
         if (state.date === today && state.missions.length === 3) return
 
         const { missions, bonusMission, surpriseMissionId, newLastSurpriseWeek } =
-          generateMissionsForDate(today, goal, level, state.recentMissionIds, state.lastSurpriseWeek)
+          generateMissionsForDate(today, goal, level, state.recentMissionIds, state.lastSurpriseWeek, triggers)
 
         const todayIds         = [...missions.map((m) => m.id), bonusMission?.id].filter(Boolean) as string[]
         const recentMissionIds = [...todayIds, ...state.recentMissionIds].slice(0, RECENT_WINDOW)
@@ -247,11 +287,11 @@ export const useMissionStore = create<MissionState>()(
 
       unlockBonus: () => set({ bonusUnlocked: true }),
 
-      resetForNewDay: (goal: UserGoal, level = 1) => {
+      resetForNewDay: (goal: UserGoal, level = 1, triggers: string[] = []) => {
         const today = todayISO()
         const state = get()
         const { missions, bonusMission, surpriseMissionId, newLastSurpriseWeek } =
-          generateMissionsForDate(today, goal, level, state.recentMissionIds, state.lastSurpriseWeek)
+          generateMissionsForDate(today, goal, level, state.recentMissionIds, state.lastSurpriseWeek, triggers)
 
         const todayIds         = [...missions.map((m) => m.id), bonusMission?.id].filter(Boolean) as string[]
         const recentMissionIds = [...todayIds, ...state.recentMissionIds].slice(0, RECENT_WINDOW)

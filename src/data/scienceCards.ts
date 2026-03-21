@@ -943,6 +943,218 @@ export const SCIENCE_CARDS: ScienceCard[] = [
       'There is a voice in your head that processes your experiences, works through problems, generates ideas, and generally helps you understand who you are and what you think. It needs quiet, unoccupied mental space to do its thing. When every idle moment is filled with content, when every commute has headphones in and every waiting moment has a phone in hand, that voice never really gets a turn. You might notice that you feel vaguely disconnected from yourself, like you have been consuming other people\'s thoughts so constantly that you have lost track of your own. Every practice in Unloop that creates a pocket of quiet, no matter how small, is creating conditions for that voice to come back online.',
     source: '',
   },
+
+  // ── Trigger-specific science cards ─────────────────────────────────────────────
+
+  {
+    id: 'gaming-loop',
+    category: 'Brain',
+    title: 'Game reward loops are neurologically more sophisticated than almost anything else you do',
+    keyStat: 'games trigger dopamine responses 4 to 8 times more frequently per hour than social media scrolling',
+    body:
+      'Games are not just entertaining. They are precisely engineered dopamine delivery systems. Variable reward schedules, loot boxes, level-ups, and achievement unlocks are all designed by teams of behavioral scientists to hit your reward circuits at the exact intervals that maximize engagement. Your brain responds to all of it the same way it responds to unpredictable rewards in nature: with repeated bursts of dopamine. The problem is not that gaming feels good. The problem is that after enough exposure your brain recalibrates to that high-frequency stimulation as normal, so conversations, books, meals, and walks start feeling flat and under-stimulating by comparison.',
+    source: '',
+  },
+
+  {
+    id: 'gaming-sleep',
+    category: 'Body',
+    title: 'Gaming before bed keeps your nervous system active long after you close the console',
+    keyStat: 'gaming within 2 hours of bedtime extends the time it takes to fall asleep by an average of 47 minutes',
+    body:
+      'Competitive gaming activates your stress response. Winning and losing both trigger cortisol and adrenaline because your nervous system treats in-game stakes as real events. Your heart rate goes up, your attention sharpens, your body prepares to either celebrate or recover. Stress hormones take time to clear, typically 45 minutes to over an hour after the stimulus stops. So even after you close the game your body is still running the physiological aftermath of whatever just happened on screen. You are lying in the dark while your nervous system waits for a threat that has already passed.',
+    source: '',
+  },
+
+  {
+    id: 'gaming-time',
+    category: 'Brain',
+    title: 'Your brain literally stops tracking time during gaming',
+    keyStat: 'gamers consistently underestimate session length by 30 to 50%, even when they are trying to track it',
+    body:
+      'During deep gaming sessions your prefrontal cortex, the part of your brain that tracks time, plans, and monitors your own behavior, essentially hands over control to the more automatic reward-driven systems. This is called flow state, and it is not a bad thing in itself. Flow during creative work, music, or athletics is genuinely restorative. The difference is that games are specifically engineered to maintain flow as long as possible through pacing, progression systems, and social pressure. Your brain is not lying when you swear you only played for 30 minutes. Time perception genuinely collapses. The issue is that the system you are in was designed to collapse it.',
+    source: '',
+  },
+
+  {
+    id: 'binge-autoplay',
+    category: 'Behavior',
+    title: 'Autoplay does not add convenience. It removes choice.',
+    keyStat: 'autoplay is responsible for 80% of what people watch on Netflix, according to Netflix\'s own reported data',
+    body:
+      'Choosing whether to watch another episode requires a small but real act of cognition. You have to register that one thing ended, decide if you want more, and actively start the next one. Netflix added autoplay specifically to eliminate that decision point. They describe it as reducing friction, which is accurate. But the friction was the only thing standing between watching one episode and watching four. Streaming companies are not doing you a favor by skipping it. Turning autoplay off is a single settings change that restores the small mental gap where your brain gets to check in with itself.',
+    source: '',
+  },
+
+  {
+    id: 'binge-passive',
+    category: 'Brain',
+    title: 'Background TV is secretly the most exhausting thing you do all day',
+    keyStat: 'passive TV viewing consumes roughly 67% of the mental energy of active watching while producing almost none of its restorative benefits',
+    body:
+      'Active watching, where you are genuinely engaged with something, is demanding but restorative. Your brain is working, but it is working on something coherent. Passive background TV sits in a strange middle zone where your brain cannot fully rest because it keeps partially tracking the screen, but it is not engaged enough to feel genuinely stimulated or satisfied. The result is a kind of low-level drain that accumulates. You finish a few hours of background TV feeling more tired than when you started, vaguely restless, and less satisfied than you would have been doing nothing at all.',
+    source: '',
+  },
+
+  {
+    id: 'binge-sleep',
+    category: 'Body',
+    title: 'Binge watching before bed quietly destroys your REM sleep',
+    keyStat: 'streaming more than 2 hours before bed reduces REM sleep duration by up to 24%',
+    body:
+      'REM sleep is where your brain consolidates memories and processes emotional experiences from the day. It is not optional maintenance, it is when your brain does its most important repair work. Binge watching attacks REM from two directions at once. First, it pushes your bedtime back, so you get less total sleep. Second, the emotional and narrative intensity of what you just watched keeps your brain activated after you fall asleep, shortening time spent in deep REM. You wake up tired but oddly wired, like you rested but did not recover.',
+    source: '',
+  },
+
+  {
+    id: 'food-variable',
+    category: 'Behavior',
+    title: 'Food delivery apps are built with the same reward mechanics as slot machines',
+    keyStat: 'food delivery apps contain significantly more engineered dopamine triggers per session than social media apps',
+    body:
+      'Variable reward scheduling is the most powerful behavior-conditioning tool behavioral science has found. Food delivery apps apply it relentlessly: delivery time estimates that shift, "1 person is currently viewing this restaurant," changing ratings, fluctuating prices, and limited-time offers. None of that is about food. It is about keeping your dopamine cycling between anticipation and resolution. By the time you place the order your brain has already had a complete dopamine event. The browsing experience is neurologically separate from the eating experience, which is why you can feel satisfied just from scrolling through menus without ordering.',
+    source: '',
+  },
+
+  {
+    id: 'food-boredom',
+    category: 'Brain',
+    title: 'About half of the times you reach for food, hunger has nothing to do with it',
+    keyStat: 'studies find up to 50% of eating occasions are driven by emotional or situational cues rather than physiological hunger',
+    body:
+      'Boredom is genuinely uncomfortable in a way that pushes your brain toward any available sensory stimulation. Eating gives you something to do, something to taste, and something to look forward to. The problem is that boredom eating activates a different region of your reward system than hunger eating does, and it produces a weaker satisfaction signal. So the same amount of food leaves you less satisfied, which nudges you to eat more trying to find the effect. The boredom also rarely gets resolved. You finish eating and the discomfort is still there, because food was never what it needed.',
+    source: '',
+  },
+
+  {
+    id: 'food-friction',
+    category: 'Habits',
+    title: 'Why you order so much food has almost nothing to do with hunger or convenience',
+    keyStat: 'households that moved delivery apps off their home screen ordered an average of 40% less per month',
+    body:
+      'Humans have always eaten impulsively. But historically there was friction between impulse and action: you had to leave the house, drive somewhere, wait in line. That gap gave your brain time to check in and sometimes decide it was not actually hungry or did not really want it. Food delivery apps collapsed that gap to about 90 seconds. There is no longer enough time between impulse and arrival for the prefrontal cortex to weigh in. Adding even artificial friction back, moving the app off your home screen, requiring yourself to wait 10 minutes before opening it, restores the gap your brain needs to make an actual decision.',
+    source: '',
+  },
+
+  {
+    id: 'adult-dopamine',
+    category: 'Brain',
+    title: 'Habitual viewing produces the same brain changes as other compulsive behaviors',
+    keyStat: 'neuroimaging studies find habitual viewing of explicit content produces the same dopamine receptor down-regulation seen in compulsive behavioral patterns',
+    body:
+      'Your brain does not distinguish between content categories. It only tracks dopamine spikes and how frequently they arrive. Habitual viewing of explicit content produces frequent, high-intensity spikes. Over time, the dopamine receptors that receive those signals start to down-regulate. They become less sensitive, which means you need more stimulation to get the same response. Regular life starts to feel less interesting. Partners become less engaging. Everyday pleasures flatten. The good news is that this responds to the same recovery approach as other compulsive patterns, specifically reducing frequency, introducing friction, and allowing the dopamine system to recalibrate.',
+    source: '',
+  },
+
+  {
+    id: 'adult-intentional',
+    category: 'Behavior',
+    title: 'The difference between habitual and intentional use is not what you are doing. It is who is deciding.',
+    keyStat: 'people reporting intentional rather than habitual consumption score 40% lower on compulsive use measures and 50% higher on satisfaction',
+    body:
+      'Habit research consistently shows that the same behavior can be either reinforcing or damaging depending on whether it involves conscious choice. Intentional behavior keeps the prefrontal cortex engaged and maintains your sense of agency over your own actions. Habitual behavior bypasses that entirely and gradually erodes your felt sense of control. The shift does not require changing what you do. It requires inserting a moment of conscious choice between the urge and the action. Even a 30-second pause that asks "do I actually want to do this right now" is enough to keep intentional mode online.',
+    source: '',
+  },
+
+  {
+    id: 'adult-escalation',
+    category: 'Brain',
+    title: 'Novelty-seeking escalation is a predictable brain response, not a personal failing',
+    keyStat: 'novelty-seeking tolerance requirements begin increasing within 8 to 12 weeks of daily habitual use',
+    body:
+      'Your dopamine system is designed to respond strongly to novelty and then habituate over time. The same stimulus produces less and less dopamine as it becomes familiar, because your brain is calibrated to prioritize new information over known information. Any habit that relies on novelty will naturally push toward escalation as your brain seeks the next new thing. This is not a character flaw or a sign of weak will. It is your reward optimization system doing exactly what it evolved to do. Understanding this makes the pattern easier to interrupt, because you can recognize it as a predictable neurological process rather than something wrong with you.',
+    source: '',
+  },
+
+  {
+    id: 'shopping-scarcity',
+    category: 'Behavior',
+    title: 'Your brain genuinely cannot tell real scarcity from a fake countdown timer',
+    keyStat: 'artificial scarcity cues like countdown timers increase purchase likelihood by up to 332% compared to the same item without urgency signals',
+    body:
+      'Your threat detection network evolved to act fast when resources were scarce. See the berries, pick the berries now before someone else does. That system is fast, automatic, and does not pause to verify whether the scarcity is real. E-commerce designers know this and deliberately trigger it with countdown timers, low stock warnings, and "limited time offer" banners. Your threat detection does not check whether the sale is manufactured. It just activates. This is why you can know intellectually that the urgency is fake and still feel the pull to buy. The feeling and the knowledge operate in different parts of your brain, and the feeling moves faster.',
+    source: '',
+  },
+
+  {
+    id: 'shopping-dopamine',
+    category: 'Brain',
+    title: 'You do not get dopamine from owning things. You get it from buying them.',
+    keyStat: 'dopamine spikes during the purchase decision and returns to baseline within 30 minutes of receiving the item',
+    body:
+      'Consumer research consistently shows that the dopamine response happens during browsing, adding to cart, and the purchase moment, not after the item arrives. By the time your package shows up your brain has already moved on. This is why things you bought impulsively accumulate unworn in closets and unused in drawers. Your brain was never actually after the item. It was after the dopamine of the hunt. Online shopping is particularly effective at the hunt part, which is why browsing without buying still feels deeply satisfying and can itself become a compulsive loop.',
+    source: '',
+  },
+
+  {
+    id: 'shopping-ads',
+    category: 'Behavior',
+    title: 'Shopping apps know you are about to want something before you consciously do',
+    keyStat: 'targeted advertising raises purchase likelihood by 200% by surfacing products that match behavioral patterns you have not consciously noticed yet',
+    body:
+      'Behavioral targeting is built on the insight that your searches, browsing patterns, return visits, and dwell time reveal your emotional state and upcoming needs more accurately than you would report if asked. An algorithm processing thousands of data points can predict you are going to want running shoes two weeks before you consciously decide to start exercising. Being aware of this does not make it stop working. But it does give you a useful question to ask when you feel a sudden desire for something: was I already heading in this direction before the ad appeared, or did the ad create the desire from scratch.',
+    source: '',
+  },
+
+  {
+    id: 'news-amygdala',
+    category: 'Brain',
+    title: 'Negative news activates the same brain region as a physical threat',
+    keyStat: '3 or more hours of daily news exposure raises cortisol levels by 27% and produces measurable anxiety symptoms in otherwise healthy adults',
+    body:
+      'Your amygdala evolved to process genuine survival threats and it cannot distinguish a real threat from a news story about a distant one. When you read a disturbing headline your amygdala activates the same way it would if you witnessed something frightening in person. Stress hormones rise, your body tenses, attention narrows. News is algorithmically optimized to surface the most disturbing and outrage-inducing stories because those generate the most engagement. The result is that your amygdala stays in a low-level threat state for hours after you stop reading, not because the world is uniquely dangerous right now, but because the feed was designed to keep it there.',
+    source: '',
+  },
+
+  {
+    id: 'news-outrage',
+    category: 'Behavior',
+    title: 'Online outrage is more addictive than most people realize because anger is your most engaging emotion',
+    keyStat: 'content triggering moral outrage spreads 20% further per hour on social platforms than any other emotional category',
+    body:
+      'Platform algorithms discovered through optimization that outrage is the single most reliable engagement driver. Moral anger is a uniquely social emotion. Your brain produces it to signal to the group that something is wrong and collective action is needed. It evolved in small communities where the signal could actually lead somewhere. Social media gives you all the triggers: perceived injustice, a visible group, a clear call to react. But none of the resolution. You feel the anger with nowhere useful to put it, so the loop stays open and you keep scrolling, looking for either more evidence or some kind of closure that the feed is not designed to provide.',
+    source: '',
+  },
+
+  {
+    id: 'news-fatigue',
+    category: 'Brain',
+    title: 'Information overload is a real neurological phenomenon that gets worse the more news you consume',
+    keyStat: 'consuming more than 1 hour of news per day is associated with measurably reduced decision quality and significantly higher decision fatigue',
+    body:
+      'Decision fatigue is the deterioration in decision quality that happens after extended periods of choice-making. Every piece of news your prefrontal cortex processes requires evaluation: is this relevant to me, what does it mean, should I do something about it. Almost none of it ever results in any action, but the evaluation still happens and the cognitive cost is real. After enough news your brain starts taking shortcuts, making impulsive choices, or simply shutting down on harder decisions. The irony is that consuming more news to stay informed and engaged leaves you less able to think clearly about any of it.',
+    source: '',
+  },
+
+  {
+    id: 'messaging-instant',
+    category: 'Habits',
+    title: 'Instant messaging has retrained your brain to experience delayed responses as emergencies',
+    keyStat: 'the average person checks a messaging app within 3 minutes of waking up and reports measurable anxiety if they have not responded to a message within 15 minutes',
+    body:
+      'For most of human history, communication had built-in delays. Letters took days. Phone calls required both people to be available at the same time. Those delays gave your brain time to process, compose thoughts, and respond deliberately. Texting collapsed the delay to near-zero and your brain recalibrated its expectations accordingly. Now when someone does not hear back within an hour they interpret it as a social signal, intentional distance or disinterest, rather than simply a delay. Both senders and receivers have been trained into an anxiety cycle around response time that did not exist 15 years ago and has no basis in the actual requirements of most communication.',
+    source: '',
+  },
+
+  {
+    id: 'messaging-anxiety',
+    category: 'Brain',
+    title: 'Every empty notification check trains your brain to check more often, not less',
+    keyStat: 'people who check expecting notifications but find none report 23% more frequent checking in the following hour',
+    body:
+      'Your dopamine system runs on variable reward schedules. A notification sometimes means something exciting and sometimes means nothing, which is the same logic that makes slot machines compelling. Your brain keeps pulling the lever because the next check might be the rewarding one. Finding nothing does not extinguish the behavior. It intensifies it slightly, because variable reward systems are most persistent precisely when they occasionally produce nothing. The only reliable interruption is batching your checks to specific times, which converts the variable schedule to a predictable one and gives your dopamine system a chance to stand down between sessions.',
+    source: '',
+  },
+
+  {
+    id: 'messaging-cues',
+    category: 'Relationships',
+    title: 'Text strips out 93% of the information that makes human communication work',
+    keyStat: '93% of emotional information in conversation comes from vocal tone, facial expressions, and body language, none of which text carries',
+    body:
+      'The underlying finding from Mehrabian\'s research is directionally solid: human communication evolved as a full-body, full-voice, real-time experience. Tone alone carries information about emotional state, sincerity, urgency, and relational safety that words on a screen cannot replicate. When you receive a text your brain tries to fill in all the missing emotional context. The problem is that when you are already anxious or uncertain about a relationship, your brain tends to fill those gaps with negative assumptions. The message feels colder, more distant, or more pointed than it was intended. This is why text conversations generate misunderstandings that a 30-second phone call would resolve immediately.',
+    source: '',
+  },
 ]
 
 export function getScienceCard(id: string): ScienceCard | undefined {

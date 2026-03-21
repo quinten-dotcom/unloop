@@ -1,5 +1,13 @@
 export type MissionDifficulty = 'easy' | 'medium' | 'hard'
 export type MissionCategory = 'morning' | 'focus' | 'environment' | 'intentional' | 'social'
+export type MissionTrigger =
+  | 'gaming'
+  | 'binge-watching'
+  | 'food-delivery'
+  | 'adult-content'
+  | 'online-shopping'
+  | 'news-doomscrolling'
+  | 'constant-messaging'
 
 export interface Mission {
   id: string
@@ -10,6 +18,19 @@ export interface Mission {
   difficulty: MissionDifficulty
   scienceCardId: string
   category: MissionCategory
+  requiresEvidence: boolean
+  evidencePrompt: string | null
+}
+
+export interface TriggerMission {
+  id: string
+  name: string
+  emoji: string
+  description: string
+  xpReward: number
+  difficulty: MissionDifficulty
+  scienceCardId: string
+  trigger: MissionTrigger
   requiresEvidence: boolean
   evidencePrompt: string | null
 }

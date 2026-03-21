@@ -109,14 +109,15 @@ export default function Home() {
     humanHours,
     setHumanMode,
     goal,
+    triggers,
   } = useUserStore()
 
   const { missions, completed, generateDailyMissions } = useMissionStore()
 
   // Generate today's missions if not already done
   useEffect(() => {
-    generateDailyMissions(goal, level)
-  }, [goal, level, generateDailyMissions])
+    generateDailyMissions(goal, level, triggers)
+  }, [goal, level, triggers, generateDailyMissions])
 
   // First-open-of-day toast + streak milestone + idle nudge
   useEffect(() => {
