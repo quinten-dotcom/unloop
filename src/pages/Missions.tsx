@@ -3,7 +3,7 @@ import { useUserStore } from '../store/useUserStore'
 import { useMissionStore, isMissionCompleted, TOTAL_MISSIONS } from '../store/useMissionStore'
 import { useChallengeStore, getChallengeHour } from '../store/useChallengeStore'
 import { getLevelFromXP } from '../data/levels'
-import { getScienceCard } from '../data/scienceCards'
+import { getScienceCard, SCIENCE_CARDS } from '../data/scienceCards'
 import { SURPRISE_MISSIONS } from '../data/missions'
 import type { Mission } from '../data/missions'
 import type { ScienceCard } from '../data/scienceCards'
@@ -235,9 +235,10 @@ export default function Missions() {
 
   const { active: activeChallenge } = useChallengeStore()
 
-  const [timeToReset, setTimeToReset]   = useState(getTimeToMidnight)
-  const [xpFlies,     setXpFlies]       = useState<XPFlyItem[]>([])
-  const [flow,        setFlow]          = useState<FlowStep>({ step: 'idle' })
+  const [timeToReset,    setTimeToReset]    = useState(getTimeToMidnight)
+  const [xpFlies,        setXpFlies]        = useState<XPFlyItem[]>([])
+  const [flow,           setFlow]           = useState<FlowStep>({ step: 'idle' })
+  const [lastCardId,     setLastCardId]     = useState<string | null>(null)
 
   // ── Init ──────────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -293,7 +294,15 @@ export default function Missions() {
       setTimeout(() => {
         const card = getScienceCard(mission.scienceCardId)
         if (card) {
-          setFlow({ step: 'science', card, xpEarned: mission.xpReward, prevLevel })
+          let cardToShow = card
+          if (card.id === lastCardId) {
+            const alternate = SCIENCE_CARDS.find(
+              (c) => c.category === card.category && c.id !== card.id,
+            )
+            if (alternate) cardToShow = alternate
+          }
+          setLastCardId(cardToShow.id)
+          setFlow({ step: 'science', card: cardToShow, xpEarned: mission.xpReward, prevLevel })
         }
       }, 750)
     },
@@ -330,7 +339,10 @@ export default function Missions() {
 
   function handleViewScience(scienceCardId: string) {
     const card = getScienceCard(scienceCardId)
-    if (card) setFlow({ step: 'science', card, xpEarned: 0, prevLevel: level })
+    if (card) {
+      setLastCardId(card.id)
+      setFlow({ step: 'science', card, xpEarned: 0, prevLevel: level })
+    }
   }
 
   // ── Render ────────────────────────────────────────────────────────────────

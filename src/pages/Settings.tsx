@@ -128,11 +128,15 @@ function TimeBlockModal({
 
 function ResetConfirm({ onCancel }: { onCancel: () => void }) {
   const [input, setInput] = useState('')
+  const resetOnboarding = useUserStore((s) => s.resetOnboarding)
   const ready = input === 'RESET'
 
   function handleReset() {
     if (!ready) return
-    ;['unloop-user', 'unloop-missions', 'unloop-challenges'].forEach((k) =>
+    // Reset Zustand state in memory first so it re-persists as incomplete,
+    // then clear the other stores from localStorage before reloading.
+    resetOnboarding()
+    ;['unloop-missions', 'unloop-challenges', 'tutorialComplete'].forEach((k) =>
       localStorage.removeItem(k)
     )
     window.location.replace('/onboarding')
@@ -538,6 +542,37 @@ function AboutSection() {
   )
 }
 
+// ── Section: Dev (testing only) ───────────────────────────────────────────────
+
+function DevSection() {
+  const navigate        = useNavigate()
+  const resetOnboarding = useUserStore((s) => s.resetOnboarding)
+
+  function handleRestart() {
+    localStorage.removeItem('tutorialComplete')
+    resetOnboarding()
+    navigate('/onboarding', { replace: true })
+  }
+
+  return (
+    <div style={{ background: '#FEF3C7', border: '2px solid #F59E0B', borderRadius: 14, padding: '14px 16px' }}>
+      <p style={{ fontSize: 11, fontWeight: 700, color: '#92400E', textTransform: 'uppercase', letterSpacing: '0.6px', margin: '0 0 10px' }}>
+        🛠️ Dev / Testing
+      </p>
+      <button
+        onClick={handleRestart}
+        style={{
+          display: 'block', width: '100%', padding: '14px',
+          background: '#F59E0B', color: '#fff', fontWeight: 800,
+          fontSize: 15, border: 'none', borderRadius: 10, cursor: 'pointer',
+        }}
+      >
+        Restart Onboarding
+      </button>
+    </div>
+  )
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function Settings() {
@@ -545,6 +580,7 @@ export default function Settings() {
     <div className={styles.page}>
       <h1 className={styles.pageTitle}>settings</h1>
 
+      <DevSection />
       <HumanHoursSection />
       <PauseListSection />
       <NotificationsSection />

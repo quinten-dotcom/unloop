@@ -76,6 +76,7 @@ export interface UserState {
   setHumanModeSchedule: (start: string, end: string) => void
   setTriggers: (triggers: string[]) => void
   setOnboardingComplete: () => void
+  resetOnboarding: () => void
   addHumanHour: (block: Omit<HumanHour, 'id'>) => void
   removeHumanHour: (id: string) => void
   setNotifyPref: (key: 'notifyDailyReminder' | 'notifyEveningReflection' | 'notifyStreakReminder', value: boolean) => void
@@ -191,6 +192,7 @@ export const useUserStore = create<UserState>()(
       setHumanModeSchedule: (start, end) => set({ humanModeStartTime: start, humanModeEndTime: end }),
       setTriggers: (triggers) => set({ triggers }),
       setOnboardingComplete: () => set({ onboardingComplete: true }),
+      resetOnboarding: () => set({ onboardingComplete: false }),
 
       addHumanHour: (block) => {
         set((state) => ({
