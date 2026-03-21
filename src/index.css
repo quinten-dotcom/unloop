@@ -1,0 +1,115 @@
+:root {
+  --primary: #2563EB;
+  --primary-light: #EFF6FF;
+  --primary-mid: #BFDBFE;
+  --secondary: #10B981;
+  --secondary-light: #ECFDF5;
+  --accent: #F59E0B;
+  --accent-light: #FFFBEB;
+  --danger: #EF4444;
+  --danger-light: #FEF2F2;
+  --bg-dark: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --border: #E2E8F0;
+  --border-mid: #CBD5E1;
+  --text-primary: #1E293B;
+  --text-secondary: #64748B;
+  --radius-card: 20px;
+  --radius-pill: 50px;
+  --radius-input: 12px;
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-card-md: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: -apple-system, "SF Pro Display", "SF Pro Text", "Roboto", sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none; /* handled by :focus-visible below */
+  background: none;
+}
+
+/* ── Focus visible (keyboard nav) ──────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Shimmer skeleton animation ────────────────────────────────────── */
+
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #E2E8F0 25%, #F1F5F9 50%, #E2E8F0 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 8px;
+}
+
+/* ── Reduced motion ────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Desktop centering backdrop ────────────────────────────────────── */
+
+@media (min-width: 520px) {
+  body {
+    background-color: #E2E8F0;
+  }
+
+  #root {
+    max-width: 480px;
+    margin: 0 auto;
+    box-shadow: 0 0 60px rgba(0,0,0,0.12);
+    background-color: var(--bg-dark);
+  }
+}
+
+/* ── Tiny screen (375px) adjustments ──────────────────────────────── */
+
+@media (max-width: 390px) {
+  :root {
+    --radius-card: 16px;
+  }
+}

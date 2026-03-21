@@ -1,0 +1,747 @@
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Page ──────────────────────────────────────────────────────────── */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 20px 44px;
+  animation: pageIn 0.35s ease forwards;
+}
+
+.pageTitle {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+}
+
+/* ── Section card ───────────────────────────────────────────────────── */
+
+.section {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 20px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  box-shadow: var(--shadow-card);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  padding-bottom: 16px;
+}
+
+.sectionIcon {
+  font-size: 15px;
+}
+
+.sectionNote {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  padding-bottom: 14px;
+}
+
+/* ── Setting row ────────────────────────────────────────────────────── */
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 0;
+}
+
+.rowLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.rowLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.rowDesc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.rowRight {
+  flex-shrink: 0;
+}
+
+.rowHeaderLine {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* ── Divider ────────────────────────────────────────────────────────── */
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0 -2px;
+}
+
+/* ── Toggle switch ──────────────────────────────────────────────────── */
+
+.toggle {
+  width: 46px;
+  height: 26px;
+  border-radius: 13px;
+  background: #CBD5E1;
+  border: none;
+  cursor: pointer;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+.toggleOn {
+  background: var(--primary);
+  justify-content: flex-end;
+}
+
+.toggleThumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  display: block;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.toggleOn .toggleThumb {
+  transform: none;
+}
+
+.toggleWithTime {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.timeInputSmall {
+  background: #F8FAFC;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-input);
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 8px;
+  width: 88px;
+}
+
+/* ── Modal / bottom sheet ───────────────────────────────────────────── */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.5);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.modalSheet {
+  width: 100%;
+  max-width: 480px;
+  background: var(--bg-surface);
+  border-radius: 20px 20px 0 0;
+  padding: 12px 22px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  animation: sheetIn 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.08);
+}
+
+@keyframes sheetIn {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.sheetHandle {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: #CBD5E1;
+  align-self: center;
+  margin-bottom: 18px;
+}
+
+.sheetTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.sheetDesc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+
+/* ── Time row ────────────────────────────────────────────────────────── */
+
+.timeRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.timeField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.timeLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.timeInput {
+  background: #F8FAFC;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-input);
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 12px;
+  width: 100%;
+  transition: border-color 0.15s ease;
+}
+
+.timeInput:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.timeSep {
+  font-size: 18px;
+  color: var(--text-secondary);
+  padding-bottom: 10px;
+  flex-shrink: 0;
+}
+
+/* ── Action buttons ─────────────────────────────────────────────────── */
+
+.sheetActions {
+  display: flex;
+  gap: 10px;
+}
+
+.cancelBtn {
+  flex: 1;
+  padding: 13px;
+  border-radius: var(--radius-pill);
+  background: #F1F5F9;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.cancelBtn:hover {
+  background: #E2E8F0;
+}
+
+.saveBtn {
+  flex: 1;
+  padding: 13px;
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  box-shadow: 0 2px 10px rgba(37,99,235,0.25);
+}
+
+.saveBtn:hover {
+  opacity: 0.9;
+}
+
+.saveBtn:active {
+  transform: scale(0.97);
+}
+
+/* ── Reset confirm ──────────────────────────────────────────────────── */
+
+.resetConfirm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 0 4px;
+}
+
+.resetWarning {
+  font-size: 13px;
+  color: #B91C1C;
+  line-height: 1.6;
+  background: var(--danger-light);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: var(--radius-input);
+  padding: 12px 14px;
+}
+
+.resetPrompt {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.resetInput {
+  background: #F8FAFC;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-input);
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 14px;
+  letter-spacing: 0.5px;
+  transition: border-color 0.15s ease;
+}
+
+.resetInput:focus {
+  outline: none;
+  border-color: var(--danger);
+}
+
+.resetActions {
+  display: flex;
+  gap: 10px;
+}
+
+.dangerBtn {
+  flex: 1;
+  padding: 13px;
+  border-radius: var(--radius-pill);
+  background: var(--danger-light);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: var(--danger);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.dangerBtn:hover:not(:disabled) {
+  background: #FEE2E2;
+  border-color: rgba(239,68,68,0.5);
+}
+
+.dangerDisabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Human Hours blocks ─────────────────────────────────────────────── */
+
+.emptyNote {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  padding: 4px 0 14px;
+}
+
+.blockList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.timeBlock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--primary-light);
+  border: 1px solid var(--primary-mid);
+  border-radius: var(--radius-input);
+  padding: 10px 14px;
+}
+
+.timeBlockText {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.removeBtn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 2px 4px;
+  opacity: 0.6;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.removeBtn:hover {
+  opacity: 1;
+  color: var(--danger);
+}
+
+.addBtn {
+  background: none;
+  border: 1.5px dashed var(--border-mid);
+  border-radius: var(--radius-input);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px;
+  margin-top: 4px;
+  text-align: center;
+  transition: border-color 0.15s ease, color 0.15s ease;
+  width: 100%;
+}
+
+.addBtn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* ── Pause list checkboxes ──────────────────────────────────────────── */
+
+.checkList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+
+.checkRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 10px;
+  transition: background 0.15s ease;
+}
+
+.checkRow:hover {
+  background: #F8FAFC;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 1.5px solid var(--border-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  color: transparent;
+  background: transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.checkboxOn {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.checkLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* ── Add app row ────────────────────────────────────────────────────── */
+
+.addAppRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.addAppInput {
+  flex: 1;
+  background: #F8FAFC;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-input);
+  color: var(--text-primary);
+  font-size: 14px;
+  padding: 9px 12px;
+  transition: border-color 0.15s ease;
+}
+
+.addAppInput:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.addAppInput::placeholder {
+  color: #94A3B8;
+}
+
+/* ── Inline name edit ───────────────────────────────────────────────── */
+
+.inlineEdit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inlineInput {
+  background: #F8FAFC;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-input);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 7px 10px;
+  width: 140px;
+  transition: border-color 0.15s ease;
+}
+
+.inlineInput:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.saveInlineBtn {
+  background: var(--primary);
+  border: none;
+  border-radius: var(--radius-pill);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.2);
+}
+
+.saveInlineBtn:hover {
+  opacity: 0.9;
+}
+
+.saveInlineBtn:active {
+  transform: scale(0.97);
+}
+
+.editBtn {
+  background: #F1F5F9;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.editBtn:hover {
+  background: #E2E8F0;
+  color: var(--text-primary);
+}
+
+.unset {
+  color: #94A3B8;
+  font-style: italic;
+}
+
+/* ── Goal current display ───────────────────────────────────────────── */
+
+.goalCurrent {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--primary-light);
+  border: 1px solid var(--primary-mid);
+  border-radius: var(--radius-input);
+  font-size: 14px;
+}
+
+.goalCurrentLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* ── Goal picker list ───────────────────────────────────────────────── */
+
+.goalList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.goalRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #F8FAFC;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-input);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.goalRow:hover {
+  background: #F1F5F9;
+  border-color: var(--border-mid);
+}
+
+.goalRowSelected {
+  background: var(--primary-light);
+  border-color: var(--primary-mid);
+}
+
+.goalIcon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.goalInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.goalLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.goalDesc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.goalCheck {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+/* ── Action button ──────────────────────────────────────────────────── */
+
+.actionBtn {
+  background: #F1F5F9;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.actionBtn:hover {
+  background: #E2E8F0;
+}
+
+/* ── About section ──────────────────────────────────────────────────── */
+
+.versionTag {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: #F1F5F9;
+  border-radius: 99px;
+  padding: 3px 10px;
+}
+
+.linkRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 0;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.15s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.linkRow:hover {
+  color: var(--primary);
+}
+
+.externalIcon {
+  font-size: 14px;
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+.tagline {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: center;
+  padding-top: 12px;
+  opacity: 0.6;
+  line-height: 1.6;
+}

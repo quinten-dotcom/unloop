@@ -1,0 +1,39 @@
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-11px); }
+}
+
+@keyframes slowRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; r: 4; }
+  50%       { opacity: 0.5; r: 3; }
+}
+
+@keyframes ringBreath {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 0.85; }
+}
+
+.svg {
+  display: block;
+  animation: float 3.2s ease-in-out infinite;
+  overflow: visible;
+}
+
+.rings {
+  transform-origin: 100px 100px;
+  transform-box: fill-box;
+  animation: slowRotate 28s linear infinite;
+}
+
+.centerDot {
+  animation: dotPulse 2.4s ease-in-out infinite;
+}
+
+.centerRing {
+  animation: ringBreath 2.4s ease-in-out infinite;
+}

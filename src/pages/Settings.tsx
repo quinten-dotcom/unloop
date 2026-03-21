@@ -1,0 +1,555 @@
+import { useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useUserStore } from '../store/useUserStore'
+import { useMissionStore } from '../store/useMissionStore'
+import type { UserGoal } from '../store/useUserStore'
+import styles from './Settings.module.css'
+
+// ── Shared UI atoms ───────────────────────────────────────────────────────────
+
+function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <button
+      className={`${styles.toggle} ${on ? styles.toggleOn : ''}`}
+      onClick={() => onChange(!on)}
+      role="switch"
+      aria-checked={on}
+    >
+      <span className={styles.toggleThumb} />
+    </button>
+  )
+}
+
+function SectionHeader({ label, icon }: { label: string; icon: string }) {
+  return (
+    <div className={styles.sectionHeader}>
+      <span className={styles.sectionIcon}>{icon}</span>
+      <span>{label}</span>
+    </div>
+  )
+}
+
+function SettingRow({
+  label,
+  description,
+  right,
+}: {
+  label: string
+  description?: string
+  right?: React.ReactNode
+}) {
+  return (
+    <div className={styles.row}>
+      <div className={styles.rowLeft}>
+        <span className={styles.rowLabel}>{label}</span>
+        {description && <span className={styles.rowDesc}>{description}</span>}
+      </div>
+      {right && <div className={styles.rowRight}>{right}</div>}
+    </div>
+  )
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function fmt24to12(time: string): string {
+  const [hStr, mStr] = time.split(':')
+  const h = parseInt(hStr, 10)
+  const ampm = h >= 12 ? 'PM' : 'AM'
+  const h12 = h % 12 || 12
+  return `${h12}:${mStr} ${ampm}`
+}
+
+const DEFAULT_APPS = ['TikTok', 'Instagram', 'X (Twitter)', 'YouTube Shorts', 'Snapchat', 'Reddit']
+
+const GOAL_OPTIONS: Array<{ id: UserGoal; icon: string; label: string; desc: string }> = [
+  { id: 'better-focus',     icon: '🎯', label: 'Focus & Deep Work',    desc: "stop losing hours you can't account for" },
+  { id: 'better-sleep',     icon: '😴', label: 'Better Sleep',          desc: 'your evenings and mornings are yours again' },
+  { id: 'healthier-habits', icon: '💪', label: 'Actually Be Present',   desc: 'be there for the people in front of you' },
+  { id: 'reduce-scrolling', icon: '🧠', label: 'Mental Quiet',          desc: 'less noise in your head, more actual thoughts' },
+]
+
+// ── Time Block Modal ──────────────────────────────────────────────────────────
+
+function TimeBlockModal({
+  onSave,
+  onClose,
+}: {
+  onSave: (start: string, end: string) => void
+  onClose: () => void
+}) {
+  const [start, setStart] = useState('08:00')
+  const [end,   setEnd]   = useState('09:00')
+
+  function handleSave() {
+    if (start && end) onSave(start, end)
+  }
+
+  return (
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div className={styles.modalSheet} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.sheetHandle} />
+        <h3 className={styles.sheetTitle}>add a phone-free block</h3>
+        <p className={styles.sheetDesc}>
+          during this time, we'll remind you to stay off your phone.
+        </p>
+
+        <div className={styles.timeRow}>
+          <div className={styles.timeField}>
+            <label className={styles.timeLabel}>Start</label>
+            <input
+              type="time"
+              className={styles.timeInput}
+              value={start}
+              onChange={(e) => setStart(e.target.value)}
+            />
+          </div>
+          <div className={styles.timeSep}>→</div>
+          <div className={styles.timeField}>
+            <label className={styles.timeLabel}>End</label>
+            <input
+              type="time"
+              className={styles.timeInput}
+              value={end}
+              onChange={(e) => setEnd(e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className={styles.sheetActions}>
+          <button className={styles.cancelBtn} onClick={onClose}>cancel</button>
+          <button className={styles.saveBtn} onClick={handleSave}>save block</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ── Reset Confirm ─────────────────────────────────────────────────────────────
+
+function ResetConfirm({ onCancel }: { onCancel: () => void }) {
+  const [input, setInput] = useState('')
+  const ready = input === 'RESET'
+
+  function handleReset() {
+    if (!ready) return
+    ;['unloop-user', 'unloop-missions', 'unloop-challenges'].forEach((k) =>
+      localStorage.removeItem(k)
+    )
+    window.location.replace('/onboarding')
+  }
+
+  return (
+    <div className={styles.resetConfirm}>
+      <p className={styles.resetWarning}>
+        ⚠️ this will erase all your XP, streaks, and history. it cannot be undone.
+      </p>
+      <p className={styles.resetPrompt}>type <strong>RESET</strong> to confirm:</p>
+      <input
+        type="text"
+        className={styles.resetInput}
+        placeholder="RESET"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        autoCapitalize="characters"
+      />
+      <div className={styles.resetActions}>
+        <button className={styles.cancelBtn} onClick={onCancel}>cancel</button>
+        <button
+          className={`${styles.dangerBtn} ${!ready ? styles.dangerDisabled : ''}`}
+          disabled={!ready}
+          onClick={handleReset}
+        >
+          erase everything
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// ── Section: Human Hours ──────────────────────────────────────────────────────
+
+function HumanHoursSection() {
+  const { humanHours, addHumanHour, removeHumanHour } = useUserStore()
+  const [showModal, setShowModal] = useState(false)
+
+  return (
+    <section className={styles.section}>
+      <SectionHeader label="Human Hours" icon="🕐" />
+
+      {humanHours.length === 0 ? (
+        <p className={styles.emptyNote}>no blocks set yet. add one to schedule some phone-free time.</p>
+      ) : (
+        <div className={styles.blockList}>
+          {humanHours.map((h) => (
+            <div key={h.id} className={styles.timeBlock}>
+              <span className={styles.timeBlockText}>
+                {fmt24to12(h.start)} — {fmt24to12(h.end)}
+              </span>
+              <button
+                className={styles.removeBtn}
+                onClick={() => removeHumanHour(h.id)}
+                aria-label="Remove time block"
+              >
+                ✕
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <button className={styles.addBtn} onClick={() => setShowModal(true)}>
+        + Add time block
+      </button>
+
+      {showModal && (
+        <TimeBlockModal
+          onSave={(start, end) => {
+            addHumanHour({ start, end })
+            setShowModal(false)
+          }}
+          onClose={() => setShowModal(false)}
+        />
+      )}
+    </section>
+  )
+}
+
+// ── Section: Pause List ───────────────────────────────────────────────────────
+
+function PauseListSection() {
+  const { pauseApps, updateStats } = useUserStore()
+  const [addingApp, setAddingApp] = useState(false)
+  const [newApp, setNewApp] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  // Union of defaults + any custom apps in pauseApps
+  const allApps = Array.from(new Set([...DEFAULT_APPS, ...pauseApps]))
+
+  function toggle(app: string) {
+    const next = pauseApps.includes(app)
+      ? pauseApps.filter((a) => a !== app)
+      : [...pauseApps, app]
+    updateStats({ pauseApps: next })
+  }
+
+  function handleAddApp() {
+    const trimmed = newApp.trim()
+    if (!trimmed) return
+    if (!pauseApps.includes(trimmed)) {
+      updateStats({ pauseApps: [...pauseApps, trimmed] })
+    }
+    setNewApp('')
+    setAddingApp(false)
+  }
+
+  return (
+    <section className={styles.section}>
+      <SectionHeader label="Pause List" icon="⏸️" />
+      <p className={styles.sectionNote}>
+        we'll add a 10-second pause before you open any of these.
+      </p>
+
+      <div className={styles.checkList}>
+        {allApps.map((app) => {
+          const checked = pauseApps.includes(app)
+          return (
+            <button
+              key={app}
+              className={`${styles.checkRow} ${checked ? styles.checkRowOn : ''}`}
+              onClick={() => toggle(app)}
+              role="checkbox"
+              aria-checked={checked}
+            >
+              <span className={`${styles.checkbox} ${checked ? styles.checkboxOn : ''}`}>
+                {checked && '✓'}
+              </span>
+              <span className={styles.checkLabel}>{app}</span>
+            </button>
+          )
+        })}
+      </div>
+
+      {addingApp ? (
+        <div className={styles.addAppRow}>
+          <input
+            ref={inputRef}
+            type="text"
+            className={styles.addAppInput}
+            placeholder="App name…"
+            value={newApp}
+            onChange={(e) => setNewApp(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') handleAddApp() }}
+            autoFocus
+          />
+          <button className={styles.saveBtn} onClick={handleAddApp}>Add</button>
+          <button className={styles.cancelBtn} onClick={() => { setAddingApp(false); setNewApp('') }}>✕</button>
+        </div>
+      ) : (
+        <button className={styles.addBtn} onClick={() => setAddingApp(true)}>
+          + Add app
+        </button>
+      )}
+    </section>
+  )
+}
+
+// ── Section: Notifications ────────────────────────────────────────────────────
+
+function NotificationsSection() {
+  const {
+    notifyDailyReminder,
+    notifyDailyReminderTime,
+    notifyEveningReflection,
+    notifyStreakReminder,
+    setNotifyPref,
+    setNotifyTime,
+  } = useUserStore()
+
+  return (
+    <section className={styles.section}>
+      <SectionHeader label="Notifications" icon="🔔" />
+
+      <SettingRow
+        label="daily practice reminder"
+        description="a nudge to do today's practices"
+        right={
+          <div className={styles.toggleWithTime}>
+            {notifyDailyReminder && (
+              <input
+                type="time"
+                className={styles.timeInputSmall}
+                value={notifyDailyReminderTime}
+                onChange={(e) => setNotifyTime(e.target.value)}
+              />
+            )}
+            <Toggle
+              on={notifyDailyReminder}
+              onChange={(v) => setNotifyPref('notifyDailyReminder', v)}
+            />
+          </div>
+        }
+      />
+      <div className={styles.divider} />
+
+      <SettingRow
+        label="evening check-in"
+        description="a quick check-in about how the day went"
+        right={
+          <Toggle
+            on={notifyEveningReflection}
+            onChange={(v) => setNotifyPref('notifyEveningReflection', v)}
+          />
+        }
+      />
+      <div className={styles.divider} />
+
+      <SettingRow
+        label="streak alert"
+        description="heads up before your streak would break"
+        right={
+          <Toggle
+            on={notifyStreakReminder}
+            onChange={(v) => setNotifyPref('notifyStreakReminder', v)}
+          />
+        }
+      />
+    </section>
+  )
+}
+
+// ── Section: Account ──────────────────────────────────────────────────────────
+
+function AccountSection() {
+  const { name, goal, setName, setGoal } = useUserStore()
+  const [editingName, setEditingName] = useState(false)
+  const [nameVal, setNameVal] = useState(name)
+  const [showGoalPicker, setShowGoalPicker] = useState(false)
+  const [showReset, setShowReset] = useState(false)
+
+  function saveName() {
+    setName(nameVal.trim())
+    setEditingName(false)
+  }
+
+  function exportData() {
+    const userData    = { ...useUserStore.getState() }
+    const missionData = { ...useMissionStore.getState() }
+    // Strip functions
+    const clean = JSON.parse(JSON.stringify({ user: userData, missions: missionData, exportedAt: new Date().toISOString() }))
+    const blob  = new Blob([JSON.stringify(clean, null, 2)], { type: 'application/json' })
+    const url   = URL.createObjectURL(blob)
+    const a     = document.createElement('a')
+    a.href      = url
+    a.download  = `unloop-export-${new Date().toISOString().slice(0, 10)}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const currentGoal = GOAL_OPTIONS.find((g) => g.id === goal)
+
+  return (
+    <section className={styles.section}>
+      <SectionHeader label="Account" icon="👤" />
+
+      {/* Display name */}
+      <div className={styles.row}>
+        <div className={styles.rowLeft}>
+          <span className={styles.rowLabel}>your name</span>
+          {!editingName && (
+            <span className={styles.rowDesc}>
+              {name || <em className={styles.unset}>not set yet</em>}
+            </span>
+          )}
+        </div>
+        <div className={styles.rowRight}>
+          {editingName ? (
+            <div className={styles.inlineEdit}>
+              <input
+                type="text"
+                className={styles.inlineInput}
+                value={nameVal}
+                onChange={(e) => setNameVal(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') saveName() }}
+                autoFocus
+                maxLength={32}
+              />
+              <button className={styles.saveInlineBtn} onClick={saveName}>Save</button>
+            </div>
+          ) : (
+            <button className={styles.editBtn} onClick={() => { setNameVal(name); setEditingName(true) }}>
+              Edit
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className={styles.divider} />
+
+      {/* Goal */}
+      <div className={styles.row} style={{ flexDirection: 'column', gap: 12, alignItems: 'stretch' }}>
+        <div className={styles.rowHeaderLine}>
+          <span className={styles.rowLabel}>your goal</span>
+          <button className={styles.editBtn} onClick={() => setShowGoalPicker((s) => !s)}>
+            {showGoalPicker ? 'Done' : 'Change'}
+          </button>
+        </div>
+        {!showGoalPicker && currentGoal && (
+          <div className={styles.goalCurrent}>
+            <span>{currentGoal.icon}</span>
+            <span className={styles.goalCurrentLabel}>{currentGoal.label}</span>
+          </div>
+        )}
+        {showGoalPicker && (
+          <div className={styles.goalList}>
+            {GOAL_OPTIONS.map((opt) => (
+              <button
+                key={opt.id}
+                className={`${styles.goalRow} ${goal === opt.id ? styles.goalRowSelected : ''}`}
+                onClick={() => { setGoal(opt.id); setShowGoalPicker(false) }}
+              >
+                <span className={styles.goalIcon}>{opt.icon}</span>
+                <div className={styles.goalInfo}>
+                  <span className={styles.goalLabel}>{opt.label}</span>
+                  <span className={styles.goalDesc}>{opt.desc}</span>
+                </div>
+                {goal === opt.id && <span className={styles.goalCheck}>✓</span>}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className={styles.divider} />
+
+      {/* Export */}
+      <SettingRow
+        label="export my data"
+        description="download a copy of everything. it's just a JSON file."
+        right={
+          <button className={styles.actionBtn} onClick={exportData}>
+            Export
+          </button>
+        }
+      />
+
+      <div className={styles.divider} />
+
+      {/* Reset */}
+      {!showReset ? (
+        <SettingRow
+          label="reset everything"
+          description="wipes all your data and starts fresh"
+          right={
+            <button className={styles.dangerBtn} onClick={() => setShowReset(true)}>
+              Reset
+            </button>
+          }
+        />
+      ) : (
+        <ResetConfirm onCancel={() => setShowReset(false)} />
+      )}
+    </section>
+  )
+}
+
+// ── Section: About ────────────────────────────────────────────────────────────
+
+function AboutSection() {
+  const navigate = useNavigate()
+
+  return (
+    <section className={styles.section}>
+      <SectionHeader label="About" icon="ℹ️" />
+
+      <button className={styles.linkRow} onClick={() => navigate('/how-it-works')}>
+        <span>how unloop works</span>
+        <span className={styles.externalIcon}>→</span>
+      </button>
+      <div className={styles.divider} />
+
+      <SettingRow label="Version" right={<span className={styles.versionTag}>1.0.0</span>} />
+      <div className={styles.divider} />
+
+      <a
+        href="https://example.com/privacy"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles.linkRow}
+      >
+        <span>Privacy Policy</span>
+        <span className={styles.externalIcon}>↗</span>
+      </a>
+      <div className={styles.divider} />
+
+      <a
+        href="https://example.com/terms"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles.linkRow}
+      >
+        <span>Terms of Service</span>
+        <span className={styles.externalIcon}>↗</span>
+      </a>
+
+      <p className={styles.tagline}>
+        built to help you break the loop.
+      </p>
+    </section>
+  )
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────────
+
+export default function Settings() {
+  return (
+    <div className={styles.page}>
+      <h1 className={styles.pageTitle}>settings</h1>
+
+      <HumanHoursSection />
+      <PauseListSection />
+      <NotificationsSection />
+      <AccountSection />
+      <AboutSection />
+    </div>
+  )
+}
