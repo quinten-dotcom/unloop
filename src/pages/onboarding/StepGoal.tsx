@@ -25,13 +25,13 @@ const GOAL_OPTIONS: Array<{
     desc: 'your evenings and mornings are yours again',
   },
   {
-    id: 'healthier-habits',
+    id: 'presence',
     emoji: '💪',
     title: 'Actually Be Present',
     desc: 'be there for the people in front of you',
   },
   {
-    id: 'reduce-scrolling',
+    id: 'mental-clarity',
     emoji: '🧠',
     title: 'Mental Quiet',
     desc: 'less noise in your head, more actual thoughts',
