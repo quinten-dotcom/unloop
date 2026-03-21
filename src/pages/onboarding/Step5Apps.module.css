@@ -3,7 +3,7 @@
   background: #FFFFFF;
   display: flex;
   flex-direction: column;
-  padding: 0 0 120px;
+  padding: 0 0 calc(120px + env(safe-area-inset-bottom));
 }
 
 .backBtn {

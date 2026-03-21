@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import styles from './Step9Welcome.module.css'
 
 interface Props {
@@ -114,14 +114,8 @@ function SpiralRings() {
 
 export default function Step9Welcome({ onNext }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
-  const [ctaReady, setCtaReady] = useState(false)
 
   useConfetti(canvasRef)
-
-  useEffect(() => {
-    const t = setTimeout(() => setCtaReady(true), 3000)
-    return () => clearTimeout(t)
-  }, [])
 
   return (
     <div className={styles.container}>
@@ -158,8 +152,8 @@ export default function Step9Welcome({ onNext }: Props) {
         </div>
       </div>
 
-      <div className={`${styles.footer} ${ctaReady ? styles.footerVisible : ''}`}>
-        <button className={styles.btn} onClick={onNext} disabled={!ctaReady}>
+      <div className={styles.footer}>
+        <button className={styles.btn} onClick={onNext}>
           Let's go
         </button>
       </div>

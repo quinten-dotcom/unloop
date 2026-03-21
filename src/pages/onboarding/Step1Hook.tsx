@@ -37,7 +37,7 @@ export default function Step1Hook({ onNext }: Props) {
         </p>
       </div>
 
-      <div className={`${styles.footer} ${phase >= 7 ? styles.footerVisible : ''}`}>
+      <div className={styles.footer}>
         <button className={styles.btn} onClick={onNext}>
           Show me how
         </button>

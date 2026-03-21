@@ -45,20 +45,14 @@
 
 .footer {
   position: fixed;
-  bottom: 64px;
+  bottom: calc(40px + env(safe-area-inset-bottom));
   left: 0;
   right: 0;
   padding: 0 24px;
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  pointer-events: none;
 }
 
 .footerVisible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
+  /* kept for compatibility */
 }
 
 .btn {

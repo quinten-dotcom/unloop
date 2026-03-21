@@ -82,14 +82,11 @@ export default function Step3Tools({ onNext, onBack }: Props) {
           })}
         </div>
 
-        {!allRead && (
-          <p className={styles.hint}>Tap all three to continue</p>
-        )}
       </div>
 
-      <div className={`${styles.footer} ${allRead ? styles.footerVisible : ''}`}>
+      <div className={styles.footer}>
         <button className={styles.btn} onClick={onNext} disabled={!allRead}>
-          Let's set this up for me
+          {allRead ? "Let's set this up for me" : `Open all 3 to continue (${readIds.size}/3)`}
         </button>
       </div>
     </div>
