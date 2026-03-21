@@ -33,7 +33,7 @@
 
 .dots {
   position: fixed;
-  bottom: 28px;
+  bottom: calc(100px + env(safe-area-inset-bottom));
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -46,7 +46,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(0, 0, 0, 0.15);
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
