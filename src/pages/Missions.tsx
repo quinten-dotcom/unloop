@@ -17,6 +17,40 @@ import { toastMissionComplete, toastLevelUp } from '../utils/toasts'
 import { LEVELS } from '../data/levels'
 import styles from './Missions.module.css'
 
+// ── Daily context messages ────────────────────────────────────────────────────
+
+const DAILY_CONTEXT = [
+  "Today's practices are building your ability to choose instead of react.",
+  "Small actions today, real brain changes this week.",
+  "Each practice you complete makes the loop a little weaker.",
+  "Your brain can't change in a day, but it can change one day at a time. Today counts.",
+  "The difference between Level 1 and Level 7 is just a bunch of days like today.",
+  "Consistency beats intensity every time. Showing up today is enough.",
+  "Three small things done is better than ten big things planned.",
+  "Every time you complete a practice, you're voting for who you want to be.",
+  "Your future self is watching you make this choice right now.",
+  "The urge to scroll is your brain's autopilot talking. You don't have to listen.",
+  "Awareness is the first step. You're already doing the hard part by being here.",
+  "Progress isn't always visible. Keep going anyway.",
+  "You've got three practices standing between you and another day of intentional living.",
+  "The science says this works. The only variable is showing up.",
+  "Other people scroll away their evenings. You're doing something different.",
+  "Two minutes of effort now, better brain chemistry all day.",
+  "The loop gets quieter every time you don't feed it.",
+  "Habits are built in the ordinary moments, not the dramatic ones. Like right now.",
+  "Your streak exists because you keep showing up. Today is just one more.",
+  "Small and consistent beats big and sporadic. You're on the right path.",
+]
+
+function getDailyContextMessage(): string {
+  const today = new Date().toISOString().slice(0, 10)
+  let hash = 0
+  for (let i = 0; i < today.length; i++) {
+    hash = (Math.imul(31, hash) + today.charCodeAt(i)) | 0
+  }
+  return DAILY_CONTEXT[Math.abs(hash) % DAILY_CONTEXT.length]
+}
+
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 function getTimeToMidnight(): string {
@@ -342,6 +376,9 @@ export default function Missions() {
           />
         </div>
       </div>
+
+      {/* ── Daily context ─────────────────────────────────────────────── */}
+      <p className={styles.dailyContext}>{getDailyContextMessage()}</p>
 
       {/* ── Mission cards ─────────────────────────────────────────────── */}
       <div className={styles.missionList}>

@@ -62,6 +62,12 @@
   letter-spacing: -0.2px;
 }
 
+.scorePillWrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .scorePill {
   display: flex;
   align-items: center;
@@ -74,6 +80,27 @@
   letter-spacing: 0.2px;
   animation: scoreIn 0.5s 0.1s ease both;
   background: #fff;
+}
+
+.helpBtn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  color: #64748B;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+
+.helpBtn:hover {
+  background: #E2E8F0;
 }
 
 .scoreDot {
@@ -391,10 +418,32 @@
   gap: 4px;
 }
 
+.hmTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .hmTitle {
   font-size: 16px;
   font-weight: 700;
   color: var(--text-primary);
+}
+
+.hmHelpBtn {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  color: #64748B;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .hmDesc {
@@ -436,4 +485,94 @@
 
 .toggleOn .toggleThumb {
   transform: translateX(26px);
+}
+
+/* ── Your Path section ─────────────────────────────────────────────── */
+
+.pathSection {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pathLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.pathDesc {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ── Explainer modal ───────────────────────────────────────────────── */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+}
+
+.modalSheet {
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  padding: 16px 24px 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: slideUp 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.modalHandle {
+  width: 40px;
+  height: 4px;
+  background: #E2E8F0;
+  border-radius: 2px;
+  align-self: center;
+  margin-bottom: 4px;
+}
+
+.modalTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+}
+
+.modalBody {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #475569;
+  margin: 0;
+}
+
+.modalClose {
+  align-self: stretch;
+  padding: 14px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 4px;
 }

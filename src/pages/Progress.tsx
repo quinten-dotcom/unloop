@@ -69,6 +69,34 @@ function reclaimedHours(missions: number, pauses: number): string {
   return hours < 1 ? `${Math.round(hours * 60)}m` : `${hours.toFixed(1)}h`
 }
 
+// ── What's Changing section ───────────────────────────────────────────────────
+
+function getChangingMessage(streak: number): string {
+  if (streak >= 30) {
+    return "You've passed the threshold where most researchers see lasting behavioral change. The loop isn't gone forever, but you have the tools to catch it whenever it starts."
+  }
+  if (streak >= 14) {
+    return "Real structural changes are happening. Your prefrontal cortex (that's the self-control part of your brain) is getting measurably stronger."
+  }
+  if (streak >= 7) {
+    return "Your brain's dopamine receptors are starting to recalibrate. You might be noticing that everyday things like food, conversations, and being outside feel a little more enjoyable."
+  }
+  if (streak >= 4) {
+    return "You're in the early stages of rewiring. The urges to scroll are still strong, but you're getting better at noticing them before you act."
+  }
+  return "You've just started building a new pattern. Your brain is beginning to register that something is different."
+}
+
+function WhatsChangingSection({ streak }: { streak: number }) {
+  const message = getChangingMessage(streak)
+  return (
+    <div className={styles.changingCard}>
+      <span className={styles.changingLabel}>What's changing in your brain</span>
+      <p className={styles.changingBody}>{message}</p>
+    </div>
+  )
+}
+
 // ── Human Score Card ─────────────────────────────────────────────────────────
 
 function HumanScoreCard({ score }: { score: number }) {
@@ -493,6 +521,9 @@ export default function Progress() {
           Level {level}: {levelName}
         </div>
       </div>
+
+      {/* ── What's Changing ───────────────────────────────────────────── */}
+      <WhatsChangingSection streak={humanStreak} />
 
       {/* ── Score ─────────────────────────────────────────────────────── */}
       <HumanScoreCard score={humanScore} />

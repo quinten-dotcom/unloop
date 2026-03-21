@@ -9,6 +9,21 @@ import PauseScreen from '../components/PauseScreen'
 import { toastFirstOpenOfDay, toastIdleNudge, toastStreakMilestone } from '../utils/toasts'
 import styles from './Home.module.css'
 
+// ── Explanation modals ────────────────────────────────────────────────────────
+
+function ExplainerModal({ title, body, onClose }: { title: string; body: string; onClose: () => void }) {
+  return (
+    <div className={styles.modalBackdrop} onClick={onClose}>
+      <div className={styles.modalSheet} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.modalHandle} />
+        <h3 className={styles.modalTitle}>{title}</h3>
+        <p className={styles.modalBody}>{body}</p>
+        <button className={styles.modalClose} onClick={onClose}>Got it</button>
+      </div>
+    </div>
+  )
+}
+
 // ── Derived helpers ──────────────────────────────────────────────────────────
 
 function computeHumanScore(streak: number, missions: number, level: number): number {
@@ -29,14 +44,19 @@ function scoreColor(score: number): string {
 function HumanModeToggle({
   active,
   onToggle,
+  onHelp,
 }: {
   active: boolean
   onToggle: () => void
+  onHelp: () => void
 }) {
   return (
     <div className={styles.hmSection} data-tutorial="human-mode">
       <div className={styles.hmInfo}>
-        <span className={styles.hmTitle}>Human Mode</span>
+        <div className={styles.hmTitleRow}>
+          <span className={styles.hmTitle}>Human Mode</span>
+          <button className={styles.hmHelpBtn} onClick={onHelp} aria-label="What is Human Mode?">?</button>
+        </div>
         <span className={styles.hmDesc}>
           {active ? 'On — you\'re here right now' : 'Start a phone-free window'}
         </span>
@@ -59,6 +79,8 @@ function HumanModeToggle({
 export default function Home() {
   const navigate = useNavigate()
   const [pauseOpen, setPauseOpen] = useState(false)
+  const [hmModalOpen, setHmModalOpen] = useState(false)
+  const [hsModalOpen, setHsModalOpen] = useState(false)
 
   const {
     xp,
@@ -135,9 +157,12 @@ export default function Home() {
           <span className={styles.flameIcon}>🔥</span>
           <span className={styles.streakText}>Day {humanStreak || 0}</span>
         </div>
-        <div className={styles.scorePill} data-tutorial="score-pill" style={{ borderColor: `${color}40`, color }}>
-          <span className={styles.scoreDot} style={{ background: color }} />
-          <span>{humanScore}/100</span>
+        <div className={styles.scorePillWrap}>
+          <div className={styles.scorePill} data-tutorial="score-pill" style={{ borderColor: `${color}40`, color }}>
+            <span className={styles.scoreDot} style={{ background: color }} />
+            <span>{humanScore}/100</span>
+          </div>
+          <button className={styles.helpBtn} onClick={() => setHsModalOpen(true)} aria-label="What is Human Score?">?</button>
         </div>
       </div>
 
@@ -161,6 +186,12 @@ export default function Home() {
         <div className={styles.xpTrack}>
           <div ref={xpFillRef} className={styles.xpFill} />
         </div>
+      </div>
+
+      {/* ── Your Path ────────────────────────────────────────────────────── */}
+      <div className={styles.pathSection}>
+        <span className={styles.pathLabel}>Level {level}: {levelName}</span>
+        <p className={styles.pathDesc}>{currentLevel.pathDescription}</p>
       </div>
 
       {/* ── Mission preview ──────────────────────────────────────────────── */}
@@ -214,6 +245,7 @@ export default function Home() {
       <HumanModeToggle
         active={humanModeActive}
         onToggle={() => setHumanMode(!humanModeActive)}
+        onHelp={() => setHmModalOpen(true)}
       />
 
       {/* ── Pause FAB ────────────────────────────────────────────────────── */}
@@ -233,6 +265,24 @@ export default function Home() {
 
       {/* ── Pause screen ─────────────────────────────────────────────────── */}
       {pauseOpen && <PauseScreen onClose={() => setPauseOpen(false)} />}
+
+      {/* ── Human Mode explainer modal ───────────────────────────────────── */}
+      {hmModalOpen && (
+        <ExplainerModal
+          title="What is Human Mode?"
+          body="Human Mode activates the pause feature. When it's on, opening any of your selected scroll apps will show a 10-second pause first. You can still open the app. The pause just gives you a moment to decide if you actually want to. You can set specific hours for Human Mode in Settings."
+          onClose={() => setHmModalOpen(false)}
+        />
+      )}
+
+      {/* ── Human Score explainer modal ──────────────────────────────────── */}
+      {hsModalOpen && (
+        <ExplainerModal
+          title="What is your Human Score?"
+          body="Your Human Score measures how intentional you were with your phone today, from 0 to 100. It factors in how many practices you completed, how many times you used the pause, and how much time you spent in Human Mode. Think of it as a daily report card for your phone habits."
+          onClose={() => setHsModalOpen(false)}
+        />
+      )}
     </div>
   )
 }
