@@ -7,6 +7,13 @@ import Progress from './pages/Progress'
 import Science from './pages/Science'
 import Settings from './pages/Settings'
 import HowItWorks from './pages/HowItWorks'
+import { useUserStore } from './store/useUserStore'
+
+function RequireOnboarding({ children }: { children: React.ReactNode }) {
+  const onboardingComplete = useUserStore((s) => s.onboardingComplete)
+  if (!onboardingComplete) return <Navigate to="/onboarding" replace />
+  return <>{children}</>
+}
 
 export default function App() {
   return (
@@ -14,7 +21,13 @@ export default function App() {
       <Routes>
         <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
-        <Route element={<Layout />}>
+        <Route
+          element={
+            <RequireOnboarding>
+              <Layout />
+            </RequireOnboarding>
+          }
+        >
           <Route index element={<Navigate to="/home" replace />} />
           <Route path="/home" element={<Home />} />
           <Route path="/missions" element={<Missions />} />

@@ -1,0 +1,222 @@
+.container {
+  min-height: 100dvh;
+  background: #0F172A;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 24px 120px;
+  position: relative;
+  overflow: hidden;
+}
+
+.confettiCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding-top: 80px;
+}
+
+/* ── Spiral ──────────────────────────────────────────────── */
+
+.visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes drawRing {
+  from { stroke-dashoffset: var(--circ); }
+  to   { stroke-dashoffset: 0; }
+}
+
+.ring {
+  animation: drawRing 0.9s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.spiral {
+  filter: drop-shadow(0 0 24px rgba(37, 99, 235, 0.4));
+}
+
+/* ── Text block ──────────────────────────────────────────── */
+
+.textBlock {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.headline {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.body {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #94A3B8;
+  margin: 0;
+  max-width: 320px;
+}
+
+/* ── Staggered fade-in ───────────────────────────────────── */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.line1 { animation: fadeUp 0.6s 0.2s ease both; }
+.line2 { animation: fadeUp 0.6s 0.6s ease both; }
+.line3 { animation: fadeUp 0.6s 1.0s ease both; }
+.line4 { animation: fadeUp 0.6s 1.5s ease both; }
+
+/* ── Badge ───────────────────────────────────────────────── */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(37, 99, 235, 0.2);
+  border: 1px solid rgba(37, 99, 235, 0.4);
+  border-radius: 50px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #60A5FA;
+}
+
+.badgeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10B981;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.85); }
+}
+
+/* ── Mission preview ─────────────────────────────────────── */
+
+.missionPreview {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.missionPreviewLabel {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.missionPreviewSub {
+  font-size: 0.85rem;
+  color: #64748B;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.xpRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.xpBadge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #60A5FA;
+  flex-shrink: 0;
+}
+
+.xpTrack {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.xpFill {
+  width: 0%;
+  height: 100%;
+  background: #2563EB;
+  border-radius: 3px;
+}
+
+.xpTarget {
+  font-size: 0.75rem;
+  color: #475569;
+  flex-shrink: 0;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+
+.footer {
+  position: fixed;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  padding: 0 24px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+}
+
+.footerVisible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.btn {
+  width: 100%;
+  padding: 18px;
+  background: #2563EB;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn:not(:disabled):active {
+  background: #1D4ED8;
+  transform: scale(0.98);
+}

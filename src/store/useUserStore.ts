@@ -9,10 +9,10 @@ export interface HumanHour {
 }
 
 export type UserGoal =
-  | 'reduce-scrolling'
   | 'better-focus'
   | 'better-sleep'
-  | 'healthier-habits'
+  | 'presence'
+  | 'mental-clarity'
   | 'general'
 
 export interface UserState {
@@ -21,20 +21,27 @@ export interface UserState {
   name: string
   goal: UserGoal
 
+  // Onboarding
+  onboardingComplete: boolean
+  triggers: string[]           // e.g. ['social-media', 'gaming']
+
   // Progression
   xp: number
   level: number
   levelName: string
 
   // Streaks
-  humanStreak: number       // consecutive days with missions completed
+  humanStreak: number
   bestStreak: number
-  lastActiveDate: string | null  // ISO date string YYYY-MM-DD
+  lastActiveDate: string | null
 
   // Preferences
   grayscaleEnabled: boolean
   notificationsEnabled: boolean
-  pauseApps: string[]       // list of app names user has flagged to pause
+  pauseApps: string[]
+  humanModeActive: boolean
+  humanModeStartTime: string   // "HH:MM"
+  humanModeEndTime: string     // "HH:MM"
 
   // Aggregate stats
   totalPausesTriggered: number
@@ -47,15 +54,12 @@ export interface UserState {
   // Level history — level number → ISO date it was first reached
   levelHistory: Record<number, string>
 
-  // Human Mode
-  humanModeActive: boolean
-
   // Human Hours (scheduled phone-free windows)
   humanHours: HumanHour[]
 
   // Notification preferences
   notifyDailyReminder: boolean
-  notifyDailyReminderTime: string   // "HH:MM"
+  notifyDailyReminderTime: string
   notifyEveningReflection: boolean
   notifyStreakReminder: boolean
 
@@ -69,6 +73,9 @@ export interface UserState {
   setGoal: (goal: UserGoal) => void
   setName: (name: string) => void
   setHumanMode: (value: boolean) => void
+  setHumanModeSchedule: (start: string, end: string) => void
+  setTriggers: (triggers: string[]) => void
+  setOnboardingComplete: () => void
   addHumanHour: (block: Omit<HumanHour, 'id'>) => void
   removeHumanHour: (id: string) => void
   setNotifyPref: (key: 'notifyDailyReminder' | 'notifyEveningReflection' | 'notifyStreakReminder', value: boolean) => void
@@ -99,6 +106,8 @@ export const useUserStore = create<UserState>()(
       userId: crypto.randomUUID(),
       name: '',
       goal: 'general',
+      onboardingComplete: false,
+      triggers: [],
 
       xp: 0,
       level: 1,
@@ -112,6 +121,8 @@ export const useUserStore = create<UserState>()(
       notificationsEnabled: true,
       pauseApps: [],
       humanModeActive: false,
+      humanModeStartTime: '09:00',
+      humanModeEndTime: '21:00',
 
       totalPausesTriggered: 0,
       totalIntentionalOpens: 0,
@@ -134,7 +145,6 @@ export const useUserStore = create<UserState>()(
           const newXP = state.xp + amount
           const lvl = getLevelFromXP(newXP)
 
-          // Shift weeklyXP: add to today's slot (index 6)
           const weekly = [...state.weeklyXP]
           weekly[6] = (weekly[6] ?? 0) + amount
 
@@ -156,7 +166,7 @@ export const useUserStore = create<UserState>()(
       completeStreakDay: () => {
         set((state) => {
           const today = todayISO()
-          if (state.lastActiveDate === today) return {}   // already counted today
+          if (state.lastActiveDate === today) return {}
 
           const yesterday = new Date()
           yesterday.setDate(yesterday.getDate() - 1)
@@ -174,21 +184,13 @@ export const useUserStore = create<UserState>()(
         })
       },
 
-      resetStreak: () => {
-        set({ humanStreak: 0 })
-      },
-
-      setGoal: (goal: UserGoal) => {
-        set({ goal })
-      },
-
-      setName: (name: string) => {
-        set({ name })
-      },
-
-      setHumanMode: (value: boolean) => {
-        set({ humanModeActive: value })
-      },
+      resetStreak: () => set({ humanStreak: 0 }),
+      setGoal: (goal) => set({ goal }),
+      setName: (name) => set({ name }),
+      setHumanMode: (value) => set({ humanModeActive: value }),
+      setHumanModeSchedule: (start, end) => set({ humanModeStartTime: start, humanModeEndTime: end }),
+      setTriggers: (triggers) => set({ triggers }),
+      setOnboardingComplete: () => set({ onboardingComplete: true }),
 
       addHumanHour: (block) => {
         set((state) => ({
@@ -202,13 +204,8 @@ export const useUserStore = create<UserState>()(
         }))
       },
 
-      setNotifyPref: (key, value) => {
-        set({ [key]: value })
-      },
-
-      setNotifyTime: (time) => {
-        set({ notifyDailyReminderTime: time })
-      },
+      setNotifyPref: (key, value) => set({ [key]: value }),
+      setNotifyTime: (time) => set({ notifyDailyReminderTime: time }),
 
       earnMilestone: (id) => {
         set((state) => {
@@ -222,23 +219,18 @@ export const useUserStore = create<UserState>()(
         })
       },
 
-      updateStats: (stats) => {
-        set((state) => ({ ...state, ...stats }))
-      },
+      updateStats: (stats) => set((state) => ({ ...state, ...stats })),
     }),
     {
       name: 'unloop-user',
-      // Rotate weeklyXP array each new day when the store rehydrates
       onRehydrateStorage: () => (state) => {
         if (!state) return
         const today = todayISO()
         if (state.lastActiveDate && state.lastActiveDate !== today) {
-          // Calculate how many days have passed since last active
           const last = new Date(state.lastActiveDate)
           const now = new Date(today)
           const diff = Math.round((now.getTime() - last.getTime()) / 86_400_000)
           const weekly = [...state.weeklyXP]
-          // Shift array left by `diff` slots, filling new slots with 0
           for (let i = 0; i < Math.min(diff, 7); i++) {
             weekly.shift()
             weekly.push(0)

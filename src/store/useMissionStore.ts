@@ -22,8 +22,8 @@ function difficultyDistribution(level: number): Record<MissionDifficulty, number
 const GOAL_CATEGORY: Record<UserGoal, MissionCategory[]> = {
   'better-focus':    ['focus'],
   'better-sleep':    ['environment'],
-  'healthier-habits':['social'],
-  'reduce-scrolling':['morning', 'focus'],
+  'presence':        ['social', 'intentional'],
+  'mental-clarity':  ['focus', 'morning'],
   'general':         ['morning', 'focus', 'environment', 'intentional', 'social'],
 }
 

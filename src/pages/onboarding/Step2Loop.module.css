@@ -1,0 +1,150 @@
+.container {
+  min-height: 100dvh;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 100px;
+}
+
+.backBtn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  color: #64748B;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 10;
+}
+
+.content {
+  flex: 1;
+  padding: 72px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0F172A;
+  line-height: 1.3;
+  margin: 0;
+}
+
+/* ── Loop diagram ────────────────────────────────────────── */
+
+.loopDiagram {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.loopRow {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loopStep {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  transition: border-color 0.3s ease, background 0.3s ease, transform 0.2s ease;
+}
+
+.loopStepActive {
+  border-color: #2563EB;
+  background: #EFF6FF;
+  transform: scale(1.02);
+}
+
+.loopEmoji {
+  font-size: 1.2rem;
+}
+
+.loopLabel {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #334155;
+}
+
+.loopArrow {
+  font-size: 1rem;
+  color: #CBD5E1;
+  padding: 4px 0;
+  transition: color 0.3s ease;
+}
+
+.loopArrowActive {
+  color: #2563EB;
+}
+
+.loopBack {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #94A3B8;
+  transition: color 0.3s ease;
+}
+
+.loopBackActive {
+  color: #2563EB;
+}
+
+/* ── Explanation ─────────────────────────────────────────── */
+
+.explanation {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.explanation p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #475569;
+  margin: 0;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+
+.footer {
+  position: fixed;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  padding: 0 24px;
+}
+
+.btn {
+  width: 100%;
+  padding: 16px;
+  background: #2563EB;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn:active {
+  background: #1D4ED8;
+  transform: scale(0.98);
+}
