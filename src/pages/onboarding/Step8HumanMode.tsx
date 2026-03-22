@@ -22,12 +22,12 @@ export default function Step8HumanMode({ initialStart, initialEnd, initialActive
       </button>
 
       <div className={styles.content}>
-        <h1 className={styles.heading}>Let's set up Human Mode</h1>
+        <h1 className={styles.heading}>Set up The Pause</h1>
 
         {/* Before / After illustration */}
         <div className={styles.comparison}>
           <div className={styles.side}>
-            <p className={styles.sideLabel}>Without Human Mode</p>
+            <p className={styles.sideLabel}>Without The Pause</p>
             <div className={styles.sideFlow}>
               <span className={styles.flowStep}>📱 Open app</span>
               <span className={styles.flowArrow}>↓</span>
@@ -38,7 +38,7 @@ export default function Step8HumanMode({ initialStart, initialEnd, initialActive
           </div>
           <div className={styles.divider} />
           <div className={styles.side}>
-            <p className={`${styles.sideLabel} ${styles.sideLabelBlue}`}>With Human Mode</p>
+            <p className={`${styles.sideLabel} ${styles.sideLabelBlue}`}>With The Pause</p>
             <div className={styles.sideFlow}>
               <span className={styles.flowStep}>📱 Open app</span>
               <span className={styles.flowArrow}>↓</span>
@@ -50,12 +50,12 @@ export default function Step8HumanMode({ initialStart, initialEnd, initialActive
         </div>
 
         <p className={styles.explanation}>
-          Human Mode activates the pause feature. When it's on, opening any of the apps you selected will trigger a 10-second pause first. It's not a block. You can always continue to the app. It just gives you a moment to decide if you actually want to.
+          The Pause adds a 10-second pause before any of the apps you selected. It is not a block. You can always continue to the app. It just gives you a moment to decide if you actually want to.
         </p>
 
         {/* Active hours */}
         <div className={styles.hoursCard}>
-          <p className={styles.hoursLabel}>When do you want Human Mode active?</p>
+          <p className={styles.hoursLabel}>When should The Pause be active?</p>
           <div className={styles.hoursRow}>
             <div className={styles.timeBlock}>
               <label className={styles.timeBlockLabel} htmlFor="hm-start">From</label>
@@ -85,8 +85,8 @@ export default function Step8HumanMode({ initialStart, initialEnd, initialActive
         {/* Turn on now toggle */}
         <div className={styles.toggleRow}>
           <div className={styles.toggleInfo}>
-            <span className={styles.toggleLabel}>Turn on Human Mode now</span>
-            <span className={styles.toggleSub}>You can toggle this any time from the home screen</span>
+            <span className={styles.toggleLabel}>Turn on The Pause now</span>
+            <span className={styles.toggleSub}>You can change this any time in Settings</span>
           </div>
           <button
             className={`${styles.toggle} ${active ? styles.toggleOn : ''}`}

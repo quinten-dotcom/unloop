@@ -88,9 +88,9 @@ function TimeBlockModal({
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalSheet} onClick={(e) => e.stopPropagation()}>
         <div className={styles.sheetHandle} />
-        <h3 className={styles.sheetTitle}>Add a phone-free block</h3>
+        <h3 className={styles.sheetTitle}>Add a pause block</h3>
         <p className={styles.sheetDesc}>
-          During this time, we'll remind you to stay off your phone.
+          The Pause will be active during this time window.
         </p>
 
         <div className={styles.timeRow}>
@@ -273,9 +273,9 @@ function TemptationBundleSection() {
   )
 }
 
-// ── Section: Human Hours ──────────────────────────────────────────────────────
+// ── Section: Pause Schedule ───────────────────────────────────────────────────
 
-function HumanHoursSection() {
+function PauseScheduleSection() {
   const { humanHours, addHumanHour, removeHumanHour } = useUserStore()
   const [showModal, setShowModal] = useState(false)
 
@@ -285,10 +285,10 @@ function HumanHoursSection() {
 
   return (
     <section className={styles.section}>
-      <SectionHeader label="Human Hours" icon="🕐" />
+      <SectionHeader label="Pause Schedule" icon="⏸️" />
 
       {humanHours.length === 0 ? (
-        <p className={styles.emptyNote}>No blocks set yet. Add one to schedule some phone-free time.</p>
+        <p className={styles.emptyNote}>No schedule set yet. Add a block to schedule when The Pause is active.</p>
       ) : (
         <div className={styles.blockList}>
           {humanHours.map((h) => (
@@ -342,8 +342,8 @@ function NotificationsSection() {
       <SectionHeader label="Notifications" icon="🔔" />
 
       <SettingRow
-        label="daily practice reminder"
-        description="a nudge to do today's practices"
+        label="Daily practice reminder"
+        description="A nudge to do today's practices"
         right={
           <div className={styles.toggleWithTime}>
             {notifyDailyReminder && (
@@ -364,8 +364,8 @@ function NotificationsSection() {
       <div className={styles.divider} />
 
       <SettingRow
-        label="evening check-in"
-        description="a quick check-in about how the day went"
+        label="Evening check-in"
+        description="A quick check-in about how the day went"
         right={
           <Toggle
             on={notifyEveningReflection}
@@ -376,8 +376,8 @@ function NotificationsSection() {
       <div className={styles.divider} />
 
       <SettingRow
-        label="streak alert"
-        description="heads up before your streak would break"
+        label="Streak alert"
+        description="Heads up before your streak would break"
         right={
           <Toggle
             on={notifyStreakReminder}
@@ -596,7 +596,7 @@ export default function Settings() {
 
       <EnvironmentDesignSection />
       <TemptationBundleSection />
-      <HumanHoursSection />
+      <PauseScheduleSection />
       <NotificationsSection />
       <AccountSection />
       <AboutSection />

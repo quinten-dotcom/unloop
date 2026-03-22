@@ -18,7 +18,7 @@ const STEPS: Step[] = [
   },
   {
     target: 'xp-bar',
-    text: "This bar tracks your XP. You earn XP by completing daily practices, using the pause feature, and finishing challenges. When the bar fills up, you level up and unlock new stuff.",
+    text: "This bar tracks your XP. You earn XP by completing daily practices and finishing challenges. When the bar fills up, you level up and unlock new tools.",
   },
   {
     target: 'streak',
@@ -30,15 +30,11 @@ const STEPS: Step[] = [
   },
   {
     target: 'score-pill',
-    text: "This is your Human Score, from 0 to 100. It measures how intentional you were with your phone today. It factors in your practices, your pauses, and how much time you spent in Human Mode.",
+    text: "This is your Human Score, from 0 to 100. It measures how intentional you were with your phone today. It factors in your streak, your practices, and your level. Tap the ? to learn more.",
   },
   {
     target: 'missions-tab',
-    text: "This is where your daily practices live. It's probably where you'll spend the most time. Check in here every morning to see what you've got.",
-  },
-  {
-    target: 'human-mode',
-    text: "When you turn this on, it activates the pause feature. Before you open any of your scroll apps, you'll get a 10-second pause to ask yourself if you actually want to open it. It's honestly the most powerful thing in the whole app.",
+    text: "This is where your daily practices live. It is probably where you will spend the most time. Check in here every morning to see what you have got.",
   },
 ]
 

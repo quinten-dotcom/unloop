@@ -60,6 +60,7 @@ function useInView(threshold = 0.08) {
 function ScienceCardItem({ card, index }: { card: ScienceCard; index: number }) {
   const navigate = useNavigate()
   const [ref, visible] = useInView()
+  const [showSource, setShowSource] = useState(false)
   const [para1, para2] = splitBody(card.body)
   const meta = CATEGORY_META[card.category]
 
@@ -96,8 +97,17 @@ function ScienceCardItem({ card, index }: { card: ScienceCard; index: number }) 
         {para2 && <p>{para2}</p>}
       </div>
 
-      {/* Source */}
-      <p className={styles.source}>{card.source}</p>
+      {/* Source — expandable */}
+      <div className={styles.sourceRow}>
+        <button
+          className={styles.viewSourceBtn}
+          onClick={() => setShowSource((s) => !s)}
+          aria-expanded={showSource}
+        >
+          {showSource ? 'Hide source ▴' : 'View source ▾'}
+        </button>
+        {showSource && <p className={styles.sourceExpanded}>{card.source}</p>}
+      </div>
 
       {/* Related practice */}
       {primaryMission && (

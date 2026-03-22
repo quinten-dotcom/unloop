@@ -457,7 +457,7 @@ export default function Missions() {
       <div className={styles.header}>
         <div className={styles.headerTop}>
           <h1 className={styles.title}>Today's practices</h1>
-          <span className={styles.resetLabel}>Resets in {timeToReset}</span>
+          <span className={styles.resetLabel}>New practices in {timeToReset}</span>
         </div>
         <p className={styles.dateLabel}>{formatDate()}</p>
       </div>

@@ -148,7 +148,7 @@ function WhatsChangingSection({ streak }: { streak: number }) {
   const message = getChangingMessage(streak)
   return (
     <div className={styles.changingCard}>
-      <span className={styles.changingLabel}>What's changing in your brain</span>
+      <span className={styles.changingLabel}>What is happening right now</span>
       <p className={styles.changingBody}>{message}</p>
     </div>
   )

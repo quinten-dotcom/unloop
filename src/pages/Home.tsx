@@ -87,7 +87,8 @@ export default function Home() {
   const currentLevel  = getLevelFromXP(xp)
   const nextLevel     = LEVELS.find((l) => l.minXP > xp)
   const xpBarWidth    = `${Math.round(progress * 100)}%`
-  const xpLabel       = nextLevel ? `XP to ${nextLevel.name}` : 'Max Level Reached'
+  const xpLabel       = nextLevel ? `XP to Level ${nextLevel.level}` : 'Max Level Reached'
+  const xpLevelName   = nextLevel ? nextLevel.name : ''
   const xpDisplay     = nextLevel
     ? `${xp - currentLevel.minXP} / ${nextLevel.minXP - currentLevel.minXP} XP`
     : `${xp} XP`
@@ -128,13 +129,13 @@ export default function Home() {
           <span className={styles.flameIcon}>🔥</span>
           <span className={styles.streakText}>Day {humanStreak || 0}</span>
         </div>
-        <div className={styles.scorePillWrap}>
+        <button className={styles.scorePillWrap} onClick={() => setHsModalOpen(true)} aria-label="What is Human Score?">
+          <span className={styles.scoreLabel}>Human Score</span>
           <div className={styles.scorePill} data-tutorial="score-pill" style={{ borderColor: `${color}40`, color }}>
             <span className={styles.scoreDot} style={{ background: color }} />
             <span>{humanScore}/100</span>
           </div>
-          <button className={styles.helpBtn} onClick={() => setHsModalOpen(true)} aria-label="What is Human Score?">?</button>
-        </div>
+        </button>
       </div>
 
       {/* ── Loop visual ──────────────────────────────────────────────────── */}
@@ -151,7 +152,10 @@ export default function Home() {
       {/* ── XP bar ───────────────────────────────────────────────────────── */}
       <div className={styles.xpSection} data-tutorial="xp-bar">
         <div className={styles.xpHeader}>
-          <span className={styles.xpLabel}>{xpLabel}</span>
+          <div className={styles.xpLabelGroup}>
+            <span className={styles.xpLabel}>{xpLabel}</span>
+            {xpLevelName && <span className={styles.xpLevelName}>{xpLevelName}</span>}
+          </div>
           <span className={styles.xpNumbers}>{xpDisplay}</span>
         </div>
         <div className={styles.xpTrack}>
