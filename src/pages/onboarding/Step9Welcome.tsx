@@ -10,7 +10,7 @@ interface Props {
 const CONFETTI_COLORS = [
   '#2563EB', '#3B82F6', '#60A5FA', '#BFDBFE',
   '#10B981', '#34D399',
-  '#FFFFFF', '#E2E8F0',
+  '#F59E0B', '#FB923C',
 ]
 
 interface Particle {

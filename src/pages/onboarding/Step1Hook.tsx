@@ -9,7 +9,7 @@ export default function Step1Hook({ onNext }: Props) {
   const [phase, setPhase] = useState(0)
 
   useEffect(() => {
-    const timings = [400, 1200, 2200, 3200, 5000, 6200, 7400]
+    const timings = [100, 400, 700, 1000, 1400, 1800, 2200]
     const timers = timings.map((t, i) => setTimeout(() => setPhase(i + 1), t))
     return () => timers.forEach(clearTimeout)
   }, [])

@@ -221,7 +221,7 @@
   flex-direction: column;
   gap: 12px;
   opacity: 0;
-  animation: cardIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: cardIn 0.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   transition: border-color 0.3s ease, background 0.4s ease, transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: var(--shadow-card);
 }
@@ -469,7 +469,7 @@
   gap: 8px;
   cursor: pointer;
   transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-  animation: cardIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: cardIn 0.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   opacity: 0;
 }
 
@@ -543,7 +543,7 @@
   border: 1.5px solid var(--border);
   border-radius: var(--radius-card);
   text-align: center;
-  animation: teaserFadeIn 0.5s ease 0.3s forwards;
+  animation: teaserFadeIn 0.2s ease forwards;
   opacity: 0;
 }
 
