@@ -386,6 +386,31 @@
   padding: 4px 0 14px;
 }
 
+.appChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.appChip {
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748B;
+  background: #F1F5F9;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 20px;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.appChipOn {
+  color: #2563EB;
+  background: #EFF6FF;
+  border-color: #BFDBFE;
+  font-weight: 600;
+}
+
 .blockList {
   display: flex;
   flex-direction: column;

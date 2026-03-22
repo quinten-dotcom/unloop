@@ -1,0 +1,434 @@
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes flameWiggle {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  20%       { transform: rotate(-12deg) scale(1.1); }
+  40%       { transform: rotate(10deg) scale(1.15); }
+  60%       { transform: rotate(-8deg) scale(1.1); }
+  80%       { transform: rotate(6deg) scale(1.05); }
+}
+
+@keyframes checkPop {
+  0%   { transform: scale(0.8); }
+  50%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+@keyframes scoreIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Page ──────────────────────────────────────────────────────────── */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px 20px 28px;
+  min-height: 100%;
+  animation: fadeIn 0.35s ease forwards;
+}
+
+/* ── Top bar ───────────────────────────────────────────────────────── */
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0 8px;
+}
+
+.streak {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.flameIcon {
+  font-size: 22px;
+  line-height: 1;
+  display: inline-block;
+  animation: flameWiggle 2.4s ease-in-out 0.6s 1;
+  transform-origin: bottom center;
+}
+
+.streakText {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+}
+
+.scorePillWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.scoreLabel {
+  font-size: 10px;
+  font-weight: 600;
+  color: #94A3B8;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.scorePill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1.5px solid;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  animation: scoreIn 0.5s 0.1s ease both;
+  background: #fff;
+}
+
+.scoreDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── The Pause Card ────────────────────────────────────────────────── */
+
+.pauseCard {
+  background: #fff;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 18px 18px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.pauseCardOn {
+  background: #EFF6FF;
+  border-color: #BFDBFE;
+}
+
+.pauseCardMain {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pauseIconWrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #EFF6FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2563EB;
+  flex-shrink: 0;
+}
+
+.pauseCardOn .pauseIconWrap {
+  background: #DBEAFE;
+}
+
+.pauseInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.pauseTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1E293B;
+}
+
+.pauseStatusOn {
+  font-size: 12px;
+  font-weight: 600;
+  color: #10B981;
+}
+
+.pauseStatusOff {
+  font-size: 12px;
+  color: #94A3B8;
+}
+
+.pauseStreak {
+  font-size: 11px;
+  color: #64748B;
+  margin-top: 2px;
+}
+
+/* Toggle */
+.pauseToggle {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  background: #CBD5E1;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.25s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.pauseToggleOn {
+  background: #2563EB;
+}
+
+.pauseToggleThumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.25s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.pauseToggleOn .pauseToggleThumb {
+  transform: translateX(24px);
+}
+
+/* ── Your 3 practices ──────────────────────────────────────────────── */
+
+.practicesSection {
+  background: #fff;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 18px 18px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.practicesHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.practicesSectionTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1E293B;
+}
+
+.practicesCounter {
+  font-size: 13px;
+  font-weight: 700;
+  color: #94A3B8;
+  background: #F1F5F9;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.practicesCounterDone {
+  color: #10B981;
+  background: #D1FAE5;
+}
+
+.allDoneBanner {
+  background: #D1FAE5;
+  border: 1px solid #A7F3D0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #065F46;
+  text-align: center;
+  animation: slideDown 0.3s ease;
+}
+
+.practiceList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.practiceCardSkeleton {
+  height: 64px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.practiceCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 14px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.practiceCardDone {
+  background: #F0FDF4;
+  border-color: #BBF7D0;
+}
+
+.practiceCardPop {
+  animation: checkPop 0.35s ease;
+}
+
+.practiceLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.practiceEmoji {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.practiceInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.practiceName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1E293B;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.practiceCardDone .practiceName {
+  color: #6B7280;
+  text-decoration: line-through;
+}
+
+.practiceXP {
+  font-size: 11px;
+  font-weight: 600;
+  color: #2563EB;
+}
+
+.practiceCardDone .practiceXP {
+  color: #10B981;
+}
+
+/* Circular checkbox */
+.practiceCheckbox {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #CBD5E1;
+  background: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.practiceCheckbox:not(:disabled):hover {
+  border-color: #2563EB;
+}
+
+.practiceCheckboxDone {
+  background: #10B981;
+  border-color: #10B981;
+  cursor: default;
+}
+
+/* ── Explainer modal ───────────────────────────────────────────────── */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+}
+
+.modalSheet {
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  padding: 16px 24px 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: slideUp 0.3s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.modalHandle {
+  width: 40px;
+  height: 4px;
+  background: #E2E8F0;
+  border-radius: 2px;
+  align-self: center;
+}
+
+.modalTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+}
+
+.modalBody {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #475569;
+  margin: 0;
+}
+
+.modalClose {
+  align-self: stretch;
+  padding: 14px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 4px;
+}

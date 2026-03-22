@@ -128,27 +128,16 @@ export default function Step9Welcome({ onNext }: Props) {
 
         <div className={styles.textBlock}>
           <h1 className={`${styles.headline} ${styles.line1}`}>You're all set.</h1>
-          <div className={`${styles.badge} ${styles.line2}`}>
-            <span className={styles.badgeDot} />
-            Level 1: Autopilot
-          </div>
-          <p className={`${styles.body} ${styles.line3}`}>
-            That's where everyone starts. Your brain has been running on autopilot with your phone for a while now. Over the next few weeks, you're going to start noticing when it happens and choosing differently. Small changes, real results.
+          <p className={`${styles.body} ${styles.line2}`}>
+            Your brain has been running on autopilot with your phone for a while now. Over the next few weeks, you're going to start noticing when it happens — and choosing differently.
           </p>
         </div>
 
-        <div className={`${styles.missionPreview} ${styles.line4}`}>
+        <div className={`${styles.missionPreview} ${styles.line3}`}>
           <p className={styles.missionPreviewLabel}>Your first practices are ready</p>
           <p className={styles.missionPreviewSub}>
-            You get 3 daily practices each day. Complete at least 2 to build your streak.
+            You get 3 daily practices each day. Check them off as you go.
           </p>
-          <div className={styles.xpRow}>
-            <span className={styles.xpBadge}>0 XP</span>
-            <div className={styles.xpTrack}>
-              <div className={styles.xpFill} />
-            </div>
-            <span className={styles.xpTarget}>100 XP</span>
-          </div>
         </div>
       </div>
 

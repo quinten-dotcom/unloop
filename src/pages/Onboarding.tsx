@@ -64,7 +64,7 @@ export default function Onboarding() {
     store.setNotifyPref('notifyEveningReflection', true)
     store.setNotifyPref('notifyStreakReminder', true)
     store.setOnboardingComplete()
-    navigate('/home')
+    navigate('/today')
   }
 
   return (

@@ -273,20 +273,63 @@ function TemptationBundleSection() {
   )
 }
 
-// ── Section: Pause Schedule ───────────────────────────────────────────────────
+// ── Section: The Pause ────────────────────────────────────────────────────────
 
-function PauseScheduleSection() {
-  const { humanHours, addHumanHour, removeHumanHour } = useUserStore()
+const ALL_APPS = [
+  'TikTok', 'Instagram', 'YouTube', 'X (Twitter)', 'Facebook',
+  'Snapchat', 'Reddit', 'LinkedIn', 'Pinterest', 'Threads',
+]
+
+function ThePauseSection() {
+  const {
+    humanModeActive, setHumanMode,
+    pauseApps, updateStats,
+    humanHours, addHumanHour, removeHumanHour,
+  } = useUserStore()
   const [showModal, setShowModal] = useState(false)
 
-  function handleAddClick() {
-    setShowModal(true)
+  function toggleApp(app: string) {
+    const next = pauseApps.includes(app)
+      ? pauseApps.filter((a) => a !== app)
+      : [...pauseApps, app]
+    updateStats({ pauseApps: next })
   }
 
   return (
     <section className={styles.section}>
-      <SectionHeader label="Pause Schedule" icon="⏸️" />
+      <SectionHeader label="The Pause" icon="⏸️" />
 
+      {/* Master toggle */}
+      <SettingRow
+        label="The Pause is active"
+        description="Adds a 10-second pause before your selected apps open"
+        right={<Toggle on={humanModeActive} onChange={setHumanMode} />}
+      />
+      <div className={styles.divider} />
+
+      {/* Apps to pause */}
+      <div className={styles.row} style={{ flexDirection: 'column', gap: 10, alignItems: 'stretch' }}>
+        <span className={styles.rowLabel}>Apps to pause before</span>
+        <div className={styles.appChips}>
+          {ALL_APPS.map((app) => {
+            const on = pauseApps.includes(app)
+            return (
+              <button
+                key={app}
+                className={`${styles.appChip} ${on ? styles.appChipOn : ''}`}
+                onClick={() => toggleApp(app)}
+                aria-pressed={on}
+              >
+                {app}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+      <div className={styles.divider} />
+
+      {/* Schedule blocks */}
+      <span className={styles.rowLabel}>Pause schedule</span>
       {humanHours.length === 0 ? (
         <p className={styles.emptyNote}>No schedule set yet. Add a block to schedule when The Pause is active.</p>
       ) : (
@@ -307,8 +350,7 @@ function PauseScheduleSection() {
           ))}
         </div>
       )}
-
-      <button className={styles.addBtn} onClick={handleAddClick}>
+      <button className={styles.addBtn} onClick={() => setShowModal(true)}>
         + Add time block
       </button>
 
@@ -594,8 +636,8 @@ export default function Settings() {
     <div className={styles.page}>
       <h1 className={styles.pageTitle}>Settings</h1>
 
+      <ThePauseSection />
       <NotificationsSection />
-      <PauseScheduleSection />
       <AccountSection />
       <EnvironmentDesignSection />
       <TemptationBundleSection />
