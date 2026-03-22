@@ -18,7 +18,6 @@ import { getUnlocksForLevel } from '../data/unlocks'
 import { toastMissionComplete, toastLevelUp } from '../utils/toasts'
 import { LEVELS } from '../data/levels'
 import { TWO_MINUTE_VERSIONS } from '../data/twoMinuteVersions'
-import { HABIT_STACKS } from '../data/habitStacks'
 import styles from './Missions.module.css'
 
 // ── Daily context messages ────────────────────────────────────────────────────
@@ -87,7 +86,6 @@ type FlowStep =
   | { step: 'idle' }
   | { step: 'evidence'; mission: Mission }
   | { step: 'science';  card: ScienceCard; xpEarned: number; prevLevel: number; completedMissionId: string }
-  | { step: 'stack';    missionId: string; stackText: string; prevLevel: number }
   | { step: 'levelup';  newLevel: Level }
   | { step: 'unlocks';  newLevel: Level }
 
@@ -192,36 +190,6 @@ function MissionCard({
   )
 }
 
-// ── Habit Stack modal ─────────────────────────────────────────────────────────
-
-function HabitStackModal({
-  stackText,
-  onAccept,
-  onDismiss,
-}: {
-  stackText: string
-  onAccept: () => void
-  onDismiss: () => void
-}) {
-  return (
-    <div className={styles.stackOverlay} onClick={onDismiss}>
-      <div className={styles.stackSheet} onClick={(e) => e.stopPropagation()}>
-        <div className={styles.stackHandle} />
-        <p className={styles.stackEyebrow}>Stack this habit</p>
-        <p className={styles.stackText}>"{stackText}"</p>
-        <p className={styles.stackHint}>
-          Attaching this to an existing routine makes it automatic faster.
-        </p>
-        <button className={styles.stackAcceptBtn} onClick={onAccept}>
-          I'll try it
-        </button>
-        <button className={styles.stackDismissBtn} onClick={onDismiss}>
-          Maybe later
-        </button>
-      </div>
-    </div>
-  )
-}
 
 // ── Bonus card ───────────────────────────────────────────────────────────────
 
@@ -313,8 +281,6 @@ export default function Missions() {
     totalMissionsCompleted,
     completeStreakDay,
     earnMilestone,
-    acceptedHabitStacks,
-    addAcceptedHabitStack,
   } = useUserStore()
 
   const { isPro } = useProStore()
@@ -433,21 +399,13 @@ export default function Missions() {
 
   function handleEvidenceSubmit(text: string) {
     if (flow.step !== 'evidence') return
-    processCompletion(flow.mission, text)
+    if (!text.trim()) return
+    processCompletion(flow.mission, text.trim())
   }
 
   function handleScienceDismiss() {
     if (flow.step !== 'science') return
-    const { prevLevel, completedMissionId } = flow
-
-    // 40% chance to show habit stack suggestion if not already accepted
-    const stack = HABIT_STACKS.find((s) => s.missionId === completedMissionId)
-    if (stack && !acceptedHabitStacks.includes(completedMissionId) && Math.random() < 0.4) {
-      setFlow({ step: 'stack', missionId: completedMissionId, stackText: stack.stackTemplate, prevLevel })
-      return
-    }
-
-    proceedAfterStack(prevLevel)
+    proceedAfterStack(flow.prevLevel)
   }
 
   function proceedAfterStack(prevLevel: number) {
@@ -654,17 +612,6 @@ export default function Missions() {
             toastLevelUp(flow.newLevel.level)
             setFlow({ step: 'idle' })
           }}
-        />
-      )}
-
-      {flow.step === 'stack' && (
-        <HabitStackModal
-          stackText={flow.stackText}
-          onAccept={() => {
-            addAcceptedHabitStack(flow.missionId)
-            proceedAfterStack(flow.prevLevel)
-          }}
-          onDismiss={() => proceedAfterStack(flow.prevLevel)}
         />
       )}
 

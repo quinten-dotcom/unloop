@@ -18,9 +18,9 @@ function computeHumanScore(streak: number, missions: number, level: number): num
 }
 
 function scoreColor(score: number): string {
-  if (score >= 71) return '#10B981'
-  if (score >= 41) return '#F59E0B'
-  return '#EF4444'
+  if (score >= 80) return '#10B981'
+  if (score >= 50) return '#F59E0B'
+  return '#94A3B8'
 }
 
 function scoreLabel(score: number): string {

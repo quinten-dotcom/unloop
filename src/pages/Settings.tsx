@@ -2,8 +2,6 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUserStore } from '../store/useUserStore'
 import { useMissionStore } from '../store/useMissionStore'
-import { useProStore } from '../store/useProStore'
-import PaywallSheet from '../components/PaywallSheet'
 import type { UserGoal } from '../store/useUserStore'
 import { TEMPTATION_BUNDLES } from '../data/temptationBundles'
 import styles from './Settings.module.css'
@@ -278,14 +276,11 @@ function TemptationBundleSection() {
 
 // ── Section: Human Hours ──────────────────────────────────────────────────────
 
-function HumanHoursSection({ isPro, onPaywall }: { isPro: boolean; onPaywall: () => void }) {
+function HumanHoursSection() {
   const { humanHours, addHumanHour, removeHumanHour } = useUserStore()
   const [showModal, setShowModal] = useState(false)
 
-  const atFreeLimit = !isPro && humanHours.length >= 1
-
   function handleAddClick() {
-    if (atFreeLimit) { onPaywall(); return }
     setShowModal(true)
   }
 
@@ -314,15 +309,9 @@ function HumanHoursSection({ isPro, onPaywall }: { isPro: boolean; onPaywall: ()
         </div>
       )}
 
-      {atFreeLimit ? (
-        <button className={styles.addBtn} onClick={handleAddClick}>
-          + Add time block <span className={styles.proTag}>Pro</span>
-        </button>
-      ) : (
-        <button className={styles.addBtn} onClick={handleAddClick}>
-          + Add time block
-        </button>
-      )}
+      <button className={styles.addBtn} onClick={handleAddClick}>
+        + Add time block
+      </button>
 
       {showModal && (
         <TimeBlockModal
@@ -633,26 +622,9 @@ function AboutSection() {
       <SettingRow label="Version" right={<span className={styles.versionTag}>1.0.0</span>} />
       <div className={styles.divider} />
 
-      <a
-        href="https://example.com/privacy"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.linkRow}
-      >
-        <span>Privacy Policy</span>
-        <span className={styles.externalIcon}>↗</span>
-      </a>
+      <SettingRow label="Privacy Policy" right={<span className={styles.versionTag}>Coming soon</span>} />
       <div className={styles.divider} />
-
-      <a
-        href="https://example.com/terms"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.linkRow}
-      >
-        <span>Terms of Service</span>
-        <span className={styles.externalIcon}>↗</span>
-      </a>
+      <SettingRow label="Terms of Service" right={<span className={styles.versionTag}>Coming soon</span>} />
 
       <p className={styles.tagline}>
         built to help you break the loop.
@@ -661,7 +633,7 @@ function AboutSection() {
   )
 }
 
-// ── Section: Dev (testing only) ───────────────────────────────────────────────
+// ── Section: Dev (testing only — kept for internal use) ──────────────────────
 
 function DevSection() {
   const navigate        = useNavigate()
@@ -672,6 +644,8 @@ function DevSection() {
     resetOnboarding()
     navigate('/onboarding', { replace: true })
   }
+
+  if (import.meta.env.PROD) return null
 
   return (
     <div style={{ background: '#FEF3C7', border: '2px solid #F59E0B', borderRadius: 14, padding: '14px 16px' }}>
@@ -692,77 +666,22 @@ function DevSection() {
   )
 }
 
-// ── Section: Pro ──────────────────────────────────────────────────────────────
-
-function ProSection({ isPro, onUpgrade }: { isPro: boolean; onUpgrade: () => void }) {
-  if (isPro) {
-    return (
-      <section className={styles.section}>
-        <SectionHeader label="Subscription" icon="✨" />
-        <div className={styles.proBadgeRow}>
-          <span className={styles.proBadge}>Pro</span>
-          <span className={styles.proActiveLabel}>You're on Pro — thanks for supporting Unloop.</span>
-        </div>
-      </section>
-    )
-  }
-
-  return (
-    <section className={styles.proSection}>
-      <div className={styles.proSectionBadge}>✨ Pro</div>
-      <p className={styles.proSectionTitle}>Upgrade for the full experience</p>
-      <ul className={styles.proFeatureList}>
-        <li>Bonus practice every day</li>
-        <li>10-second pause with intention logging</li>
-        <li>Full science library (100+ cards)</li>
-        <li>All challenges unlocked</li>
-        <li>Unlimited Human Hour blocks</li>
-        <li>Full progress history &amp; insights</li>
-      </ul>
-      <button className={styles.proUpgradeBtn} onClick={onUpgrade}>
-        Upgrade to Pro — $6/mo
-      </button>
-      <p className={styles.proAltPrice}>or $45/year (save 37%)</p>
-    </section>
-  )
-}
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function Settings() {
-  const { isPro } = useProStore()
-  const [showProPaywall, setShowProPaywall] = useState(false)
-  const [showHumanPaywall, setShowHumanPaywall] = useState(false)
-
   return (
     <div className={styles.page}>
       <h1 className={styles.pageTitle}>Settings</h1>
 
-      <ProSection isPro={isPro} onUpgrade={() => setShowProPaywall(true)} />
       <EnvironmentDesignSection />
       <TemptationBundleSection />
-      <DevSection />
-      <HumanHoursSection isPro={isPro} onPaywall={() => setShowHumanPaywall(true)} />
+      <HumanHoursSection />
       <PauseListSection />
       <NotificationsSection />
       <AccountSection />
       <AboutSection />
-
-      {showProPaywall && (
-        <PaywallSheet
-          title="Upgrade to Pro"
-          body="Get the full Unloop experience: bonus practices, 10-second pause, all science cards, every challenge, and unlimited Human Hour blocks."
-          onClose={() => setShowProPaywall(false)}
-        />
-      )}
-
-      {showHumanPaywall && (
-        <PaywallSheet
-          title="Unlimited Human Hour Blocks"
-          body="Free plan includes 1 phone-free block. Upgrade to Pro to schedule as many as you want."
-          onClose={() => setShowHumanPaywall(false)}
-        />
-      )}
+      <DevSection />
     </div>
   )
 }
