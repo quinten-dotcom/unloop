@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUserStore } from '../store/useUserStore'
 import { useMissionStore } from '../store/useMissionStore'
@@ -60,7 +60,6 @@ function fmt24to12(time: string): string {
   return `${h12}:${mStr} ${ampm}`
 }
 
-const DEFAULT_APPS = ['TikTok', 'Instagram', 'X (Twitter)', 'YouTube Shorts', 'Snapchat', 'Reddit']
 
 const GOAL_OPTIONS: Array<{ id: UserGoal; icon: string; label: string; desc: string }> = [
   { id: 'better-focus',   icon: '🎯', label: 'Focus & productivity', desc: "Stop losing hours you can't account for." },
@@ -321,85 +320,6 @@ function HumanHoursSection() {
           }}
           onClose={() => setShowModal(false)}
         />
-      )}
-    </section>
-  )
-}
-
-// ── Section: Pause List ───────────────────────────────────────────────────────
-
-function PauseListSection() {
-  const { pauseApps, updateStats } = useUserStore()
-  const [addingApp, setAddingApp] = useState(false)
-  const [newApp, setNewApp] = useState('')
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  // Union of defaults + any custom apps in pauseApps
-  const allApps = Array.from(new Set([...DEFAULT_APPS, ...pauseApps]))
-
-  function toggle(app: string) {
-    const next = pauseApps.includes(app)
-      ? pauseApps.filter((a) => a !== app)
-      : [...pauseApps, app]
-    updateStats({ pauseApps: next })
-  }
-
-  function handleAddApp() {
-    const trimmed = newApp.trim()
-    if (!trimmed) return
-    if (!pauseApps.includes(trimmed)) {
-      updateStats({ pauseApps: [...pauseApps, trimmed] })
-    }
-    setNewApp('')
-    setAddingApp(false)
-  }
-
-  return (
-    <section className={styles.section}>
-      <SectionHeader label="Pause List" icon="⏸️" />
-      <p className={styles.sectionNote}>
-        We'll add a 10-second pause before you open any of these.
-      </p>
-
-      <div className={styles.checkList}>
-        {allApps.map((app) => {
-          const checked = pauseApps.includes(app)
-          return (
-            <button
-              key={app}
-              className={`${styles.checkRow} ${checked ? styles.checkRowOn : ''}`}
-              onClick={() => toggle(app)}
-              role="checkbox"
-              aria-checked={checked}
-            >
-              <span className={`${styles.checkbox} ${checked ? styles.checkboxOn : ''}`}>
-                {checked && '✓'}
-              </span>
-              <span className={styles.checkLabel}>{app}</span>
-            </button>
-          )
-        })}
-      </div>
-
-      {addingApp ? (
-        <div className={styles.addAppRow}>
-          <input
-            ref={inputRef}
-            type="text"
-            className={styles.addAppInput}
-            placeholder="App name…"
-            value={newApp}
-            onChange={(e) => setNewApp(e.target.value)}
-            onKeyDown={(e) => { if (e.key === 'Enter') handleAddApp() }}
-            autoFocus
-          />
-          <button className={styles.saveBtn} onClick={handleAddApp}>Add</button>
-          <button className={styles.cancelBtn} onClick={() => { setAddingApp(false); setNewApp('') }}>✕</button>
-        </div>
-      ) : (
-        <button className={styles.addBtn} onClick={() => setAddingApp(true)}>
-          + Add app
-        </button>
       )}
     </section>
   )
@@ -677,7 +597,6 @@ export default function Settings() {
       <EnvironmentDesignSection />
       <TemptationBundleSection />
       <HumanHoursSection />
-      <PauseListSection />
       <NotificationsSection />
       <AccountSection />
       <AboutSection />

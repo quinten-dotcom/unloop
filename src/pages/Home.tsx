@@ -5,7 +5,6 @@ import { useMissionStore, isMissionCompleted } from '../store/useMissionStore'
 import { getLevelFromXP, levelProgress, LEVELS } from '../data/levels'
 import LoopSpiral from '../components/LoopSpiral'
 import TutorialOverlay from '../components/TutorialOverlay'
-import PauseScreen from '../components/PauseScreen'
 import { toastFirstOpenOfDay, toastIdleNudge, toastStreakMilestone, toastFirstWeekMilestone } from '../utils/toasts'
 import styles from './Home.module.css'
 
@@ -39,65 +38,10 @@ function scoreColor(score: number): string {
   return '#94A3B8'
 }
 
-function calcPhoneFreeTime(humanHours: import('../store/useUserStore').HumanHour[]): string {
-  if (humanHours.length === 0) return '0h'
-  let totalMins = 0
-  for (const h of humanHours) {
-    const [sh, sm] = h.start.split(':').map(Number)
-    const [eh, em] = h.end.split(':').map(Number)
-    const duration = (eh * 60 + em) - (sh * 60 + sm)
-    if (duration > 0) totalMins += duration
-  }
-  if (totalMins === 0) return '0h'
-  const hrs = Math.floor(totalMins / 60)
-  const mins = totalMins % 60
-  if (hrs === 0) return `${mins}m`
-  return mins === 0 ? `${hrs}h` : `${hrs}h ${mins}m`
-}
-
-// ── Human Mode toggle ────────────────────────────────────────────────────────
-
-function HumanModeToggle({
-  active,
-  onToggle,
-  onHelp,
-}: {
-  active: boolean
-  onToggle: () => void
-  onHelp: () => void
-}) {
-  return (
-    <div className={styles.hmSection} data-tutorial="human-mode">
-      <div className={styles.hmInfo}>
-        <div className={styles.hmTitleRow}>
-          <span className={styles.hmTitle}>Human Mode</span>
-          <button className={styles.hmHelpBtn} onClick={onHelp} aria-label="What is Human Mode?">?</button>
-        </div>
-        <span className={styles.hmDesc}>
-          {active ? 'On — you\'re here right now' : 'Start a phone-free window'}
-        </span>
-      </div>
-      <button
-        className={`${styles.toggle} ${active ? styles.toggleOn : ''}`}
-        onClick={onToggle}
-        role="switch"
-        aria-checked={active}
-        aria-label="Toggle Human Mode"
-      >
-        <span className={styles.toggleThumb} />
-      </button>
-    </div>
-  )
-}
-
-// ── Main component ───────────────────────────────────────────────────────────
-
 // ── Main component ───────────────────────────────────────────────────────────
 
 export default function Home() {
   const navigate = useNavigate()
-  const [pauseOpen, setPauseOpen] = useState(false)
-  const [hmModalOpen, setHmModalOpen] = useState(false)
   const [hsModalOpen, setHsModalOpen] = useState(false)
 
   const {
@@ -106,10 +50,6 @@ export default function Home() {
     levelName,
     humanStreak,
     totalMissionsCompleted,
-    totalPausesTriggered,
-    humanModeActive,
-    humanHours,
-    setHumanMode,
     goal,
     triggers,
     installDate,
@@ -275,58 +215,19 @@ export default function Home() {
       {/* ── Quick stats ──────────────────────────────────────────────────── */}
       <div className={styles.statsRow}>
         <div className={styles.statPill}>
-          <span className={styles.statNum}>{totalPausesTriggered}</span>
-          <span className={styles.statLabel}>pauses today</span>
-        </div>
-        <div className={styles.statPill}>
-          <span className={styles.statNum}>{calcPhoneFreeTime(humanHours)}</span>
-          <span className={styles.statLabel}>phone-free time</span>
-        </div>
-        <div className={styles.statPill}>
           <span className={styles.statNum}>{missionsToday}/3</span>
           <span className={styles.statLabel}>practices done</span>
         </div>
       </div>
 
-      {/* ── Human Mode toggle ────────────────────────────────────────────── */}
-      <HumanModeToggle
-        active={humanModeActive}
-        onToggle={() => setHumanMode(!humanModeActive)}
-        onHelp={() => setHmModalOpen(true)}
-      />
-
-      {/* ── Pause FAB ────────────────────────────────────────────────────── */}
-      <button
-        className={styles.pauseFab}
-        onClick={() => setPauseOpen(true)}
-        aria-label="Take a pause"
-      >
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="white" aria-hidden="true">
-          <rect x="6" y="4" width="4" height="16" rx="1" />
-          <rect x="14" y="4" width="4" height="16" rx="1" />
-        </svg>
-      </button>
-
       {/* ── Tutorial (first-run only) ────────────────────────────────────── */}
       <TutorialOverlay />
-
-      {/* ── Pause screen ─────────────────────────────────────────────────── */}
-      {pauseOpen && <PauseScreen onClose={() => setPauseOpen(false)} />}
-
-      {/* ── Human Mode explainer modal ───────────────────────────────────── */}
-      {hmModalOpen && (
-        <ExplainerModal
-          title="What is Human Mode?"
-          body="Human Mode activates the pause feature. When it's on, opening any of your selected scroll apps will show a 10-second pause first. You can still open the app. The pause just gives you a moment to decide if you actually want to. You can set specific hours for Human Mode in Settings."
-          onClose={() => setHmModalOpen(false)}
-        />
-      )}
 
       {/* ── Human Score explainer modal ──────────────────────────────────── */}
       {hsModalOpen && (
         <ExplainerModal
           title="What is your Human Score?"
-          body="Your Human Score measures how intentional you were with your phone today, from 0 to 100. It factors in how many practices you completed, how many times you used the pause, and how much time you spent in Human Mode. Think of it as a daily report card for your phone habits."
+          body="Your Human Score measures how intentional you were with your phone today, from 0 to 100. It factors in your streak, how many practices you completed, and your level. Think of it as a daily report card for your phone habits."
           onClose={() => setHsModalOpen(false)}
         />
       )}
