@@ -61,7 +61,7 @@ export default function Step8IdentityStatement({ goal, onNext, onBack, onSkip }:
 
       <div className={styles.footer}>
         <button className={styles.btn} onClick={handleContinue} disabled={!canContinue}>
-          Continue
+          Let's go
         </button>
         <button className={styles.skipBtn} onClick={onSkip}>
           Skip

@@ -7,8 +7,8 @@
 }
 
 .backBtn {
-  position: fixed;
-  top: 20px;
+  position: absolute;
+  top: 16px;
   left: 20px;
   background: none;
   border: none;
@@ -22,7 +22,8 @@
 .content {
   flex: 1;
   overflow-y: auto;
-  padding: 72px 24px 24px;
+  padding: 56px 24px 24px;
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 20px;
