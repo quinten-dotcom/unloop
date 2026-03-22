@@ -594,11 +594,11 @@ export default function Settings() {
     <div className={styles.page}>
       <h1 className={styles.pageTitle}>Settings</h1>
 
+      <NotificationsSection />
+      <PauseScheduleSection />
+      <AccountSection />
       <EnvironmentDesignSection />
       <TemptationBundleSection />
-      <PauseScheduleSection />
-      <NotificationsSection />
-      <AccountSection />
       <AboutSection />
       <DevSection />
     </div>

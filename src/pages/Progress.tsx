@@ -214,6 +214,10 @@ function WeeklyChart({ weeklyXP }: { weeklyXP: number[] }) {
         <span className={styles.chartTotal}>{totalWeek} XP</span>
       </div>
 
+      {totalWeek === 0 && (
+        <p className={styles.chartEmpty}>Complete practices to start earning XP this week.</p>
+      )}
+
       <div className={styles.chartArea}>
         {weeklyXP.map((val, i) => {
           const heightPct = val > 0 ? Math.max(5, (val / maxVal) * 100) : 0
@@ -316,6 +320,7 @@ function LevelTimeline({
     <div className={styles.timelineCard}>
       <span className={styles.timelineTitle}>Your path</span>
 
+      <div className={styles.timelineScrollOuter}>
       <div className={styles.timelineScroll} ref={scrollRef}>
         {LEVELS.map((lvl, i) => {
           const reached  = lvl.level <= currentLevel
@@ -366,6 +371,7 @@ function LevelTimeline({
             </div>
           )
         })}
+      </div>
       </div>
     </div>
   )

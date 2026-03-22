@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'
+import { useMissionStore, isMissionCompleted } from '../store/useMissionStore'
 import styles from './BottomNav.module.css'
 
 const tabs: Array<{ to: string; label: string; tutorialId?: string; icon: ReactNode }> = [
@@ -15,7 +16,7 @@ const tabs: Array<{ to: string; label: string; tutorialId?: string; icon: ReactN
   },
   {
     to: '/missions',
-    label: 'Practices',
+    label: 'Today',
     tutorialId: 'missions-tab',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -57,6 +58,10 @@ const tabs: Array<{ to: string; label: string; tutorialId?: string; icon: ReactN
 ]
 
 export default function BottomNav() {
+  const { missions, completed } = useMissionStore()
+  const doneCount = missions.filter((m) => isMissionCompleted(completed, m.id)).length
+  const hasUncompletedPractices = missions.length > 0 && doneCount < missions.length
+
   return (
     <nav className={styles.nav} aria-label="Main navigation">
       {tabs.map((tab) => (
@@ -69,7 +74,12 @@ export default function BottomNav() {
           }
           {...(tab.tutorialId ? { 'data-tutorial': tab.tutorialId } : {})}
         >
-          <span className={styles.icon} aria-hidden="true">{tab.icon}</span>
+          <span className={styles.iconWrap} aria-hidden="true">
+            {tab.icon}
+            {tab.to === '/missions' && hasUncompletedPractices && (
+              <span className={styles.pendingDot} aria-label="Practices to do" />
+            )}
+          </span>
           <span className={styles.label}>{tab.label}</span>
           <span className={styles.activeDot} aria-hidden="true" />
         </NavLink>

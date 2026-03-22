@@ -187,6 +187,7 @@ export default function Science() {
       </div>
 
       {/* ── Category filter tabs ───────────────────────────────────────── */}
+      <div className={styles.tabsOuter}>
       <div className={styles.tabsWrap} ref={tabsRef}>
         {CATEGORIES.map((cat) => {
           const isActive = cat === activeCategory
@@ -215,6 +216,7 @@ export default function Science() {
           )
         })}
       </div>
+      </div>
 
       {/* ── Card count ────────────────────────────────────────────────── */}
       <p className={styles.cardCount}>
@@ -224,6 +226,9 @@ export default function Science() {
 
       {/* ── Cards ─────────────────────────────────────────────────────── */}
       <div className={styles.cardList}>
+        {filtered.length === 0 && (
+          <p className={styles.emptyState}>No cards in this category yet.</p>
+        )}
         {filtered.map((card, i) => {
           // Free users see first FREE_SCIENCE_LIMIT cards in the All view,
           // or the first FREE_SCIENCE_LIMIT across all filtered views

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { useUserStore } from '../store/useUserStore'
 import { useMissionStore, isMissionCompleted } from '../store/useMissionStore'
 import { getLevelFromXP, levelProgress, LEVELS } from '../data/levels'
-import LoopSpiral from '../components/LoopSpiral'
 import TutorialOverlay from '../components/TutorialOverlay'
 import { toastFirstOpenOfDay, toastIdleNudge, toastStreakMilestone, toastFirstWeekMilestone } from '../utils/toasts'
 import styles from './Home.module.css'
@@ -56,7 +55,11 @@ export default function Home() {
     firstWeekMilestonesSent,
     markFirstWeekMilestone,
     personalIdentityStatement,
-    savedIntentions,
+    humanModeActive,
+    humanModeStartTime,
+    humanModeEndTime,
+    pauseApps,
+    setHumanMode,
   } = useUserStore()
 
   const { missions, completed, generateDailyMissions } = useMissionStore()
@@ -102,8 +105,7 @@ export default function Home() {
     ? personalIdentityStatement
     : LEVELS.find(l => l.level === level)?.identityStatement ?? ''
 
-  // First incomplete mission
-  const firstMission = missions.find((m) => !isMissionCompleted(completed, m.id))
+  // Missions
   const missionsToday = missions.filter((m) => isMissionCompleted(completed, m.id)).length
 
   // Animate XP bar on mount/change
@@ -119,6 +121,11 @@ export default function Home() {
       return () => cancelAnimationFrame(t)
     }
   }, [xp, xpBarWidth])
+
+  // Pause schedule display
+  const pauseSchedule = humanModeStartTime && humanModeEndTime
+    ? `${humanModeStartTime} – ${humanModeEndTime}`
+    : null
 
   return (
     <div className={styles.page}>
@@ -138,90 +145,98 @@ export default function Home() {
         </button>
       </div>
 
-      {/* ── Loop visual ──────────────────────────────────────────────────── */}
-      <div className={styles.visualArea} data-tutorial="loop">
-        <LoopSpiral level={level} size={210} />
-      </div>
-
-      {/* ── Level badge ──────────────────────────────────────────────────── */}
-      <div className={styles.levelBadge}>
-        <span className={styles.levelDot} />
-        Level {level}: {levelName}
-      </div>
-
-      {/* ── XP bar ───────────────────────────────────────────────────────── */}
-      <div className={styles.xpSection} data-tutorial="xp-bar">
-        <div className={styles.xpHeader}>
-          <div className={styles.xpLabelGroup}>
-            <span className={styles.xpLabel}>{xpLabel}</span>
-            {xpLevelName && <span className={styles.xpLevelName}>{xpLevelName}</span>}
+      {/* ── The Pause Status Card ─────────────────────────────────────────── */}
+      <div className={`${styles.pauseCard} ${humanModeActive ? styles.pauseCardOn : ''}`}>
+        <div className={styles.pauseCardTop}>
+          <div className={styles.pauseCardInfo}>
+            <span className={styles.pauseCardTitle}>
+              {humanModeActive ? 'The Pause is on' : 'The Pause is off'}
+            </span>
+            {humanModeActive && pauseSchedule && (
+              <span className={styles.pauseCardSub}>{pauseSchedule}</span>
+            )}
+            {!humanModeActive && (
+              <span className={styles.pauseCardSub}>Turn on to add a pause before scroll apps</span>
+            )}
           </div>
-          <span className={styles.xpNumbers}>{xpDisplay}</span>
+          <button
+            className={`${styles.pauseToggle} ${humanModeActive ? styles.pauseToggleOn : ''}`}
+            onClick={() => setHumanMode(!humanModeActive)}
+            aria-label={humanModeActive ? 'Turn off The Pause' : 'Turn on The Pause'}
+          >
+            <span className={styles.pauseToggleThumb} />
+          </button>
         </div>
-        <div className={styles.xpTrack}>
-          <div ref={xpFillRef} className={styles.xpFill} />
-        </div>
-      </div>
-
-      {/* ── Identity statement ──────────────────────────────────────────────── */}
-      <div className={styles.identityCard}>
-        <span className={styles.identityQuote}>"</span>
-        <p className={styles.identityText}>{identityText}</p>
-        <span className={styles.identityQuote}>"</span>
-      </div>
-
-      {/* ── Your Plans for Today ─────────────────────────────────────────────── */}
-      {savedIntentions.length > 0 && (
-        <div className={styles.intentionsCard}>
-          <span className={styles.intentionsLabel}>Your plans for today</span>
-          <ul className={styles.intentionsList}>
-            {savedIntentions.map((intention, i) => (
-              <li key={i} className={styles.intentionItem}>
-                <span className={styles.intentionBullet}>→</span>
-                <span>{intention}</span>
-              </li>
+        {humanModeActive && pauseApps.length > 0 && (
+          <div className={styles.pauseApps}>
+            {pauseApps.slice(0, 5).map((app) => (
+              <span key={app} className={styles.pauseAppChip}>{app}</span>
             ))}
-          </ul>
-        </div>
-      )}
-
-      {/* ── Mission preview ──────────────────────────────────────────────── */}
-      <div className={styles.missionCard} data-tutorial="mission-card" onClick={() => navigate('/missions')}>
-        {firstMission ? (
-          <>
-            <div className={styles.missionLeft}>
-              <span className={styles.missionEmoji}>{firstMission.emoji}</span>
-              <div className={styles.missionInfo}>
-                <span className={styles.missionName}>{firstMission.name}</span>
-                <span className={styles.missionXP}>+{firstMission.xpReward} XP</span>
-              </div>
-            </div>
-            <button
-              className={styles.startBtn}
-              onClick={(e) => {
-                e.stopPropagation()
-                navigate('/missions')
-              }}
-            >
-              Start
-            </button>
-          </>
-        ) : missions.length === 0 ? (
-          <div className={styles.missionEmpty}>Grabbing today's practices...</div>
-        ) : (
-          <div className={styles.missionAllDone}>
-            <span>🎉</span>
-            <span>All done for today. Nice work.</span>
+            {pauseApps.length > 5 && (
+              <span className={styles.pauseAppChip}>+{pauseApps.length - 5}</span>
+            )}
           </div>
         )}
       </div>
 
-      {/* ── Quick stats ──────────────────────────────────────────────────── */}
-      <div className={styles.statsRow}>
-        <div className={styles.statPill}>
-          <span className={styles.statNum}>{missionsToday}/3</span>
-          <span className={styles.statLabel}>practices done</span>
+      {/* ── Today's Practices ────────────────────────────────────────────── */}
+      <div className={styles.practicesCard} data-tutorial="mission-card">
+        <div className={styles.practicesHeader}>
+          <div className={styles.practicesLeft}>
+            <span className={styles.practicesSectionTitle}>Today's practices</span>
+            <span className={styles.practicesCount}>{missionsToday} of 3 done</span>
+          </div>
+          <button className={styles.seeAllBtn} onClick={() => navigate('/missions')}>
+            See all
+          </button>
         </div>
+        <div className={styles.practicesBar}>
+          <div className={styles.practicesBarFill} style={{ width: `${(missionsToday / 3) * 100}%` }} />
+        </div>
+        {missions.length === 0 ? (
+          <p className={styles.practicesEmpty}>Grabbing today's practices...</p>
+        ) : (
+          <div className={styles.practicesList}>
+            {missions.slice(0, 3).map((m) => {
+              const done = isMissionCompleted(completed, m.id)
+              return (
+                <div key={m.id} className={`${styles.practiceItem} ${done ? styles.practiceItemDone : ''}`}>
+                  <span className={styles.practiceCheck}>{done ? '✓' : '○'}</span>
+                  <span className={styles.practiceName}>{m.name}</span>
+                  <span className={styles.practiceXP}>+{m.xpReward} XP</span>
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* ── Level Progress ───────────────────────────────────────────────── */}
+      <div className={styles.levelCard} data-tutorial="xp-bar">
+        <div className={styles.levelCardLeft}>
+          <div className={styles.levelBadge}>
+            <span className={styles.levelDot} />
+            Level {level}
+          </div>
+          <div className={styles.levelNameGroup}>
+            <span className={styles.levelNameText}>{levelName}</span>
+            {xpLevelName && <span className={styles.levelNextName}>→ {xpLevelName}</span>}
+          </div>
+        </div>
+        <div className={styles.levelCardRight}>
+          <span className={styles.xpNumbers}>{xpDisplay}</span>
+        </div>
+        <div className={styles.xpTrackWide}>
+          <div ref={xpFillRef} className={styles.xpFill} />
+        </div>
+        <span className={styles.xpLabelSmall}>{xpLabel}</span>
+      </div>
+
+      {/* ── Identity statement ──────────────────────────────────────────── */}
+      <div className={styles.identityCard}>
+        <span className={styles.identityQuote}>"</span>
+        <p className={styles.identityText}>{identityText}</p>
+        <span className={styles.identityQuote}>"</span>
       </div>
 
       {/* ── Tutorial (first-run only) ────────────────────────────────────── */}

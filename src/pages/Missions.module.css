@@ -369,6 +369,44 @@
   text-decoration-color: var(--primary);
 }
 
+/* ── Inline science panel ──────────────────────────────────────────── */
+
+.scienceInline {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.scienceInlineTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1E293B;
+  margin: 0;
+}
+
+.scienceInlineStat {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  background: #EFF6FF;
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.scienceInlineBody {
+  font-size: 13px;
+  color: #475569;
+  margin: 0;
+  line-height: 1.55;
+}
+
 /* ── Bonus card ────────────────────────────────────────────────────── */
 
 .bonusWrap {

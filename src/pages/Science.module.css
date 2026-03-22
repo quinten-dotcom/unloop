@@ -43,12 +43,29 @@
 
 /* ── Category tabs ─────────────────────────────────────────────────── */
 
+.tabsOuter {
+  position: relative;
+}
+
+.tabsOuter::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 48px;
+  height: 100%;
+  background: linear-gradient(to right, transparent, var(--bg-page, #F8FAFC));
+  pointer-events: none;
+  z-index: 1;
+}
+
 .tabsWrap {
   display: flex;
   gap: 8px;
   overflow-x: auto;
   scrollbar-width: none;
   padding-bottom: 2px;
+  padding-right: 32px;
   scroll-behavior: smooth;
 }
 
@@ -105,6 +122,14 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.emptyState {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 32px 16px;
+  font-style: italic;
 }
 
 /* ── Science card ──────────────────────────────────────────────────── */

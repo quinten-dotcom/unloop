@@ -124,7 +124,9 @@ function MissionCard({
   onViewScience: (id: string) => void
 }) {
   const [showTwoMin, setShowTwoMin] = useState(false)
+  const [showScienceInline, setShowScienceInline] = useState(false)
   const twoMin = TWO_MINUTE_VERSIONS.find((v) => v.missionId === mission.id)
+  const scienceCard = getScienceCard(mission.scienceCardId)
 
   return (
     <div
@@ -157,11 +159,20 @@ function MissionCard({
         </button>
         <button
           className={styles.scienceLink}
-          onClick={() => onViewScience(mission.scienceCardId)}
+          onClick={() => setShowScienceInline((s) => !s)}
+          aria-expanded={showScienceInline}
         >
-          Why this works
+          {showScienceInline ? 'Hide ▴' : 'Why this works ▾'}
         </button>
       </div>
+
+      {showScienceInline && scienceCard && (
+        <div className={styles.scienceInline}>
+          <p className={styles.scienceInlineTitle}>{scienceCard.title}</p>
+          <p className={styles.scienceInlineStat}>{scienceCard.keyStat}</p>
+          <p className={styles.scienceInlineBody}>{scienceCard.body}</p>
+        </div>
+      )}
 
       {/* Two-minute version */}
       {twoMin && !done && (
