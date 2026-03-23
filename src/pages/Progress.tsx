@@ -225,7 +225,6 @@ function StatsGrid({
 
 export default function Progress() {
   const {
-    xp,
     level,
     humanStreak,
     bestStreak,
