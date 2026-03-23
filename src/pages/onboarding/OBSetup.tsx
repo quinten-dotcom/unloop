@@ -9,14 +9,13 @@ interface Props {
 }
 
 const TRIGGERS = [
-  { id: 'social-media',       label: 'Social media' },
-  { id: 'gaming',             label: 'Gaming' },
-  { id: 'binge-watching',     label: 'Binge watching' },
-  { id: 'news-doomscrolling', label: 'Doomscrolling / news' },
-  { id: 'online-shopping',    label: 'Online shopping' },
-  { id: 'junk-food',          label: 'Junk food / sugar' },
-  { id: 'staying-up-late',    label: 'Staying up late' },
-  { id: 'procrastination',    label: 'Procrastination' },
+  { id: 'social-media', emoji: '📱', label: 'Social media' },
+  { id: 'gaming', emoji: '🎮', label: 'Gaming' },
+  { id: 'binge-watching', emoji: '🎬', label: 'Binge watching' },
+  { id: 'food-delivery', emoji: '🍔', label: 'Food apps' },
+  { id: 'online-shopping', emoji: '🛒', label: 'Shopping' },
+  { id: 'news-doomscrolling', emoji: '📰', label: 'News' },
+  { id: 'constant-messaging', emoji: '💬', label: 'Messaging' },
 ]
 
 const ALL_APPS = ['TikTok', 'Instagram', 'YouTube', 'X (Twitter)', 'Snapchat', 'Reddit', 'Facebook', 'Pinterest']
@@ -33,11 +32,9 @@ const TRIGGER_APP_MAP: Record<string, string[]> = {
 
 const GOALS: { id: UserGoal; emoji: string; label: string }[] = [
   { id: 'better-focus', emoji: '🎯', label: 'Focus' },
-  { id: 'energy',       emoji: '⚡', label: 'Energy' },
-  { id: 'presence',     emoji: '💪', label: 'Presence' },
-  { id: 'calm',         emoji: '🧘', label: 'Calm' },
-  { id: 'connection',   emoji: '🤝', label: 'Connection' },
-  { id: 'creativity',   emoji: '✨', label: 'Creativity' },
+  { id: 'better-sleep', emoji: '😴', label: 'Sleep' },
+  { id: 'presence', emoji: '💪', label: 'Presence' },
+  { id: 'mental-clarity', emoji: '🧠', label: 'Clarity' },
 ]
 
 function getDefaultApps(triggers: Set<string>): Set<string> {
@@ -106,6 +103,7 @@ export default function OBSetup({ onNext, onBack, onSkip }: Props) {
                   onClick={() => toggleTrigger(t.id)}
                   aria-pressed={on}
                 >
+                  <span>{t.emoji}</span>
                   <span>{t.label}</span>
                 </button>
               )

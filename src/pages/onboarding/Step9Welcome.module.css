@@ -30,7 +30,7 @@
   padding: 80px 24px 24px;
 }
 
-/* ── Visual ──────────────────────────────────────────────── */
+/* ── Spiral ──────────────────────────────────────────────── */
 
 .visual {
   display: flex;
@@ -38,11 +38,17 @@
   justify-content: center;
 }
 
-.checkIcon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px 0;
+@keyframes drawRing {
+  from { stroke-dashoffset: var(--circ); }
+  to   { stroke-dashoffset: 0; }
+}
+
+.ring {
+  animation: drawRing 0.9s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.spiral {
+  filter: drop-shadow(0 0 24px rgba(37, 99, 235, 0.2));
 }
 
 /* ── Text block ──────────────────────────────────────────── */

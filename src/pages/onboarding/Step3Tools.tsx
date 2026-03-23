@@ -19,10 +19,10 @@ const TOOLS = [
     body: 'A 10-second pause before your scroll apps open. Not a block. Just a moment to decide.',
   },
   {
-    id: 'score',
+    id: 'leveling',
     num: '3',
-    title: 'Your Human Score',
-    body: "A single number from 0 to 100 that reflects how intentionally you're living. It goes up as you complete practices and maintain your streak.",
+    title: 'Leveling up',
+    body: 'Earn XP and level up from Autopilot to Unlooped. Each level unlocks new tools.',
   },
 ]
 

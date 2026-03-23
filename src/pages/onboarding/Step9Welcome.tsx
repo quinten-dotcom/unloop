@@ -83,6 +83,32 @@ function useConfetti(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
   }, [canvasRef])
 }
 
+// ── Spiral SVG ────────────────────────────────────────────────────────────────
+
+const RINGS = [12, 24, 36, 48, 60]
+
+function SpiralRings() {
+  return (
+    <svg viewBox="0 0 160 160" width="140" height="140" aria-hidden="true" className={styles.spiral}>
+      {RINGS.map((r, i) => {
+        const circ = Math.PI * 2 * r
+        return (
+          <circle
+            key={r}
+            cx={80} cy={80} r={r}
+            fill="none"
+            stroke="#2563EB"
+            strokeWidth={i === 4 ? 1 : 1.5}
+            strokeLinecap="round"
+            strokeDasharray={circ}
+            style={{ '--circ': `${circ}`, animationDelay: `${i * 180}ms`, opacity: 1 - i * 0.08 } as React.CSSProperties}
+            className={styles.ring}
+          />
+        )
+      })}
+    </svg>
+  )
+}
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
@@ -97,28 +123,32 @@ export default function Step9Welcome({ onNext }: Props) {
 
       <div className={styles.content}>
         <div className={styles.visual}>
-          <div className={styles.checkIcon}>
-            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-              <circle cx="40" cy="40" r="40" fill="#10B981" opacity="0.12" />
-              <circle cx="40" cy="40" r="32" fill="#10B981" opacity="0.2" />
-              <circle cx="40" cy="40" r="24" fill="#10B981" />
-              <path d="M26 40L35 50L54 30" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </div>
+          <SpiralRings />
         </div>
 
         <div className={styles.textBlock}>
           <h1 className={`${styles.headline} ${styles.line1}`}>You're all set.</h1>
-          <p className={`${styles.body} ${styles.line2}`}>
-            Your brain has been running on autopilot, chasing easy dopamine. Over the next few weeks, you're going to start noticing when it happens — and choosing differently.
+          <div className={`${styles.badge} ${styles.line2}`}>
+            <span className={styles.badgeDot} />
+            Level 1: Autopilot
+          </div>
+          <p className={`${styles.body} ${styles.line3}`}>
+            That's where everyone starts. Your brain has been running on autopilot with your phone for a while now. Over the next few weeks, you're going to start noticing when it happens and choosing differently. Small changes, real results.
           </p>
         </div>
 
-        <div className={`${styles.missionPreview} ${styles.line3}`}>
+        <div className={`${styles.missionPreview} ${styles.line4}`}>
           <p className={styles.missionPreviewLabel}>Your first practices are ready</p>
           <p className={styles.missionPreviewSub}>
-            You get 3 daily practices each day. Check them off as you go.
+            You get 3 daily practices each day. Complete at least 2 to build your streak.
           </p>
+          <div className={styles.xpRow}>
+            <span className={styles.xpBadge}>0 XP</span>
+            <div className={styles.xpTrack}>
+              <div className={styles.xpFill} />
+            </div>
+            <span className={styles.xpTarget}>100 XP</span>
+          </div>
         </div>
       </div>
 

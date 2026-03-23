@@ -170,6 +170,74 @@ function ResetConfirm({ onCancel }: { onCancel: () => void }) {
   )
 }
 
+// ── Section: Environment Design ───────────────────────────────────────────────
+
+function EnvironmentDesignSection() {
+  const { environmentDesign, setEnvironmentDesign } = useUserStore()
+
+  const ROOMS = ['Bedroom', 'Kitchen', 'Living room', 'Bathroom', 'Office', 'Dining room']
+
+  return (
+    <section className={styles.section}>
+      <SectionHeader label="Set Up Your Space" icon="🏠" />
+      <p className={styles.sectionNote}>
+        Physical distance from your phone is one of the most effective habit changes you can make. These are your commitments.
+      </p>
+
+      <div className={styles.row} style={{ flexDirection: 'column', gap: 8, alignItems: 'stretch' }}>
+        <span className={styles.rowLabel}>Where does your phone charge at night?</span>
+        <input
+          type="text"
+          className={styles.textInput}
+          placeholder="e.g. Kitchen counter, hallway shelf..."
+          value={environmentDesign?.chargingSpot ?? ''}
+          onChange={(e) => setEnvironmentDesign({ ...environmentDesign, chargingSpot: e.target.value })}
+        />
+      </div>
+
+      <div className={styles.divider} />
+
+      <div className={styles.row} style={{ flexDirection: 'column', gap: 8, alignItems: 'stretch' }}>
+        <span className={styles.rowLabel}>Where does your phone go when you're working?</span>
+        <input
+          type="text"
+          className={styles.textInput}
+          placeholder="e.g. In my bag, different room, desk drawer..."
+          value={environmentDesign?.workZone ?? ''}
+          onChange={(e) => setEnvironmentDesign({ ...environmentDesign, workZone: e.target.value })}
+        />
+      </div>
+
+      <div className={styles.divider} />
+
+      <div className={styles.row} style={{ flexDirection: 'column', gap: 8, alignItems: 'stretch' }}>
+        <span className={styles.rowLabel}>Which rooms are phone-free?</span>
+        <div className={styles.checkList}>
+          {ROOMS.map((room) => {
+            const checked = (environmentDesign?.phoneFreeRooms ?? []).includes(room)
+            return (
+              <button
+                key={room}
+                className={`${styles.checkRow} ${checked ? styles.checkRowOn : ''}`}
+                onClick={() => {
+                  const current = environmentDesign?.phoneFreeRooms ?? []
+                  const next = checked ? current.filter((r) => r !== room) : [...current, room]
+                  setEnvironmentDesign({ ...environmentDesign, phoneFreeRooms: next })
+                }}
+                role="checkbox"
+                aria-checked={checked}
+              >
+                <span className={`${styles.checkbox} ${checked ? styles.checkboxOn : ''}`}>{checked && '✓'}</span>
+                <span className={styles.checkLabel}>{room}</span>
+              </button>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // ── Section: Temptation Bundle ────────────────────────────────────────────────
 
 function TemptationBundleSection() {
@@ -205,63 +273,20 @@ function TemptationBundleSection() {
   )
 }
 
-// ── Section: The Pause ────────────────────────────────────────────────────────
+// ── Section: Pause Schedule ───────────────────────────────────────────────────
 
-const ALL_APPS = [
-  'TikTok', 'Instagram', 'YouTube', 'X (Twitter)', 'Facebook',
-  'Snapchat', 'Reddit', 'LinkedIn', 'Pinterest', 'Threads',
-]
-
-function ThePauseSection() {
-  const {
-    humanModeActive, setHumanMode,
-    pauseApps, updateStats,
-    humanHours, addHumanHour, removeHumanHour,
-  } = useUserStore()
+function PauseScheduleSection() {
+  const { humanHours, addHumanHour, removeHumanHour } = useUserStore()
   const [showModal, setShowModal] = useState(false)
 
-  function toggleApp(app: string) {
-    const next = pauseApps.includes(app)
-      ? pauseApps.filter((a) => a !== app)
-      : [...pauseApps, app]
-    updateStats({ pauseApps: next })
+  function handleAddClick() {
+    setShowModal(true)
   }
 
   return (
     <section className={styles.section}>
-      <SectionHeader label="The Pause" icon="⏸️" />
+      <SectionHeader label="Pause Schedule" icon="⏸️" />
 
-      {/* Master toggle */}
-      <SettingRow
-        label="The Pause is active"
-        description="Adds a 10-second pause before your selected apps open"
-        right={<Toggle on={humanModeActive} onChange={setHumanMode} />}
-      />
-      <div className={styles.divider} />
-
-      {/* Apps to pause */}
-      <div className={styles.row} style={{ flexDirection: 'column', gap: 10, alignItems: 'stretch' }}>
-        <span className={styles.rowLabel}>Apps to pause before</span>
-        <div className={styles.appChips}>
-          {ALL_APPS.map((app) => {
-            const on = pauseApps.includes(app)
-            return (
-              <button
-                key={app}
-                className={`${styles.appChip} ${on ? styles.appChipOn : ''}`}
-                onClick={() => toggleApp(app)}
-                aria-pressed={on}
-              >
-                {app}
-              </button>
-            )
-          })}
-        </div>
-      </div>
-      <div className={styles.divider} />
-
-      {/* Schedule blocks */}
-      <span className={styles.rowLabel}>Pause schedule</span>
       {humanHours.length === 0 ? (
         <p className={styles.emptyNote}>No schedule set yet. Add a block to schedule when The Pause is active.</p>
       ) : (
@@ -282,7 +307,8 @@ function ThePauseSection() {
           ))}
         </div>
       )}
-      <button className={styles.addBtn} onClick={() => setShowModal(true)}>
+
+      <button className={styles.addBtn} onClick={handleAddClick}>
         + Add time block
       </button>
 
@@ -516,10 +542,7 @@ function AboutSection() {
       <SettingRow label="Version" right={<span className={styles.versionTag}>1.0.0</span>} />
       <div className={styles.divider} />
 
-      <button className={styles.linkRow} onClick={() => window.open('/privacy.html', '_blank')}>
-        <span>Privacy Policy</span>
-        <span className={styles.externalIcon}>→</span>
-      </button>
+      <SettingRow label="Privacy Policy" right={<span className={styles.versionTag}>Coming soon</span>} />
       <div className={styles.divider} />
       <SettingRow label="Terms of Service" right={<span className={styles.versionTag}>Coming soon</span>} />
 
@@ -571,9 +594,10 @@ export default function Settings() {
     <div className={styles.page}>
       <h1 className={styles.pageTitle}>Settings</h1>
 
-      <ThePauseSection />
       <NotificationsSection />
+      <PauseScheduleSection />
       <AccountSection />
+      <EnvironmentDesignSection />
       <TemptationBundleSection />
       <AboutSection />
       <DevSection />

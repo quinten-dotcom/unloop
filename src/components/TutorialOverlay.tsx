@@ -13,24 +13,28 @@ interface Step {
 
 const STEPS: Step[] = [
   {
+    target: 'loop',
+    text: "This is you right now. You're on Autopilot, which is Level 1. As you complete practices and earn XP, this visual actually changes and opens up. By Level 7 you'll be fully Unlooped. That's the goal.",
+  },
+  {
+    target: 'xp-bar',
+    text: "This bar tracks your XP. You earn XP by completing daily practices and finishing challenges. When the bar fills up, you level up and unlock new tools.",
+  },
+  {
     target: 'streak',
-    text: "Your streak counts how many days in a row you've opened Unloop and checked in. The longer your streak, the stronger the habit becomes.",
+    text: "Your streak counts how many days in a row you've done at least 2 practices. Don't stress if you miss a day. Your streak pauses instead of breaking. Miss two days in a row and it resets.",
+  },
+  {
+    target: 'mission-card',
+    text: "Every day you get 3 new practices. They're all based on real science and most of them take 5 minutes or less. You can see today's first one right here. Tap it when you're ready.",
   },
   {
     target: 'score-pill',
-    text: "This is your Human Score, from 0 to 100. It measures how intentional you've been with your phone — based on your streak and how many practices you complete. Tap it to learn more.",
+    text: "This is your Human Score, from 0 to 100. It measures how intentional you were with your phone today. It factors in your streak, your practices, and your level. Tap the ? to learn more.",
   },
   {
-    target: 'pause-card',
-    text: "The Pause adds a 10-second breathing moment before your scroll apps open. It is not a block — it just gives your brain a chance to decide. Toggle it on to activate it now.",
-  },
-  {
-    target: 'practices-section',
-    text: "Every day you get 3 practices. Each one takes 5 minutes or less and is based on real brain science. Tap the circle on the right to mark one complete.",
-  },
-  {
-    target: 'today-tab',
-    text: "This is your home base. Come back here each day to check off your 3 practices and keep your streak going. That's the whole game.",
+    target: 'missions-tab',
+    text: "This is where your daily practices live. It is probably where you will spend the most time. Check in here every morning to see what you have got.",
   },
 ]
 
@@ -97,14 +101,7 @@ function computeTooltipStyle(spot: SpotRect): {
 // ── Main component ────────────────────────────────────────────────────────────
 
 export default function TutorialOverlay() {
-  const [done,        setDone]        = useState(() => {
-    // Skip tutorial on native Capacitor app — onboarding covers it
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      if ((window as any).Capacitor?.isNativePlatform?.()) return true
-    } catch {}
-    return !!localStorage.getItem('tutorialComplete')
-  })
+  const [done,        setDone]        = useState(() => !!localStorage.getItem('tutorialComplete'))
   const [step,        setStep]        = useState(0)
   const [spot,        setSpot]        = useState<SpotRect | null>(null)
   const [celebrating, setCelebrating] = useState(false)

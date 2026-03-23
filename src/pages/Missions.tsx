@@ -120,7 +120,7 @@ function MissionCard({
   isSurprise?: boolean
   onComplete: (mission: Mission, e: React.MouseEvent) => void
   onCompleteTwoMin: (mission: Mission, xp: number, e: React.MouseEvent) => void
-  onViewScience?: (id: string) => void
+  onViewScience: (id: string) => void
 }) {
   const [showTwoMin, setShowTwoMin] = useState(false)
   const [showScienceInline, setShowScienceInline] = useState(false)
