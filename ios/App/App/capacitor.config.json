@@ -23,9 +23,5 @@
 	"ios": {
 		"contentInset": "automatic"
 	},
-	"packageClassList": [
-		"PushNotificationsPlugin",
-		"SplashScreenPlugin",
-		"StatusBarPlugin"
-	]
+	"packageClassList": []
 }
