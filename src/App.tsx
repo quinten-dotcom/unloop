@@ -7,6 +7,7 @@ import Progress from './pages/Progress'
 import Settings from './pages/Settings'
 import HowItWorks from './pages/HowItWorks'
 import WelcomeBack from './pages/WelcomeBack'
+import TutorialOverlay from './components/TutorialOverlay'
 import { useUserStore } from './store/useUserStore'
 import { useMissionStore } from './store/useMissionStore'
 import { scheduleReengageNotifications } from './utils/reengageNotifications'
@@ -100,6 +101,8 @@ function AppInner() {
           alreadyAnsweredWhyLeft={whyLeftReason !== null}
         />
       )}
+
+      {onboardingComplete && <TutorialOverlay />}
     </>
   )
 }

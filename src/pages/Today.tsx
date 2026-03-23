@@ -189,7 +189,6 @@ export default function Today() {
                     <span className={styles.practiceEmoji}>{m.emoji}</span>
                     <div className={styles.practiceInfo}>
                       <span className={styles.practiceName}>{m.name}</span>
-                      <span className={styles.practiceXP}>+{m.xpReward} XP</span>
                     </div>
                   </div>
                   <button
