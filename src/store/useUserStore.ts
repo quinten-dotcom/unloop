@@ -19,6 +19,10 @@ export type UserGoal =
   | 'better-sleep'
   | 'presence'
   | 'mental-clarity'
+  | 'energy'
+  | 'calm'
+  | 'connection'
+  | 'creativity'
   | 'general'
 
 export interface UserState {

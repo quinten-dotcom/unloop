@@ -22,11 +22,15 @@ function difficultyDistribution(level: number): Record<MissionDifficulty, number
 // ── Goal → guaranteed category ────────────────────────────────────────────────
 
 const GOAL_CATEGORY: Record<UserGoal, MissionCategory[]> = {
-  'better-focus':    ['focus'],
-  'better-sleep':    ['environment'],
-  'presence':        ['social', 'intentional'],
-  'mental-clarity':  ['focus', 'morning'],
-  'general':         ['morning', 'focus', 'environment', 'intentional', 'social', 'reset'],
+  'better-focus':    ['focus', 'mind'],
+  'better-sleep':    ['environment', 'body', 'nature'],
+  'presence':        ['social', 'intentional', 'nature'],
+  'mental-clarity':  ['focus', 'morning', 'mind'],
+  'energy':          ['body', 'nature', 'mind'],
+  'calm':            ['mind', 'nature', 'body'],
+  'connection':      ['social', 'intentional'],
+  'creativity':      ['mind', 'focus', 'body'],
+  'general':         ['morning', 'focus', 'environment', 'intentional', 'social', 'reset', 'body', 'mind', 'nature'],
 }
 
 // ── ISO week helper ───────────────────────────────────────────────────────────

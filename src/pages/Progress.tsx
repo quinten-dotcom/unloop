@@ -27,18 +27,18 @@ function scoreLabel(score: number): string {
 
 function getChangingMessage(streak: number): string {
   if (streak >= 30) {
-    return "You've passed the threshold where most researchers see lasting behavioral change. The loop isn't gone forever, but you have the tools to catch it whenever it starts."
+    return "You've passed the threshold where most researchers see lasting behavioral change. Your dopamine system has recalibrated. The autopilot habits aren't gone forever, but you now have the awareness to catch them before they run."
   }
   if (streak >= 14) {
-    return "Real structural changes are happening. Your prefrontal cortex — the self-control part of your brain — is getting measurably stronger."
+    return "Real structural changes are happening in your prefrontal cortex — the part of your brain responsible for self-control and intentional decision-making. You're getting measurably better at pausing before acting on impulse."
   }
   if (streak >= 7) {
-    return "Your brain's dopamine receptors are starting to recalibrate. You might be noticing that everyday things feel a little more enjoyable."
+    return "Your brain's dopamine receptors are starting to recalibrate. Easy stimulation is becoming less satisfying, and real-world experiences are starting to feel more rewarding. This is exactly what the research predicts."
   }
   if (streak >= 4) {
-    return "You're in the early stages of rewiring. The urges to scroll are still strong, but you're getting better at noticing them before you act."
+    return "You're in the early stages of rewiring. The autopilot urges are still strong, but you're getting better at noticing them before you act. That gap between urge and action is everything."
   }
-  return "You've just started building a new pattern. Your brain is beginning to register that something is different."
+  return "You've just started building new patterns. Your brain might resist at first — that's the dopamine system adjusting. Every practice you complete is teaching it that you're in control."
 }
 
 function reclaimedHours(missions: number, pauses: number): string {
@@ -92,27 +92,30 @@ function CalendarGrid({ humanStreak, lastActiveDate }: { humanStreak: number; la
   const days = compute30DayCalendar(humanStreak, lastActiveDate)
   const monthLabels = getMonthLabels()
 
+  const dayLabels = Array.from({ length: 30 }, (_, i) => {
+    const d = new Date()
+    d.setDate(d.getDate() - (29 - i))
+    return d.toLocaleDateString('en-US', { weekday: 'short' }).slice(0, 1)
+  })
+
   return (
     <div className={styles.calendarCard}>
       <span className={styles.calendarTitle}>Last 30 days</span>
       <div className={styles.calendarMonths}>
         {monthLabels.map(({ label, col }) => (
-          <span
-            key={col}
-            className={styles.calendarMonth}
-            style={{ gridColumnStart: col + 1 }}
-          >
+          <span key={col} className={styles.calendarMonth} style={{ gridColumnStart: col + 1 }}>
             {label}
           </span>
         ))}
       </div>
+      <div className={styles.calendarDayLabels}>
+        {dayLabels.map((label, i) => (
+          <span key={i} className={styles.calendarDayLabel}>{label}</span>
+        ))}
+      </div>
       <div className={styles.calendarGrid}>
         {days.map((state, i) => (
-          <div
-            key={i}
-            className={`${styles.calendarCell} ${styles[`cell_${state}`]}`}
-            title={state}
-          />
+          <div key={i} className={`${styles.calendarCell} ${styles[`cell_${state}`]}`} title={state} />
         ))}
       </div>
       <div className={styles.calendarLegend}>
@@ -130,6 +133,7 @@ function HumanScoreCard({ score }: { score: number }) {
   const color  = scoreColor(score)
   const label  = scoreLabel(score)
   const [anim, setAnim] = useState(0)
+  const [expanded, setExpanded] = useState(false)
 
   useEffect(() => {
     let start: number | null = null
@@ -149,10 +153,7 @@ function HumanScoreCard({ score }: { score: number }) {
       <div className={styles.scoreTop}>
         <span className={styles.scoreLabel}>Human Score</span>
         <span className={styles.scoreBar}>
-          <span
-            className={styles.scoreBarFill}
-            style={{ width: `${score}%`, background: color }}
-          />
+          <span className={styles.scoreBarFill} style={{ width: `${score}%`, background: color }} />
         </span>
       </div>
       <div className={styles.scoreNumber} style={{ color }}>
@@ -160,6 +161,14 @@ function HumanScoreCard({ score }: { score: number }) {
         <span className={styles.scoreOutOf}>/100</span>
       </div>
       <p className={styles.scoreExplain}>{label}</p>
+      <button className={styles.scoreExpandBtn} onClick={() => setExpanded(v => !v)}>
+        {expanded ? 'Hide' : 'How is this calculated?'}
+      </button>
+      {expanded && (
+        <p className={styles.scoreExpandBody}>
+          Your Human Score reflects your daily practices, streak consistency, and Pause usage. Complete your 3 practices every day and maintain your streak to watch it grow. The score resets slowly — missing one day won't tank it.
+        </p>
+      )}
     </div>
   )
 }

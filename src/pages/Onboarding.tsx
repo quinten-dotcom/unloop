@@ -55,9 +55,8 @@ export default function Onboarding() {
     store.setPersonalIdentityStatement(identityStatement)
     store.setHumanModeSchedule(hmStart, hmEnd)
     store.setHumanMode(hmActive)
-    if (hmActive) {
-      store.addHumanHour({ start: hmStart, end: hmEnd })
-    }
+    // Always persist the schedule block (even if Pause is off)
+    store.addHumanHour({ start: hmStart, end: hmEnd })
     // Default notifications: 8am morning, 6pm evening
     store.setNotifyTime('08:00')
     store.setNotifyPref('notifyDailyReminder', true)

@@ -14,6 +14,10 @@ const DEFAULT_BY_GOAL: Record<UserGoal, string> = {
   'better-sleep': 'protects their rest.',
   'presence': 'is fully present with the people they love.',
   'mental-clarity': 'thinks clearly and intentionally.',
+  'energy': 'takes care of their body and energy.',
+  'calm': 'chooses calm over chaos.',
+  'connection': 'shows up fully for the people they love.',
+  'creativity': 'creates instead of just consuming.',
   'general': 'lives with intention.',
 }
 

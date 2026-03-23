@@ -170,74 +170,6 @@ function ResetConfirm({ onCancel }: { onCancel: () => void }) {
   )
 }
 
-// ── Section: Environment Design ───────────────────────────────────────────────
-
-function EnvironmentDesignSection() {
-  const { environmentDesign, setEnvironmentDesign } = useUserStore()
-
-  const ROOMS = ['Bedroom', 'Kitchen', 'Living room', 'Bathroom', 'Office', 'Dining room']
-
-  return (
-    <section className={styles.section}>
-      <SectionHeader label="Set Up Your Space" icon="🏠" />
-      <p className={styles.sectionNote}>
-        Physical distance from your phone is one of the most effective habit changes you can make. These are your commitments.
-      </p>
-
-      <div className={styles.row} style={{ flexDirection: 'column', gap: 8, alignItems: 'stretch' }}>
-        <span className={styles.rowLabel}>Where does your phone charge at night?</span>
-        <input
-          type="text"
-          className={styles.textInput}
-          placeholder="e.g. Kitchen counter, hallway shelf..."
-          value={environmentDesign?.chargingSpot ?? ''}
-          onChange={(e) => setEnvironmentDesign({ ...environmentDesign, chargingSpot: e.target.value })}
-        />
-      </div>
-
-      <div className={styles.divider} />
-
-      <div className={styles.row} style={{ flexDirection: 'column', gap: 8, alignItems: 'stretch' }}>
-        <span className={styles.rowLabel}>Where does your phone go when you're working?</span>
-        <input
-          type="text"
-          className={styles.textInput}
-          placeholder="e.g. In my bag, different room, desk drawer..."
-          value={environmentDesign?.workZone ?? ''}
-          onChange={(e) => setEnvironmentDesign({ ...environmentDesign, workZone: e.target.value })}
-        />
-      </div>
-
-      <div className={styles.divider} />
-
-      <div className={styles.row} style={{ flexDirection: 'column', gap: 8, alignItems: 'stretch' }}>
-        <span className={styles.rowLabel}>Which rooms are phone-free?</span>
-        <div className={styles.checkList}>
-          {ROOMS.map((room) => {
-            const checked = (environmentDesign?.phoneFreeRooms ?? []).includes(room)
-            return (
-              <button
-                key={room}
-                className={`${styles.checkRow} ${checked ? styles.checkRowOn : ''}`}
-                onClick={() => {
-                  const current = environmentDesign?.phoneFreeRooms ?? []
-                  const next = checked ? current.filter((r) => r !== room) : [...current, room]
-                  setEnvironmentDesign({ ...environmentDesign, phoneFreeRooms: next })
-                }}
-                role="checkbox"
-                aria-checked={checked}
-              >
-                <span className={`${styles.checkbox} ${checked ? styles.checkboxOn : ''}`}>{checked && '✓'}</span>
-                <span className={styles.checkLabel}>{room}</span>
-              </button>
-            )
-          })}
-        </div>
-      </div>
-    </section>
-  )
-}
-
 // ── Section: Temptation Bundle ────────────────────────────────────────────────
 
 function TemptationBundleSection() {
@@ -642,7 +574,6 @@ export default function Settings() {
       <ThePauseSection />
       <NotificationsSection />
       <AccountSection />
-      <EnvironmentDesignSection />
       <TemptationBundleSection />
       <AboutSection />
       <DevSection />
