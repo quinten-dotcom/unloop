@@ -97,7 +97,14 @@ function computeTooltipStyle(spot: SpotRect): {
 // ── Main component ────────────────────────────────────────────────────────────
 
 export default function TutorialOverlay() {
-  const [done,        setDone]        = useState(() => !!localStorage.getItem('tutorialComplete'))
+  const [done,        setDone]        = useState(() => {
+    // Skip tutorial on native Capacitor app — onboarding covers it
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if ((window as any).Capacitor?.isNativePlatform?.()) return true
+    } catch {}
+    return !!localStorage.getItem('tutorialComplete')
+  })
   const [step,        setStep]        = useState(0)
   const [spot,        setSpot]        = useState<SpotRect | null>(null)
   const [celebrating, setCelebrating] = useState(false)
