@@ -584,7 +584,10 @@ function AboutSection() {
       <SettingRow label="Version" right={<span className={styles.versionTag}>1.0.0</span>} />
       <div className={styles.divider} />
 
-      <SettingRow label="Privacy Policy" right={<span className={styles.versionTag}>Coming soon</span>} />
+      <button className={styles.linkRow} onClick={() => window.open('/privacy.html', '_blank')}>
+        <span>Privacy Policy</span>
+        <span className={styles.externalIcon}>→</span>
+      </button>
       <div className={styles.divider} />
       <SettingRow label="Terms of Service" right={<span className={styles.versionTag}>Coming soon</span>} />
 
